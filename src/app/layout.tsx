@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Orbitron } from "next/font/google";
+import { Inter, Orbitron, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { WalletProvider } from "@/context/WalletContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
@@ -16,6 +16,13 @@ const inter = Inter({
 const orbitron = Orbitron({
   subsets: ["latin"],
   variable: "--font-orbitron",
+  display: "swap",
+});
+
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas",
   display: "swap",
 });
 
@@ -43,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${orbitron.variable} dark`}>
+    <html lang="en" className={`${inter.variable} ${orbitron.variable} ${bebasNeue.variable} dark`}>
       <body className="bg-[#050505] text-[#F5F5F7] min-h-screen flex flex-col font-sans antialiased selection:bg-red-600 selection:text-white">
         <WalletProvider>
           <FavoritesProvider>
