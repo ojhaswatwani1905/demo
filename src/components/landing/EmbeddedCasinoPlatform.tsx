@@ -69,17 +69,19 @@ export function EmbeddedCasinoPlatform() {
     });
   }, [selectedCategory, filterFavorites, searchQuery, favorites]);
 
-  // Full Reference 3 Sidebar Navigation Items
+  const [activeSidebarItem, setActiveSidebarItem] = useState<string>("Casino");
+
+  // Full Reference 3 Sidebar Navigation Items with distinct identifiers
   const sidebarItems = [
-    { name: "Home", category: "All", icon: Home, active: selectedCategory === "All" && !filterFavorites },
-    { name: "Casino", category: "All", icon: Flame, active: selectedCategory === "All" && !filterFavorites },
-    { name: "Live Casino", category: "Table", icon: Tv, active: selectedCategory === "Table" },
-    { name: "Slots", category: "Featured", icon: Sparkles, active: selectedCategory === "Featured" },
-    { name: "Originals", category: "Originals", icon: Gamepad2, active: selectedCategory === "Originals" },
-    { name: "Table Games", category: "Table", icon: Dice5, active: selectedCategory === "Table" },
-    { name: "Game Shows", category: "Featured", icon: Trophy, active: false },
-    { name: "Providers", category: "All", icon: Layers, active: false },
-    { name: "Promotions", category: "All", icon: Gift, active: false },
+    { id: "home", name: "Home", category: "All", icon: Home },
+    { id: "casino", name: "Casino", category: "All", icon: Flame },
+    { id: "live_casino", name: "Live Casino", category: "Table", icon: Tv },
+    { id: "slots", name: "Slots", category: "Featured", icon: Sparkles },
+    { id: "originals", name: "Originals", category: "Originals", icon: Gamepad2 },
+    { id: "table_games", name: "Table Games", category: "Table", icon: Dice5 },
+    { id: "game_shows", name: "Game Shows", category: "Featured", icon: Trophy },
+    { id: "providers", name: "Providers", category: "All", icon: Layers },
+    { id: "promotions", name: "Promotions", category: "All", icon: Gift },
   ];
 
   return (
@@ -102,21 +104,22 @@ export function EmbeddedCasinoPlatform() {
             {/* Center: Horizontal Navigation Tabs (Reference 3) */}
             <div className="hidden md:flex items-center gap-1 overflow-x-auto scrollbar-none">
               {[
-                { name: "Casino", cat: "All" },
-                { name: "Sports", cat: "All" },
-                { name: "Live Casino", cat: "Table" },
-                { name: "Crash Games", cat: "Crash" },
-                { name: "Promotions", cat: "All" },
-                { name: "VIP", cat: "All" },
+                { name: "Casino", cat: "All", sidebarName: "Casino" },
+                { name: "Sports", cat: "All", sidebarName: "Home" },
+                { name: "Live Casino", cat: "Table", sidebarName: "Live Casino" },
+                { name: "Crash Games", cat: "Crash", sidebarName: "Originals" },
+                { name: "Promotions", cat: "All", sidebarName: "Promotions" },
+                { name: "VIP", cat: "All", sidebarName: "Casino" },
               ].map((tab, idx) => (
                 <button
                   key={tab.name}
                   onClick={() => {
                     setSelectedCategory(tab.cat);
+                    setActiveSidebarItem(tab.sidebarName);
                     setFilterFavorites(false);
                   }}
                   className={`px-3 py-1 rounded-md text-xs font-bold transition-colors whitespace-nowrap ${
-                    idx === 0
+                    tab.sidebarName === activeSidebarItem && !filterFavorites
                       ? "text-white bg-red-600/25 border border-red-500/40 shadow-sm"
                       : "text-[#8E8E9E] hover:text-white hover:bg-[#151622]"
                   }`}
@@ -167,27 +170,36 @@ export function EmbeddedCasinoPlatform() {
               <div className="flex flex-row lg:flex-col gap-0.5 w-full">
                 {sidebarItems.map(item => {
                   const Icon = item.icon;
+                  const isActive = !filterFavorites && activeSidebarItem === item.name;
                   return (
                     <button
-                      key={item.name}
+                      key={item.id}
                       onClick={() => {
+                        setActiveSidebarItem(item.name);
                         setSelectedCategory(item.category);
                         setFilterFavorites(false);
                       }}
                       className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all text-left whitespace-nowrap ${
-                        item.active
+                        isActive
                           ? "bg-[#1E090D] text-white border-l-2 border-red-500 shadow-[inset_0_0_8px_rgba(255,30,39,0.2)] font-bold"
                           : "text-[#8E8E9E] hover:text-white hover:bg-[#12131D]"
                       }`}
                     >
-                      <Icon className={`w-3.5 h-3.5 ${item.active ? "text-red-500" : "text-[#6E6E82]"}`} />
+                      <Icon className={`w-3.5 h-3.5 ${isActive ? "text-red-500" : "text-[#6E6E82]"}`} />
                       <span>{item.name}</span>
                     </button>
                   );
                 })}
 
                 <button
-                  onClick={() => setFilterFavorites(!filterFavorites)}
+                  onClick={() => {
+                    setFilterFavorites(!filterFavorites);
+                    if (!filterFavorites) {
+                      setActiveSidebarItem("");
+                    } else {
+                      setActiveSidebarItem("Casino");
+                    }
+                  }}
                   className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all text-left whitespace-nowrap ${
                     filterFavorites
                       ? "bg-red-600 text-white shadow-[0_0_10px_rgba(255,30,39,0.4)] font-bold"
@@ -269,22 +281,32 @@ export function EmbeddedCasinoPlatform() {
               {/* Category Pills Bar */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 border-b border-[#161722]">
                 <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
-                  {CATEGORIES.map(category => (
-                    <button
-                      key={category}
-                      onClick={() => {
-                        setSelectedCategory(category);
-                        setFilterFavorites(false);
-                      }}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
-                        selectedCategory === category && !filterFavorites
-                          ? "bg-red-600 text-white shadow-[0_0_8px_rgba(255,30,39,0.35)]"
-                          : "bg-[#10111A] text-[#8E8E9E] hover:text-white hover:bg-[#161724] border border-[#1C1D2A]"
-                      }`}
-                    >
-                      {category}
-                    </button>
-                  ))}
+                  {CATEGORIES.map(category => {
+                    const categoryToSidebar: Record<string, string> = {
+                      All: "Casino",
+                      Crash: "Casino",
+                      Originals: "Originals",
+                      Table: "Table Games",
+                      Featured: "Slots",
+                    };
+                    return (
+                      <button
+                        key={category}
+                        onClick={() => {
+                          setSelectedCategory(category);
+                          setActiveSidebarItem(categoryToSidebar[category] || "Casino");
+                          setFilterFavorites(false);
+                        }}
+                        className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
+                          selectedCategory === category && !filterFavorites
+                            ? "bg-red-600 text-white shadow-[0_0_8px_rgba(255,30,39,0.35)]"
+                            : "bg-[#10111A] text-[#8E8E9E] hover:text-white hover:bg-[#161724] border border-[#1C1D2A]"
+                        }`}
+                      >
+                        {category}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <div className="flex items-center gap-2 text-xs text-[#6A6A7C]">
