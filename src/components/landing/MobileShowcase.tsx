@@ -81,9 +81,9 @@ export function MobileShowcase() {
                 {/* Simulated Screen Content */}
                 <div className="p-3.5 space-y-3 flex-1 overflow-y-auto">
                   <div className="p-3 rounded-xl bg-gradient-to-r from-red-950/40 to-black border border-red-500/30">
-                    <span className="text-[9px] font-mono text-red-400 font-bold uppercase">Spribe Featured</span>
-                    <h5 className="text-xs font-black text-white">Crash Demo</h5>
-                    <p className="text-[10px] text-[#8E8E9E] mt-0.5">Scale multipliers up to 10,000x</p>
+                    <span className="text-[9px] font-mono text-red-400 font-bold uppercase">Turbo Games</span>
+                    <h5 className="text-xs font-black text-white">Mines Demo</h5>
+                    <p className="text-[10px] text-[#8E8E9E] mt-0.5">Scale multipliers across the 5x5 minefield</p>
                   </div>
 
                   {/* 2-Column Mobile Grid in Mockup */}

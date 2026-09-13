@@ -38,15 +38,15 @@ export function CasinoHero() {
         </h1>
 
         <p className="text-sm sm:text-base text-[#A0A0B5] leading-relaxed">
-          <strong className="text-white">Crash. Mines. Plinko. Dice. Roulette.</strong>
+          <strong className="text-white">Mines. Plinko. Dice. Roulette.</strong>
           <br />
-          Official Spribe demonstration catalog configured for zero-risk test play and immediate launching.
+          Official demonstration catalog configured for zero-risk test play and immediate launching.
         </p>
 
         <div className="pt-2 flex flex-wrap items-center gap-3">
           <Button
             size="lg"
-            href="/games/crash"
+            href="/games/mines"
             glow
             icon={<Play className="w-4 h-4 fill-current" />}
           >
@@ -68,7 +68,7 @@ export function CasinoHero() {
             Zero Real Money
           </span>
           <span>•</span>
-          <span>5 Spribe Titles</span>
+          <span>4 Demo Titles</span>
         </div>
       </div>
     </div>

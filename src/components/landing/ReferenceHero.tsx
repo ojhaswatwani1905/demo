@@ -9,20 +9,20 @@ import { Play, Sparkles, ChevronRight } from "lucide-react";
 export function ReferenceHero() {
   return (
     <section className="relative w-full h-[calc(100vh-4.5rem)] min-h-[660px] max-h-[920px] flex flex-col justify-between overflow-hidden bg-[#050505] select-none border-b border-[#1A0A0E]">
-      {/* Volumetric Deep Crimson Glow on Perimeters (Reference 1 Atmosphere) */}
-      <div className="absolute top-0 inset-x-0 h-48 bg-gradient-to-b from-red-950/20 to-transparent pointer-events-none z-0" />
-      <div className="absolute top-12 -left-20 w-80 h-80 bg-red-600/15 blur-[120px] pointer-events-none z-0" />
-      <div className="absolute top-12 -right-20 w-80 h-80 bg-red-600/15 blur-[120px] pointer-events-none z-0" />
+      {/* Atmosphere Glow */}
+      <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-red-950/20 to-transparent pointer-events-none z-0" />
+      <div className="absolute top-12 -left-20 w-64 h-64 bg-red-600/10 blur-[80px] pointer-events-none z-0" />
+      <div className="absolute top-12 -right-20 w-64 h-64 bg-red-600/10 blur-[80px] pointer-events-none z-0" />
 
       {/* Center Composition: Giant Red Condensed Text + Centered Astronaut Character (Reference 1) */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-start pt-6 sm:pt-8 overflow-hidden">
         {/* Single centered eyebrow text directly above title (Reference 1) */}
         <div className="text-[10px] sm:text-xs font-mono tracking-[0.3em] text-red-500 uppercase font-extrabold mb-1.5 drop-shadow-sm px-2 text-center">
-          PVP & DEMO BATTLE // SPRIBE ARCHITECTURE
+          PVP & DEMO BATTLE // GAMING ARCHITECTURE
         </div>
 
         {/* Massive Red Condensed Headline (Reference 1 Typography) */}
-        <h1 className="text-[34px] min-[400px]:text-[44px] sm:text-7xl md:text-8xl lg:text-[120px] xl:text-[150px] font-black uppercase tracking-tight text-center leading-[0.8] text-transparent bg-clip-text bg-gradient-to-b from-[#FF2E38] via-[#D00D18] to-[#400006] drop-shadow-[0_0_80px_rgba(255,30,39,0.55)] px-2 z-0 whitespace-nowrap">
+        <h1 className="text-[34px] min-[400px]:text-[44px] sm:text-7xl md:text-8xl lg:text-[120px] xl:text-[150px] font-black uppercase tracking-tight text-center leading-[0.8] text-transparent bg-clip-text bg-gradient-to-b from-[#FF2E38] via-[#D00D18] to-[#400006] drop-shadow-[0_0_40px_rgba(255,30,39,0.35)] px-2 z-0 whitespace-nowrap">
           PLAY BEYOND LIMITS
         </h1>
 
@@ -50,12 +50,12 @@ export function ReferenceHero() {
           <div className="md:col-span-5 space-y-2">
             <div className="flex items-center gap-2">
               <span className="text-xs sm:text-sm font-black uppercase text-red-500 tracking-wider">
-                YOURBRAND DEMO
+                BETADRiX DEMO
               </span>
               <span className="w-8 h-[1px] bg-red-500/50" />
             </div>
             <p className="text-xs sm:text-sm text-[#A0A0B5] max-w-sm leading-relaxed">
-              Crash. Mines. Plinko. Dice. Roulette. One platform. Endless possibilities.
+              Mines. Plinko. Dice. Roulette. Real games, zero real-money risk.
             </p>
             <div className="flex items-center gap-3 pt-1">
               <Button
@@ -69,7 +69,7 @@ export function ReferenceHero() {
               <Button
                 size="md"
                 variant="glass"
-                href="/games/crash"
+                href="/games/mines"
                 icon={<Sparkles className="w-3.5 h-3.5 text-red-400" />}
               >
                 VIEW DEMO

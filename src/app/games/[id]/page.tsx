@@ -18,13 +18,13 @@ export async function generateMetadata(props: {
 
   if (!game) {
     return {
-      title: "Game Not Found — YOURBRAND",
+      title: "Game Not Found — BETADRiX",
     };
   }
 
   return {
-    title: `${game.name} Demo (Spribe) — YOURBRAND`,
-    description: `Play ${game.name} demo by Spribe. Zero real-money risk, simulated test currency on YOURBRAND.`,
+    title: `${game.name} Demo (${game.provider}) — BETADRiX`,
+    description: `Play ${game.name} demo by ${game.provider}. Zero real-money risk, simulated test currency on BETADRiX.`,
   };
 }
 

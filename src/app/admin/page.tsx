@@ -116,8 +116,8 @@ export default function AdminPage() {
                   <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94]">
                     Total Registered Games
                   </span>
-                  <div className="text-3xl font-black text-white font-mono">5</div>
-                  <span className="text-[11px] text-[#8E8E9E] block">Crash, Mines, Plinko, Dice, Roulette</span>
+                  <div className="text-3xl font-black text-white font-mono">{GAMES.length}</div>
+                  <span className="text-[11px] text-[#8E8E9E] block">Mines, Plinko, Dice, Roulette</span>
                 </div>
 
                 <div className="p-5 rounded-2xl bg-[#0D0D15] border border-[#222232] space-y-1">
@@ -125,10 +125,10 @@ export default function AdminPage() {
                     Configured Demo URLs
                   </span>
                   <div className="text-3xl font-black text-red-400 font-mono">
-                    {configuredCount} / 5
+                    {configuredCount} / {GAMES.length}
                   </div>
                   <span className="text-[11px] text-[#8E8E9E] block">
-                    {configuredCount === 5 ? "All games ready" : "Ready for authorized URLs"}
+                    {configuredCount === GAMES.length ? "All games ready" : "3 configured • Plinko awaiting URL"}
                   </span>
                 </div>
 
@@ -207,7 +207,7 @@ export default function AdminPage() {
                   </div>
                   <div className="p-4 rounded-xl bg-[#09090F] border border-[#1A1A26]">
                     <span className="text-[10px] font-mono text-[#7E7E94] uppercase block">Integrated Games</span>
-                    <span className="text-sm font-bold text-white">5 Titles (Crash, Mines, Plinko, Dice, Roulette)</span>
+                    <span className="text-sm font-bold text-white">4 Titles (Mines, Plinko, Dice, Roulette)</span>
                   </div>
                   <div className="p-4 rounded-xl bg-[#09090F] border border-[#1A1A26]">
                     <span className="text-[10px] font-mono text-[#7E7E94] uppercase block">Integration Type</span>

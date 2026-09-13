@@ -10,8 +10,8 @@ export function FeaturedGames() {
       id: "physics",
       icon: Zap,
       title: "Dynamic Multipliers",
-      subtitle: "Instant Curve Physics",
-      description: "Real-time parabolic multipliers accelerating up to 10,000x with provably fair crash algorithms.",
+      subtitle: "Deterministic Physics",
+      description: "Real-time multipliers accelerating up to 10,000x with provably fair deterministic algorithms.",
       metric: "10,000x",
       metricLabel: "Max Multiplier",
     },
@@ -43,13 +43,13 @@ export function FeaturedGames() {
           <div>
             <div className="flex items-center gap-2 text-xs font-mono tracking-[0.2em] text-red-500 uppercase font-bold mb-1">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              <span>SPRIBE ARCHITECTURE // PLATFORM ECOSYSTEM</span>
+              <span>DEMO ARCHITECTURE // PLATFORM ECOSYSTEM</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black uppercase text-white tracking-tight">
               ENGINEERED FOR <span className="text-red-500">PRECISION</span>
             </h2>
             <p className="text-xs sm:text-sm text-[#8E8E9E] mt-1 max-w-lg">
-              Authorized Spribe demonstration mechanics. Explore real crash curves, deterministic grids, and instant tables.
+              Authorized demonstration mechanics. Explore tactical grids, pegboard physics, and instant tables.
             </p>
           </div>
 

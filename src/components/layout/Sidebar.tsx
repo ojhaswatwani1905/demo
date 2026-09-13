@@ -35,7 +35,6 @@ export function Sidebar({ isOpen, onClose, isFixedDesktop = false }: SidebarProp
   const mainNavigation = [
     { name: "Home", href: "/", icon: Home },
     { name: "Casino Lobby", href: "/casino", icon: Flame, badge: "HOT" },
-    { name: "Crash", href: "/games/crash", icon: Sparkles },
     { name: "Mines", href: "/games/mines", icon: Gamepad2 },
     { name: "Plinko", href: "/games/plinko", icon: Layers },
     { name: "Dice", href: "/games/dice", icon: Dice5 },
@@ -71,9 +70,13 @@ export function Sidebar({ isOpen, onClose, isFixedDesktop = false }: SidebarProp
       >
         {/* Mobile Header */}
         <div className="h-16 flex items-center justify-between px-5 border-b border-[#1C1C2A] lg:hidden">
-          <span className="text-sm font-black tracking-wider text-white uppercase">
-            YOUR<span className="text-red-500">BRAND</span> MENU
-          </span>
+          <Link href="/" onClick={onClose} className="flex items-center">
+            <img
+              src="/assets/ui/betadrix_logo.png"
+              alt="BETADRiX"
+              className="h-6 w-auto object-contain"
+            />
+          </Link>
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg text-[#8E8E9E] hover:text-white bg-[#141420]"

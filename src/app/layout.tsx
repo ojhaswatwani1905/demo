@@ -20,12 +20,12 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "YOURBRAND — Premium Futuristic Gaming DEMO Platform",
-  description: "Next-gen demonstration gaming platform showcasing authorized Spribe titles (Crash, Mines, Plinko, Dice, Roulette). Pure simulation, no real-money wagering.",
-  keywords: ["demo gaming", "spribe demo", "crash demo", "mines demo", "plinko demo", "dice demo", "roulette demo", "futuristic casino demo"],
+  title: "BETADRiX — Premium Gaming DEMO Platform",
+  description: "Next-gen demonstration gaming platform showcasing authorized titles (Mines, Plinko, Dice, Roulette). Pure simulation, zero real-money wagering.",
+  keywords: ["demo gaming", "mines demo", "plinko demo", "dice demo", "roulette demo", "betadrix demo"],
   openGraph: {
-    title: "YOURBRAND — Futuristic Gaming DEMO Platform",
-    description: "Explore the authorized Spribe demonstration games in a sleek Black + Red cinematic shell.",
+    title: "BETADRiX — Gaming DEMO Platform",
+    description: "Explore authorized demonstration games in a sleek Black + Red gaming shell.",
     type: "website",
   }
 };

@@ -52,9 +52,9 @@ export function Hero() {
 
             {/* Supporting Text */}
             <p className="text-base sm:text-xl text-[#A0A0B5] max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed">
-              <span className="text-white font-bold">Crash. Mines. Plinko. Dice. Roulette.</span>
+              <span className="text-white font-bold">Mines. Plinko. Dice. Roulette.</span>
               <br />
-              One platform. Endless possibilities. Experience next-level gameplay powered by authentic Spribe demo architecture.
+              One platform. Endless possibilities. Experience next-level gameplay powered by authentic demo architecture.
             </p>
 
             {/* CTAs */}
@@ -72,7 +72,7 @@ export function Hero() {
               <Button
                 size="xl"
                 variant="glass"
-                href="/games/crash"
+                href="/games/mines"
                 className="w-full sm:w-auto"
                 icon={<Sparkles className="w-5 h-5 text-red-400" />}
               >
@@ -103,7 +103,7 @@ export function Hero() {
               <div className="w-full h-full bg-[#0B0B12] rounded-[22px] overflow-hidden relative border border-white/10 flex flex-col justify-between p-6">
                 {/* Visual Header */}
                 <div className="flex items-center justify-between z-10">
-                  <Badge variant="demo" size="md">FEATURED SPRIBE</Badge>
+                  <Badge variant="demo" size="md">FEATURED DEMO</Badge>
                   <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/30">
                     ONLINE DEMO
                   </span>
@@ -112,17 +112,17 @@ export function Hero() {
                 {/* Hero Center Art Preview */}
                 <div className="relative my-auto w-full aspect-square rounded-2xl overflow-hidden border border-[#252538] group">
                   <Image
-                    src="/assets/games/crash.png"
-                    alt="Crash Spribe Game"
+                    src="/assets/games/game_card_mines.png"
+                    alt="Mines Game"
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
                     <div>
                       <span className="text-xs text-red-400 font-black uppercase tracking-wider">
                         Flagship Entry
                       </span>
-                      <h3 className="text-2xl font-black text-white">CRASH</h3>
+                      <h3 className="text-2xl font-black text-white">MINES</h3>
                     </div>
                   </div>
                 </div>
@@ -134,10 +134,10 @@ export function Hero() {
                     <span className="text-white font-mono font-bold">10,000x</span>
                   </div>
                   <Link
-                    href="/games/crash"
+                    href="/games/mines"
                     className="w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white font-black uppercase tracking-wider text-xs flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,30,39,0.4)] transition-all"
                   >
-                    <span>Launch Crash Demo</span>
+                    <span>Launch Mines Demo</span>
                     <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>

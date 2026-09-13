@@ -14,8 +14,8 @@ export const INITIAL_DEMO_ACTIVITY: DemoActivity[] = [
   {
     id: "act-1",
     player: "Player23",
-    gameId: "crash",
-    gameName: "Crash",
+    gameId: "mines",
+    gameName: "Mines",
     bet: 25.00,
     multiplier: 4.82,
     payout: 120.50,
@@ -69,8 +69,8 @@ export const INITIAL_DEMO_ACTIVITY: DemoActivity[] = [
   {
     id: "act-6",
     player: "AlphaGamer",
-    gameId: "crash",
-    gameName: "Crash",
+    gameId: "dice",
+    gameName: "Dice",
     bet: 30.00,
     multiplier: 1.12,
     payout: 33.60,
@@ -110,5 +110,5 @@ export const DEMO_USER_PROFILE = {
   level: 14,
   levelProgress: 68,
   totalDemoPlayed: 142,
-  favoriteGame: "Crash (Spribe)"
+  favoriteGame: "Mines (Turbo Games)"
 };

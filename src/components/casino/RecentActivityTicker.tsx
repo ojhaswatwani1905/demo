@@ -12,7 +12,6 @@ export function RecentActivityTicker() {
   useEffect(() => {
     const samplePlayers = ["Player23", "LuckyWin", "CryptoKing", "MoonBet", "BetMaster", "CyberSamurai", "AlphaGamer"];
     const games = [
-      { id: "crash", name: "Crash" },
       { id: "mines", name: "Mines" },
       { id: "plinko", name: "Plinko" },
       { id: "dice", name: "Dice" },

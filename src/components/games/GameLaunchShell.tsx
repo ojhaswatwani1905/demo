@@ -8,6 +8,8 @@ import { GameHeader } from "./GameHeader";
 import { GameInfo } from "./GameInfo";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { useWallet } from "@/context/WalletContext";
+import { useFavorites } from "@/context/FavoritesContext";
 import {
   ExternalLink,
   Settings,
@@ -15,7 +17,10 @@ import {
   AlertCircle,
   Play,
   RotateCw,
-  Maximize2
+  Maximize2,
+  Minimize2,
+  Heart,
+  ArrowLeft
 } from "lucide-react";
 
 interface GameLaunchShellProps {
@@ -25,16 +30,19 @@ interface GameLaunchShellProps {
 export function GameLaunchShell({ game }: GameLaunchShellProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [activeTab, setActiveTab] = useState<"game" | "info">("game");
   const [resolvedUrl, setResolvedUrl] = useState<string>("");
   const [iframeError, setIframeError] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isIframeLoading, setIsIframeLoading] = useState<boolean>(true);
+  const { balance, openWalletModal } = useWallet();
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const favorited = isFavorite(game.id);
 
   // Check resolved demo URL on mount and whenever game changes
   useEffect(() => {
     const url = getResolvedDemoUrl(game.id);
     setResolvedUrl(url);
-    setIsLoading(false);
+    setIsIframeLoading(true);
+    setIframeError(false);
   }, [game.id]);
 
   // Fullscreen change listener
@@ -61,66 +69,124 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
 
   const isUrlConfigured = Boolean(resolvedUrl && resolvedUrl.trim().length > 0);
 
+  const formattedBalance = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+  }).format(balance);
+
   return (
     <div
       ref={containerRef}
-      className={`flex flex-col bg-[#050508] ${
-        isFullscreen ? "h-screen w-screen p-0" : "min-h-[calc(100vh-5rem)]"
+      className={`flex flex-col bg-[#050508] text-[#F5F5F7] ${
+        isFullscreen ? "h-screen w-screen p-0 fixed inset-0 z-50" : "min-h-[calc(100vh-4rem)]"
       }`}
     >
-      {/* Top Game Bar */}
+      {/* 1. TOP HEADER: BETADRiX Official Logo & Lobby Backlink */}
       <GameHeader
         game={game}
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}
+        demoUrl={resolvedUrl}
       />
 
-      {/* Main Viewport Container */}
+      {/* 2. SUB-HEADER: Game Title & Meta */}
+      {!isFullscreen && (
+        <div className="bg-[#0A0B10] border-b border-[#181926] px-4 py-3 sm:px-8 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-xl sm:text-2xl font-black uppercase text-white tracking-wide">
+                {game.name}
+              </h1>
+              <Badge variant="demo" size="sm">DEMO GAME</Badge>
+              <span className="text-[11px] font-mono text-[#8E8E9E] bg-[#12131D] px-2 py-0.5 rounded border border-[#202130]">
+                {game.provider}
+              </span>
+            </div>
+            <p className="text-xs text-[#8E8E9E] mt-0.5">
+              Zero real-money risk • Theoretical RTP {game.rtp} • Max Multiplier {game.maxMultiplier}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs">
+            {isUrlConfigured && (
+              <a
+                href={resolvedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141522] hover:bg-[#1E1F30] border border-[#252638] text-neutral-300 hover:text-white font-bold transition-colors"
+                title="Launch game in a new browser tab"
+              >
+                <span>Open in Separate Tab</span>
+                <ExternalLink className="w-3.5 h-3.5 text-red-400" />
+              </a>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 3. MAIN GAME VIEWPORT CONTAINER */}
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        {/* Central Game Viewport Area */}
-        <div className="flex-1 flex flex-col bg-[#07070B] relative min-h-[500px] lg:min-h-[640px]">
+        {/* Game Area */}
+        <div className="flex-1 flex flex-col bg-[#07070B] relative min-h-[580px] lg:min-h-[700px]">
           {isUrlConfigured && !iframeError ? (
-            /* Authorized Spribe URL Iframe Viewport */
-            <div className="relative w-full h-full flex-1 flex flex-col">
+            /* REAL GAME IFRAME VIEWPORT */
+            <div className="relative w-full flex-1 flex flex-col bg-black">
+              {/* Clean BETADRiX Loading Overlay */}
+              {isIframeLoading && (
+                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#07080D] space-y-3">
+                  <div className="relative">
+                    <Image
+                      src="/assets/ui/betadrix_logo.png"
+                      alt="BETADRiX"
+                      width={150}
+                      height={44}
+                      className="h-8 w-auto object-contain"
+                      priority
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-white font-bold">
+                    <RotateCw className="w-4 h-4 animate-spin text-red-500" />
+                    <span>Loading {game.name}...</span>
+                  </div>
+                  <p className="text-xs text-[#8E8E9E]">
+                    Please wait while the demo game loads.
+                  </p>
+                </div>
+              )}
+
               <iframe
                 src={resolvedUrl}
-                title={`${game.name} Spribe Demo`}
-                className="w-full flex-1 border-0 min-h-[550px]"
-                allow="autoplay; fullscreen; clipboard-read; clipboard-write"
+                title={`${game.name} Demo Game`}
+                className="w-full flex-1 min-h-[560px] sm:min-h-[660px] lg:min-h-[720px] border-0 bg-black"
+                allow="autoplay; fullscreen; clipboard-read; clipboard-write; camera; microphone"
                 sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
-                onError={() => setIframeError(true)}
+                onLoad={() => setIsIframeLoading(false)}
+                onError={() => {
+                  setIsIframeLoading(false);
+                  setIframeError(true);
+                }}
               />
-
-              {/* External Launch Assist Bar */}
-              <div className="bg-[#0A0A10] border-t border-[#1C1C2A] px-4 py-2 flex items-center justify-between text-xs text-[#8E8E9E]">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Authorized Spribe Demo Session</span>
-                </div>
-                <a
-                  href={resolvedUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-red-400 hover:text-white font-bold transition-colors"
-                >
-                  <span>Open in Separate Tab</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
             </div>
           ) : isUrlConfigured && iframeError ? (
-            /* Iframe Blocked / CSP Fallback State */
+            /* IFRAME BLOCKED / CSP FALLBACK */
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#09090F] space-y-4">
-              <div className="w-16 h-16 rounded-2xl bg-red-950/40 border border-red-500/40 flex items-center justify-center text-red-500 shadow-[0_0_30px_rgba(255,30,39,0.3)]">
-                <ExternalLink className="w-8 h-8" />
+              <div className="relative mb-2">
+                <Image
+                  src="/assets/ui/betadrix_logo.png"
+                  alt="BETADRiX"
+                  width={140}
+                  height={41}
+                  className="h-7 w-auto object-contain"
+                />
               </div>
-              <div className="space-y-1 max-w-md">
-                <Badge variant="demo" size="md">SPRIBE DEMO READY</Badge>
-                <h3 className="text-2xl font-black text-white mt-2">
+              <div className="space-y-1.5 max-w-md">
+                <Badge variant="demo" size="md">DEMO GAME READY</Badge>
+                <h3 className="text-2xl font-black text-white mt-1">
                   OPEN DEMO GAME
                 </h3>
-                <p className="text-xs text-[#8E8E9E]">
-                  Due to provider security and browser iframe embedding restrictions, this game launches directly in an authorized window.
+                <p className="text-xs text-[#8E8E9E] leading-relaxed">
+                  Due to provider security and browser iframe policies (CSP / X-Frame-Options), this demo game launches directly in an authorized window.
                 </p>
               </div>
 
@@ -135,7 +201,10 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                   Open Demo Game
                 </Button>
                 <button
-                  onClick={() => setIframeError(false)}
+                  onClick={() => {
+                    setIframeError(false);
+                    setIsIframeLoading(true);
+                  }}
                   className="p-3 rounded-xl bg-[#141420] text-[#8E8E9E] hover:text-white border border-[#252535]"
                   title="Retry embedded frame"
                 >
@@ -144,27 +213,22 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
               </div>
             </div>
           ) : (
-            /* Game Not Configured State — Graceful Polished Demonstration Shell */
-            <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-10 text-center relative overflow-hidden">
-              {/* Reference UI Artwork Backdrop with High-Tech Dimming */}
-              {game.uiPreview && (
-                <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+            /* UNCONFIGURED STATE (e.g. Plinko) */
+            <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-12 text-center relative overflow-hidden bg-[#08080E]">
+              <div className="relative z-10 max-w-md mx-auto space-y-5 bg-[#0D0E16] p-6 sm:p-8 rounded-2xl border border-[#222332] shadow-2xl">
+                {/* BETADRiX Logo */}
+                <div className="flex justify-center mb-1">
                   <Image
-                    src={game.uiPreview}
-                    alt={`${game.name} UI Reference`}
-                    fill
-                    className="object-cover object-center filter blur-[1px]"
+                    src="/assets/ui/betadrix_logo.png"
+                    alt="BETADRiX"
+                    width={130}
+                    height={38}
+                    className="h-7 w-auto object-contain"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#07070B] via-[#07070B]/85 to-[#07070B]" />
                 </div>
-              )}
 
-              {/* Red ambient glow */}
-              <div className="absolute w-96 h-96 bg-red-600/10 blur-[120px] pointer-events-none z-0" />
-
-              <div className="relative z-10 max-w-lg mx-auto space-y-5 bg-[#0D0D15]/80 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-[#262638] shadow-2xl">
-                {/* Game artwork badge */}
-                <div className="relative w-48 aspect-[250/90] mx-auto rounded-xl overflow-hidden border border-red-500/50 shadow-[0_0_25px_rgba(255,30,39,0.3)] bg-black p-0.5">
+                {/* Game artwork banner */}
+                <div className="relative w-48 aspect-[250/90] mx-auto rounded-xl overflow-hidden border border-[#2A2B3D] bg-black p-0.5">
                   <Image
                     src={game.image}
                     alt={game.name}
@@ -173,29 +237,27 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                   />
                 </div>
 
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-xl font-black text-white uppercase tracking-wide">
-                      {game.name}
-                    </span>
-                    <Badge variant="demo" size="sm">DEMO MODE</Badge>
-                  </div>
+                <div className="space-y-1">
+                  <h3 className="text-xl font-black text-white uppercase tracking-wide">
+                    {game.name}
+                  </h3>
                   <span className="text-xs font-mono text-[#8E8E9E] block">
-                    Spribe Demo Title
+                    {game.provider} • RTP {game.rtp}
                   </span>
                 </div>
 
-                <div className="p-4 rounded-xl bg-red-950/30 border border-red-500/30 text-left space-y-1">
+                {/* Status Notice */}
+                <div className="p-4 rounded-xl bg-red-950/30 border border-red-500/40 text-left space-y-1.5">
                   <div className="flex items-center gap-2 text-xs font-bold text-red-400 uppercase tracking-wide">
                     <AlertCircle className="w-4 h-4 shrink-0" />
-                    <span>Demo URL is not configured yet</span>
+                    <span>Demo URL is not configured yet.</span>
                   </div>
                   <p className="text-xs text-[#A0A0B2] leading-relaxed">
-                    Awaiting authorized game URL supplied through Spyke. Once supplied, configure in the Admin Panel or set the <code className="text-white font-mono">{game.demoUrlEnvKey}</code> environment variable.
+                    Awaiting authorized game URL supplied through Spyke. Once supplied, configure in the Admin Panel or set the <code className="text-white font-mono text-[11px]">{game.demoUrlEnvKey}</code> environment variable.
                   </p>
                 </div>
 
-                {/* Actions */}
+                {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
                   <Button
                     size="md"
@@ -211,23 +273,58 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                     size="md"
                     variant="glass"
                     href="/casino"
+                    icon={<ArrowLeft className="w-4 h-4" />}
                     className="w-full sm:w-auto"
                   >
-                    Back to Games
+                    Back to Lobby
                   </Button>
                 </div>
 
-                <div className="pt-2 text-[10px] font-mono text-[#707085]">
-                  Strict Spyke source integration • No invented, guessed, or scraped URLs
+                <div className="text-[10px] font-mono text-[#707085] pt-1">
+                  Strict Spyke source integration • No guessed or invented URLs
                 </div>
               </div>
             </div>
           )}
+
+          {/* 4. DEMO CONTROLS BAR UNDER IFRAME */}
+          <div className="bg-[#0A0B10] border-t border-[#181926] px-4 py-3 sm:px-6 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-[#12131D] border border-[#1E202E] rounded-lg">
+                <span className="text-[10px] text-red-400 font-bold uppercase tracking-wider">Demo Balance:</span>
+                <span className="text-sm font-mono font-black text-white">{formattedBalance}</span>
+              </div>
+              <button
+                onClick={openWalletModal}
+                className="text-[11px] font-bold text-red-400 hover:text-red-300 underline transition-colors"
+              >
+                Top-Up Demo Credits
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => toggleFavorite(game.id)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12131D] hover:bg-[#1A1C2A] border border-[#202232] text-neutral-300 hover:text-white transition-colors text-xs font-semibold"
+              >
+                <Heart className={`w-3.5 h-3.5 ${favorited ? "fill-red-500 text-red-500" : "text-neutral-400"}`} />
+                <span>{favorited ? "Favorited" : "Favorite"}</span>
+              </button>
+
+              <button
+                onClick={toggleFullscreen}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12131D] hover:bg-[#1A1C2A] border border-[#202232] text-neutral-300 hover:text-white transition-colors text-xs font-semibold"
+              >
+                {isFullscreen ? <Minimize2 className="w-3.5 h-3.5 text-red-500" /> : <Maximize2 className="w-3.5 h-3.5 text-red-500" />}
+                <span>Fullscreen</span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Side Panel: Game Details & Stats */}
+        {/* 5. SIDE PANEL: Game Details & Stats */}
         {!isFullscreen && (
-          <aside className="w-full lg:w-96 bg-[#08080D] border-t lg:border-t-0 lg:border-l border-[#1C1C2A] p-5 sm:p-6 overflow-y-auto">
+          <aside className="w-full lg:w-96 bg-[#08090E] border-t lg:border-t-0 lg:border-l border-[#1A1B28] p-5 sm:p-6 overflow-y-auto">
             <GameInfo game={game} />
           </aside>
         )}

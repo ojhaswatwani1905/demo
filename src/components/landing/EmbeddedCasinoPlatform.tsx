@@ -93,12 +93,16 @@ export function EmbeddedCasinoPlatform() {
           <div className="bg-[#0D0E16] border-b border-[#1C1D2A] px-4 py-2 flex items-center justify-between gap-4">
             {/* Left: Brand Logo & Name */}
             <div className="flex items-center gap-2.5 shrink-0">
-              <div className="w-6 h-6 rounded-md bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center text-white font-black text-[11px] shadow-[0_0_8px_rgba(255,30,39,0.5)]">
-                YB
-              </div>
-              <span className="text-xs font-black text-white tracking-wide uppercase">
-                YOURBRAND
-              </span>
+              <Link href="/" className="hover:opacity-90 transition-opacity">
+                <Image
+                  src="/assets/ui/betadrix_logo.png"
+                  alt="BETADRiX"
+                  width={110}
+                  height={32}
+                  className="h-5 sm:h-6 w-auto object-contain"
+                  priority
+                />
+              </Link>
             </div>
 
             {/* Center: Horizontal Navigation Tabs (Reference 3) */}
@@ -107,7 +111,6 @@ export function EmbeddedCasinoPlatform() {
                 { name: "Casino", cat: "All", sidebarName: "Casino" },
                 { name: "Sports", cat: "All", sidebarName: "Home" },
                 { name: "Live Casino", cat: "Table", sidebarName: "Live Casino" },
-                { name: "Crash Games", cat: "Crash", sidebarName: "Originals" },
                 { name: "Promotions", cat: "All", sidebarName: "Promotions" },
                 { name: "VIP", cat: "All", sidebarName: "Casino" },
               ].map((tab, idx) => (
@@ -227,12 +230,12 @@ export function EmbeddedCasinoPlatform() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5">
                 {/* Main Entertainment Banner (65% width) using exact Reference 3 background_hero.png asset */}
                 <Link
-                  href="/games/crash"
+                  href="/games/mines"
                   className="group lg:col-span-8 relative rounded-xl overflow-hidden bg-[#0A0B12] border border-[#202130] hover:border-red-500/60 transition-all duration-300 block shadow-lg min-h-[170px] sm:min-h-[200px]"
                 >
                   <Image
                     src="/assets/ui/background_hero.png"
-                    alt="A New Level of Entertainment - Crash, Mines, Plinko, Dice, Roulette"
+                    alt="A New Level of Entertainment - Mines, Plinko, Dice, Roulette"
                     fill
                     sizes="(max-width: 1024px) 100vw, 66vw"
                     className="object-cover object-left sm:object-center group-hover:scale-[1.01] transition-transform duration-300"
@@ -284,7 +287,6 @@ export function EmbeddedCasinoPlatform() {
                   {CATEGORIES.map(category => {
                     const categoryToSidebar: Record<string, string> = {
                       All: "Casino",
-                      Crash: "Casino",
                       Originals: "Originals",
                       Table: "Table Games",
                       Featured: "Slots",
@@ -312,13 +314,13 @@ export function EmbeddedCasinoPlatform() {
                 <div className="flex items-center gap-2 text-xs text-[#6A6A7C]">
                   <Gamepad2 className="w-3.5 h-3.5 text-red-500" />
                   <span>
-                    Showing <strong className="text-white font-mono">{filteredGames.length}</strong> Spribe Games
+                    Showing <strong className="text-white font-mono">{filteredGames.length}</strong> Games
                   </span>
                 </div>
               </div>
 
-              {/* DENSE 5-COLUMN GAME CARDS ROW (Exact Reference 3 Aspect Ratio & Native Asset Display) */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {/* DENSE 4-COLUMN GAME CARDS ROW (Exact Reference 3 Aspect Ratio & Native Asset Display) */}
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
                 {filteredGames.map(game => {
                   const favorited = favorites.includes(game.id);
                   return (

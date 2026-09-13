@@ -31,13 +31,8 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs font-semibold">
               <li>
-                <Link href="/games/crash" className="hover:text-red-400 transition-colors">
-                  Crash (Spribe)
-                </Link>
-              </li>
-              <li>
                 <Link href="/games/mines" className="hover:text-red-400 transition-colors">
-                  Mines (Spribe)
+                  Mines (Turbo Games)
                 </Link>
               </li>
               <li>
@@ -47,7 +42,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/games/dice" className="hover:text-red-400 transition-colors">
-                  Dice (Spribe)
+                  Dice (Turbo Games)
                 </Link>
               </li>
               <li>
@@ -125,7 +120,7 @@ export function Footer() {
           </div>
 
           <p className="text-[11px] font-mono text-[#555566] shrink-0">
-            © {new Date().getFullYear()} YOURBRAND. ALL DEMO RIGHTS RESERVED.
+            © {new Date().getFullYear()} BETADRiX. ALL DEMO RIGHTS RESERVED.
           </p>
         </div>
       </div>

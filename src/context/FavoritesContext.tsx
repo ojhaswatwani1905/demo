@@ -17,21 +17,23 @@ interface FavoritesContextType {
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
-  const [favorites, setFavorites] = useState<string[]>(["crash", "mines"]);
-  const [recentGames, setRecentGames] = useState<string[]>(["crash", "roulette"]);
+  const [favorites, setFavorites] = useState<string[]>(["mines", "roulette"]);
+  const [recentGames, setRecentGames] = useState<string[]>(["mines", "dice"]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   useEffect(() => {
     try {
-      const savedFavs = localStorage.getItem("yourbrand_favorites");
+      const savedFavs = localStorage.getItem("betadrix_favorites") || localStorage.getItem("yourbrand_favorites");
       if (savedFavs) {
-        setFavorites(JSON.parse(savedFavs));
+        const parsed: string[] = JSON.parse(savedFavs);
+        setFavorites(parsed.filter(id => id.toLowerCase() !== "crash"));
       }
-      const savedRecent = localStorage.getItem("yourbrand_recent_games");
+      const savedRecent = localStorage.getItem("betadrix_recent_games") || localStorage.getItem("yourbrand_recent_games");
       if (savedRecent) {
-        setRecentGames(JSON.parse(savedRecent));
+        const parsed: string[] = JSON.parse(savedRecent);
+        setRecentGames(parsed.filter(id => id.toLowerCase() !== "crash"));
       }
     } catch (e) {
       console.error("Error reading storage", e);

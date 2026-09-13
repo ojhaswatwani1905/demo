@@ -63,7 +63,7 @@ export function SearchModal() {
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder="Search demo games (e.g. Crash, Mines, Plinko...)"
+            placeholder="Search demo games (e.g. Mines, Plinko, Dice, Roulette...)"
             className="w-full bg-transparent text-white placeholder-[#68687A] text-sm focus:outline-none font-medium"
           />
           {query && (
@@ -126,7 +126,7 @@ export function SearchModal() {
               <Gamepad2 className="w-10 h-10 text-[#404055] mx-auto mb-2" />
               <p className="text-sm font-bold text-white">No demo games found</p>
               <p className="text-xs text-[#8E8E9E] mt-1">
-                Try searching for &quot;Crash&quot;, &quot;Mines&quot;, &quot;Plinko&quot;, &quot;Dice&quot;, or &quot;Roulette&quot;
+                Try searching for &quot;Mines&quot;, &quot;Plinko&quot;, &quot;Dice&quot;, or &quot;Roulette&quot;
               </p>
             </div>
           )}
@@ -134,7 +134,7 @@ export function SearchModal() {
 
         {/* Footer */}
         <div className="p-3 bg-[#09090F] border-t border-[#1D1D2C] flex items-center justify-between text-[11px] text-[#707085]">
-          <span>Showing 5 Spribe demo game entries</span>
+          <span>Showing {filteredGames.length} demo game entries</span>
           <span className="text-red-400 font-bold uppercase tracking-wider">Demo Mode</span>
         </div>
       </div>

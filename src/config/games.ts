@@ -4,7 +4,7 @@ export interface GameConfig {
   provider: string;
   image: string;
   uiPreview?: string;
-  category: "Crash" | "Originals" | "Table" | "Featured";
+  category: "Originals" | "Table" | "Featured";
   demoUrlEnvKey: string;
   defaultDemoUrl: string;
   description: string;
@@ -17,36 +17,16 @@ export interface GameConfig {
 
 export const GAMES: GameConfig[] = [
   {
-    id: "crash",
-    name: "Crash",
-    provider: "Spribe",
-    image: "/assets/games/game_card_crash.png",
-    uiPreview: "/assets/ui/crash_game_ui.png",
-    category: "Crash",
-    demoUrlEnvKey: "NEXT_PUBLIC_SPYKE_CRASH_URL",
-    defaultDemoUrl:
-      process.env.NEXT_PUBLIC_SPYKE_CRASH_URL ||
-      process.env.NEXT_PUBLIC_SPRIBE_CRASH_DEMO_URL ||
-      "",
-    description: "Watch the multiplier scale in real time and cash out before the inevitable crash in this adrenaline-charged Spribe demo title.",
-    badges: ["HOT", "SPRIBE ORIGINAL"],
-    rtp: "97.00%",
-    minBet: "$0.10",
-    maxBet: "$100.00",
-    maxMultiplier: "10,000x"
-  },
-  {
     id: "mines",
     name: "Mines",
-    provider: "Spribe",
+    provider: "Turbo Games",
     image: "/assets/games/game_card_mines.png",
     uiPreview: "/assets/ui/mines_game_ui.png",
     category: "Originals",
     demoUrlEnvKey: "NEXT_PUBLIC_SPYKE_MINES_URL",
     defaultDemoUrl:
       process.env.NEXT_PUBLIC_SPYKE_MINES_URL ||
-      process.env.NEXT_PUBLIC_SPRIBE_MINES_DEMO_URL ||
-      "",
+      "https://mines.turbogames.io/",
     description: "Navigate a grid of hidden stars and landmines. Select your risk level and step through squares to amplify your multiplier.",
     badges: ["TACTICAL", "HIGH RTP"],
     rtp: "97.00%",
@@ -64,7 +44,6 @@ export const GAMES: GameConfig[] = [
     demoUrlEnvKey: "NEXT_PUBLIC_SPYKE_PLINKO_URL",
     defaultDemoUrl:
       process.env.NEXT_PUBLIC_SPYKE_PLINKO_URL ||
-      process.env.NEXT_PUBLIC_SPRIBE_PLINKO_DEMO_URL ||
       "",
     description: "Drop the disc down the pegboard pyramid. Watch physics-driven bounces dictate landing in multi-tiered payout pockets.",
     badges: ["CASUAL", "POPULAR"],
@@ -76,15 +55,14 @@ export const GAMES: GameConfig[] = [
   {
     id: "dice",
     name: "Dice",
-    provider: "Spribe",
+    provider: "Turbo Games",
     image: "/assets/games/game_card_dice.png",
     uiPreview: "/assets/ui/dice_game_ui.png",
     category: "Table",
     demoUrlEnvKey: "NEXT_PUBLIC_SPYKE_DICE_URL",
     defaultDemoUrl:
       process.env.NEXT_PUBLIC_SPYKE_DICE_URL ||
-      process.env.NEXT_PUBLIC_SPRIBE_DICE_DEMO_URL ||
-      "",
+      "https://dice.turbogames.io/",
     description: "Set your target slider, balance probability against payout multiplier, and roll the digital dice with instant cryptographic feedback.",
     badges: ["FAST", "INSTANT ROLL"],
     rtp: "97.00%",
@@ -102,9 +80,8 @@ export const GAMES: GameConfig[] = [
     demoUrlEnvKey: "NEXT_PUBLIC_SPYKE_ROULETTE_URL",
     defaultDemoUrl:
       process.env.NEXT_PUBLIC_SPYKE_ROULETTE_URL ||
-      process.env.NEXT_PUBLIC_SPRIBE_ROULETTE_DEMO_URL ||
-      "",
-    description: "Sleek, futuristic European-style roulette wheel engineered for quick rounds, comprehensive history, and multi-bet options.",
+      "https://demo.spribe.io/launch/mini-roulette?currency=EUR&lang=EN",
+    description: "Sleek, European-style roulette wheel engineered for quick rounds, comprehensive history, and multi-bet options.",
     badges: ["CLASSIC", "TABLE"],
     rtp: "97.30%",
     minBet: "$0.10",
@@ -115,7 +92,6 @@ export const GAMES: GameConfig[] = [
 
 export const CATEGORIES = [
   "All",
-  "Crash",
   "Originals",
   "Table",
   "Featured"

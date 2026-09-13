@@ -21,7 +21,7 @@ export async function GET(
     data: {
       gameId: game.id,
       gameName: game.name,
-      provider: "Spribe",
+      provider: game.provider,
       mode: "demo",
       isConfigured: Boolean(game.defaultDemoUrl && game.defaultDemoUrl.trim().length > 0),
       // Only returns demoUrl if explicitly configured via environment variable

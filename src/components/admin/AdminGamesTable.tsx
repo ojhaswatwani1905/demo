@@ -47,7 +47,7 @@ export function AdminGamesTable() {
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-mono text-[#8E8E9E] bg-[#141420] px-3 py-1 rounded-lg border border-[#252538]">
-              5 Entries Registered
+              {GAMES.length} Entries Registered
             </span>
           </div>
         </div>
