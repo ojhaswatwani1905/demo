@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: demo-gaming-platform
+    name: demo
     runtime: node
     plan: free
     buildCommand: npm install && npm run build
@@ -8,5 +8,3 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 20.18.0
-      - key: PORT
-        value: 10000
