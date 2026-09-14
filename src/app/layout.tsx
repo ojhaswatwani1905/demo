@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Orbitron, Bebas_Neue } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { WalletProvider } from "@/context/WalletContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
+import { UIProvider } from "@/context/UIContext";
 import { SearchModal } from "@/components/ui/SearchModal";
 import { DemoWalletModal } from "@/components/wallet/DemoWalletModal";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -13,32 +14,19 @@ const inter = Inter({
   display: "swap",
 });
 
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  variable: "--font-orbitron",
-  display: "swap",
-});
-
-const bebasNeue = Bebas_Neue({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-bebas",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "BETADRiX — Premium Gaming DEMO Platform",
-  description: "Next-gen demonstration gaming platform showcasing authorized titles (Mines, Plinko, Dice, Roulette). Pure simulation, zero real-money wagering.",
-  keywords: ["demo gaming", "mines demo", "plinko demo", "dice demo", "roulette demo", "betadrix demo"],
+  title: "BETADRiX — Gaming DEMO Platform",
+  description: "Clean, professional demonstration gaming platform showcasing authorized titles (Mines, Dice, Roulette, Plinko). Pure simulation, zero real-money wagering.",
+  keywords: ["demo gaming", "mines demo", "dice demo", "roulette demo", "plinko demo", "betadrix demo"],
   openGraph: {
     title: "BETADRiX — Gaming DEMO Platform",
-    description: "Explore authorized demonstration games in a sleek Black + Red gaming shell.",
+    description: "Explore authorized demonstration games in a clean, professional gaming lobby.",
     type: "website",
   }
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050505",
+  themeColor: "#0B0C10",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -50,14 +38,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${orbitron.variable} ${bebasNeue.variable} dark`}>
-      <body className="bg-[#050505] text-[#F5F5F7] min-h-screen flex flex-col font-sans antialiased selection:bg-red-600 selection:text-white">
+    <html lang="en" className={`${inter.variable} dark`}>
+      <body className="bg-[#0B0C10] text-[#EDEDF0] min-h-screen flex flex-col font-sans antialiased selection:bg-red-600 selection:text-white">
         <WalletProvider>
           <FavoritesProvider>
-            {children}
-            <SearchModal />
-            <DemoWalletModal />
-            <MobileNav />
+            <UIProvider>
+              {children}
+              <SearchModal />
+              <DemoWalletModal />
+              <MobileNav />
+            </UIProvider>
           </FavoritesProvider>
         </WalletProvider>
       </body>

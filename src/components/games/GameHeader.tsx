@@ -67,9 +67,9 @@ export function GameHeader({ game, isFullscreen, onToggleFullscreen, demoUrl }: 
         </button>
 
         <Link
-          href="/casino"
+          href="/games"
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#151622] hover:bg-[#1F2030] border border-[#262838] text-xs font-bold text-neutral-300 hover:text-white transition-colors"
-          title="Back to Casino Lobby"
+          title="Back to Games Lobby"
         >
           <ArrowLeft className="w-3.5 h-3.5 text-red-500" />
           <span className="hidden sm:inline">Back to Lobby</span>

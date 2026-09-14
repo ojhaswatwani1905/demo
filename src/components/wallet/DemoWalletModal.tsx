@@ -97,7 +97,7 @@ export function DemoWalletModal() {
 
           <button
             onClick={closeWalletModal}
-            className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-[#FF1E27] to-[#B30C19] hover:from-[#FF3342] hover:to-[#FF1E27] text-white text-xs font-black uppercase tracking-wider shadow-[0_0_15px_rgba(255,30,39,0.35)] transition-all active:scale-95"
+            className="flex-1 py-3 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider transition-colors active:scale-95"
           >
             Done
           </button>

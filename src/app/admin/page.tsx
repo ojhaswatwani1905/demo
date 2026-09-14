@@ -51,9 +51,9 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#050508] text-[#F5F5F7]">
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} isFixedDesktop={true} />
+      <Sidebar />
 
-      <div className="lg:pl-64 flex-1 flex flex-col transition-all duration-300">
+      <div className="lg:pl-60 flex-1 flex flex-col transition-all duration-300">
         <Navbar onToggleSidebar={() => setIsSidebarOpen(true)} />
 
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">

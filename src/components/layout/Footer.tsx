@@ -1,126 +1,100 @@
 import React from "react";
 import Link from "next/link";
 import { Logo } from "./Logo";
-import { ShieldCheck, AlertCircle, Sparkles } from "lucide-react";
+import { Shield, AlertCircle } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="relative bg-[#050508] border-t border-[#1C1C28] overflow-hidden pt-16 pb-24 lg:pb-16 text-[#8E8E9E]">
-      {/* Red ambient background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 max-w-4xl h-32 bg-red-600/10 blur-[100px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#1A1A26]">
-          {/* Brand Info */}
-          <div className="lg:col-span-2 space-y-4">
-            <Logo />
-            <p className="text-xs sm:text-sm text-[#8E8E9E] leading-relaxed max-w-sm">
-              Next-generation cinematic gaming and casino demonstration architecture.
-              Engineered to showcase authorized Spribe demo games in a safe, risk-free simulation shell.
+    <footer id="compliance" className="bg-[#0D0E13] border-t border-[#232632] pt-8 pb-28 lg:pb-8 text-[#8E95A5] text-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-[#1F222C]">
+          {/* Brand & Mission */}
+          <div className="md:col-span-2 space-y-3">
+            <div className="flex items-center gap-2">
+              <Logo compact />
+              <span className="text-[10px] font-mono font-bold bg-[#1A1D27] text-red-400 px-1.5 py-0.5 rounded border border-[#2B3041]">
+                DEMO LOBBY
+              </span>
+            </div>
+            <p className="text-xs text-[#8E95A5] max-w-md leading-relaxed">
+              BETADRiX is an authorized game demonstration and simulation portal. All gameplay is performed strictly using simulated virtual balance with no real currency, financial risk, or wagering engines.
             </p>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-950/30 border border-red-500/30 text-xs text-red-400 font-bold uppercase tracking-wider">
-              <ShieldCheck className="w-4 h-4 text-red-500" />
-              <span>Strictly 100% Demonstration Mode</span>
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#161822] border border-[#232632] text-[11px] text-[#A3AAB8]">
+              <Shield className="w-3.5 h-3.5 text-red-400 shrink-0" />
+              <span>Free Demonstration Environment • Zero Real-Money Transactions</span>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Games Navigation */}
           <div>
-            <h4 className="text-xs font-black uppercase tracking-widest text-white mb-4">
-              Demo Games
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">
+              Demonstration Games
             </h4>
-            <ul className="space-y-2.5 text-xs font-semibold">
+            <ul className="space-y-2">
               <li>
-                <Link href="/games/mines" className="hover:text-red-400 transition-colors">
+                <Link href="/games/mines" className="hover:text-white transition-colors">
                   Mines (Turbo Games)
                 </Link>
               </li>
               <li>
-                <Link href="/games/plinko" className="hover:text-red-400 transition-colors">
-                  Plinko (Spribe)
-                </Link>
-              </li>
-              <li>
-                <Link href="/games/dice" className="hover:text-red-400 transition-colors">
+                <Link href="/games/dice" className="hover:text-white transition-colors">
                   Dice (Turbo Games)
                 </Link>
               </li>
               <li>
-                <Link href="/games/roulette" className="hover:text-red-400 transition-colors">
+                <Link href="/games/roulette" className="hover:text-white transition-colors">
                   Roulette (Spribe)
+                </Link>
+              </li>
+              <li>
+                <Link href="/games/plinko" className="hover:text-white transition-colors">
+                  Plinko (Spribe)
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Navigation */}
+          {/* Platform Links */}
           <div>
-            <h4 className="text-xs font-black uppercase tracking-widest text-white mb-4">
-              Explore
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">
+              Navigation
             </h4>
-            <ul className="space-y-2.5 text-xs font-semibold">
+            <ul className="space-y-2">
               <li>
-                <Link href="/casino" className="hover:text-red-400 transition-colors">
-                  Casino Lobby
+                <Link href="/" className="hover:text-white transition-colors">
+                  Home Lobby
                 </Link>
               </li>
               <li>
-                <Link href="/#featured" className="hover:text-red-400 transition-colors">
-                  Featured Games
+                <Link href="/games" className="hover:text-white transition-colors">
+                  All Games
                 </Link>
               </li>
               <li>
-                <Link href="/#showcase" className="hover:text-red-400 transition-colors">
-                  Game Showcase
-                </Link>
-              </li>
-              <li>
-                <Link href="/#promotions" className="hover:text-red-400 transition-colors">
+                <Link href="/#promotions" className="hover:text-white transition-colors">
                   Promotions
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="hover:text-red-400 transition-colors">
-                  Admin Demo Panel
+                <Link href="/admin" className="hover:text-white transition-colors">
+                  Admin Configuration
                 </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Platform Legal / Demo Notice */}
-          <div>
-            <h4 className="text-xs font-black uppercase tracking-widest text-white mb-4">
-              Compliance
-            </h4>
-            <ul className="space-y-2.5 text-xs font-semibold">
-              <li>
-                <span className="text-[#68687A] cursor-not-allowed">Responsible Gaming Demo</span>
-              </li>
-              <li>
-                <span className="text-[#68687A] cursor-not-allowed">Terms of Demonstration</span>
-              </li>
-              <li>
-                <span className="text-[#68687A] cursor-not-allowed">Privacy Policy</span>
-              </li>
-              <li>
-                <span className="text-[#68687A] cursor-not-allowed">Security Protocol</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Mandatory Legal Demo Notice */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
-          <div className="flex items-center gap-2 text-[#7C7C90]">
-            <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
-            <p className="leading-normal">
-              <strong>Demo platform — no real-money transactions.</strong> This website is a demonstration interface.
-              No real-money betting, deposits, withdrawals, or financial transactions are conducted.
+        {/* Demo Compliance Footer Line */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[#6A7182]">
+          <div className="flex items-center gap-2 text-left">
+            <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+            <p>
+              Strictly for demonstration and testing purposes. No real money deposits or cashouts.
             </p>
           </div>
 
-          <p className="text-[11px] font-mono text-[#555566] shrink-0">
-            © {new Date().getFullYear()} BETADRiX. ALL DEMO RIGHTS RESERVED.
+          <p className="font-mono text-[#5A6072] shrink-0">
+            © {new Date().getFullYear()} BETADRiX. ALL RIGHTS RESERVED.
           </p>
         </div>
       </div>
