@@ -9,16 +9,19 @@ const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || "betadrix_internal_ad
 
 interface TokenPayload {
   adminId: string;
+  v: number; // session_version for instant server-side revocation on logout
   iat: number;
   exp: number;
 }
 
 /**
  * Generates an HMAC-SHA256 signed session token for an authenticated administrator.
+ * Encodes the admin ID and current session_version to enable instant server-side revocation.
  */
-export function signAdminToken(adminId: string): string {
+export function signAdminToken(adminId: string, sessionVersion = 1): string {
   const payload: TokenPayload = {
     adminId,
+    v: sessionVersion,
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + SESSION_DURATION_SECONDS,
   };
@@ -33,9 +36,14 @@ export function signAdminToken(adminId: string): string {
 }
 
 /**
- * Verifies the integrity and validity of an admin session token.
+ * Verifies the cryptographic HMAC integrity, structure, and expiration of a session token.
  */
-export function verifyAdminToken(token: string): { valid: boolean; adminId?: string; error?: string } {
+export function verifyAdminToken(token: string): {
+  valid: boolean;
+  adminId?: string;
+  sessionVersion?: number;
+  error?: string;
+} {
   if (!token || typeof token !== "string") {
     return { valid: false, error: "Missing session token" };
   }
@@ -72,7 +80,11 @@ export function verifyAdminToken(token: string): { valid: boolean; adminId?: str
       return { valid: false, error: "Malformed session payload" };
     }
 
-    return { valid: true, adminId: payload.adminId };
+    return {
+      valid: true,
+      adminId: payload.adminId,
+      sessionVersion: typeof payload.v === "number" ? payload.v : 1
+    };
   } catch (err) {
     return { valid: false, error: "Failed to parse session token" };
   }
@@ -80,9 +92,14 @@ export function verifyAdminToken(token: string): { valid: boolean; adminId?: str
 
 /**
  * Extracts and verifies the admin session from an incoming HTTP Request.
- * Also checks that the admin account is still valid and active in the database.
+ * Verifies active database account status and verifies session_version to guarantee that
+ * previously revoked/logged-out sessions cannot be reused.
  */
-export async function authenticateAdmin(req: Request): Promise<{ authenticated: boolean; adminId?: string; error?: string }> {
+export async function authenticateAdmin(req: Request): Promise<{
+  authenticated: boolean;
+  adminId?: string;
+  error?: string;
+}> {
   const cookieHeader = req.headers.get("cookie");
   if (!cookieHeader) {
     return { authenticated: false, error: "No session cookie found" };
@@ -111,6 +128,16 @@ export async function authenticateAdmin(req: Request): Promise<{ authenticated: 
   const adminUser = await findAdminByAdminId(tokenResult.adminId);
   if (!adminUser || !adminUser.is_active) {
     return { authenticated: false, error: "Administrator account inactive or removed" };
+  }
+
+  // Server-side invalidation check: token session version must match database current session version
+  const currentVersion = adminUser.session_version || 1;
+  const tokenVersion = tokenResult.sessionVersion || 1;
+  if (currentVersion !== tokenVersion) {
+    return {
+      authenticated: false,
+      error: "Session has been invalidated. Please log in again."
+    };
   }
 
   return { authenticated: true, adminId: adminUser.admin_id };

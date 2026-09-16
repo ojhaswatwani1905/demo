@@ -8,10 +8,10 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { adminId, password } = body;
 
-    if (!adminId || !password || typeof adminId !== "string" || typeof password !== "string") {
+    if (!adminId || !password || typeof adminId !== "string" || typeof password !== "string" || adminId.trim() === "" || password.trim() === "") {
       return NextResponse.json(
-        { success: false, error: "Please provide both Admin ID and Password." },
-        { status: 400 }
+        { success: false, error: "Invalid administrator credentials." },
+        { status: 401 }
       );
     }
 
@@ -32,8 +32,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // Generate signed session token
-    const token = signAdminToken(admin.admin_id);
+    // Generate signed session token with session_version
+    const token = signAdminToken(admin.admin_id, admin.session_version || 1);
 
     const res = NextResponse.json(
       {

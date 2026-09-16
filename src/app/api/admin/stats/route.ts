@@ -43,3 +43,27 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function POST(req: NextRequest) {
+  const auth = await authenticateAdmin(req);
+  if (!auth.authenticated) {
+    return NextResponse.json(
+      { success: false, error: auth.error || "Unauthorized admin access." },
+      { status: 401 }
+    );
+  }
+  return NextResponse.json({ success: false, error: "Not allowed" }, { status: 405 });
+}
+
+export async function PUT(req: NextRequest) {
+  return POST(req);
+}
+
+export async function PATCH(req: NextRequest) {
+  return POST(req);
+}
+
+export async function DELETE(req: NextRequest) {
+  return POST(req);
+}
+

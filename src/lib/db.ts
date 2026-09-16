@@ -1,11 +1,12 @@
 import { Pool, QueryResult, QueryResultRow } from "pg";
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 
-// Server-side default initial admin credentials (can be overridden via server-only env vars)
+// Server-side default initial admin credentials (configured strictly via server-only env vars)
 const DEFAULT_ADMIN_ID = process.env.ADMIN_ID || "admin";
-const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "BetadrixAdmin2026!";
+const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || crypto.randomBytes(16).toString("hex");
 
 // 100 realistic dummy identities for the Live Activity pool
 export const DUMMY_USERS = [
@@ -56,6 +57,7 @@ export interface AdminUserRecord {
   created_at: string;
   updated_at: string;
   is_active: boolean;
+  session_version: number;
 }
 
 // Generate the 100 realistic dummy activity records
@@ -130,10 +132,21 @@ function readLocalStore(): LocalStore {
             password_hash: hash,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
-            is_active: true
+            is_active: true,
+            session_version: 1
           }
         ];
         writeLocalStore(parsed);
+      } else {
+        // Ensure session_version exists on all admin records
+        let updated = false;
+        parsed.admin_users.forEach((a) => {
+          if (a.session_version === undefined) {
+            a.session_version = 1;
+            updated = true;
+          }
+        });
+        if (updated) writeLocalStore(parsed);
       }
       return parsed;
     }
@@ -151,7 +164,8 @@ function readLocalStore(): LocalStore {
         password_hash: initialAdminHash,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-        is_active: true
+        is_active: true,
+        session_version: 1
       }
     ],
     site_config: {
@@ -246,8 +260,13 @@ export async function initializeDatabase(): Promise<boolean> {
             password_hash VARCHAR(255) NOT NULL,
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-            is_active BOOLEAN DEFAULT TRUE
+            is_active BOOLEAN DEFAULT TRUE,
+            session_version INT DEFAULT 1
           );
+        `);
+        // Ensure session_version column exists for existing installations
+        await client.query(`
+          ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS session_version INT DEFAULT 1;
         `);
 
         // Ensure default admin user exists
@@ -255,8 +274,8 @@ export async function initializeDatabase(): Promise<boolean> {
         if (adminCheck.rows.length === 0) {
           const hash = bcrypt.hashSync(DEFAULT_ADMIN_PASSWORD, 10);
           await client.query(
-            `INSERT INTO admin_users (admin_id, password_hash, created_at, updated_at, is_active)
-             VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE)`,
+            `INSERT INTO admin_users (admin_id, password_hash, created_at, updated_at, is_active, session_version)
+             VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE, 1)`,
             [DEFAULT_ADMIN_ID, hash]
           );
         }
@@ -460,20 +479,63 @@ export async function findAdminByAdminId(adminId: string): Promise<AdminUserReco
   if (isPgConnected && pgPool) {
     try {
       const res = await pgPool.query<AdminUserRecord>(
-        `SELECT id, admin_id, password_hash, created_at, updated_at, is_active
+        `SELECT id, admin_id, password_hash, created_at, updated_at, is_active, COALESCE(session_version, 1) as session_version
          FROM admin_users
          WHERE admin_id = $1 AND is_active = TRUE
          LIMIT 1`,
         [cleanId]
       );
-      return res.rows[0] || null;
+      if (res.rows[0]) {
+        return {
+          ...res.rows[0],
+          session_version: res.rows[0].session_version || 1
+        };
+      }
+      return null;
     } catch (err) {
       console.error("Error querying admin_users in Postgres:", err);
     }
   }
 
   const store = readLocalStore();
-  return store.admin_users?.find(a => a.admin_id === cleanId && a.is_active) || null;
+  const admin = store.admin_users?.find(a => a.admin_id === cleanId && a.is_active);
+  if (admin) {
+    return {
+      ...admin,
+      session_version: admin.session_version || 1
+    };
+  }
+  return null;
+}
+
+export async function revokeAdminSession(adminId: string): Promise<boolean> {
+  await initializeDatabase();
+  const cleanId = adminId.trim();
+
+  if (isPgConnected && pgPool) {
+    try {
+      await pgPool.query(
+        `UPDATE admin_users
+         SET session_version = COALESCE(session_version, 1) + 1,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE admin_id = $1`,
+        [cleanId]
+      );
+      return true;
+    } catch (err) {
+      console.error("Error revoking admin session in Postgres:", err);
+    }
+  }
+
+  const store = readLocalStore();
+  const admin = store.admin_users?.find(a => a.admin_id === cleanId);
+  if (admin) {
+    admin.session_version = (admin.session_version || 1) + 1;
+    admin.updated_at = new Date().toISOString();
+    writeLocalStore(store);
+    return true;
+  }
+  return false;
 }
 
 export async function getAllUsers(limit = 100): Promise<Array<{ id: number; name: string; email: string; created_at: string }>> {
