@@ -511,10 +511,15 @@ export async function initializeDatabase(): Promise<boolean> {
 
     try {
       if (!pgPool) {
+        const isLocalDb = dbUrl.includes("localhost") || dbUrl.includes("127.0.0.1");
+        const needsSsl = !isLocalDb;
+
         pgPool = new Pool({
           connectionString: dbUrl,
-          connectionTimeoutMillis: 3000,
-          ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : undefined
+          connectionTimeoutMillis: 10000,
+          max: 10,
+          idleTimeoutMillis: 30000,
+          ssl: needsSsl ? { rejectUnauthorized: false } : undefined
         });
       }
 
@@ -787,6 +792,13 @@ export async function initializeDatabase(): Promise<boolean> {
     } catch (err) {
       console.warn("PostgreSQL connection failed, continuing with resilient local fallback:", err);
       isPgConnected = false;
+      if (pgPool) {
+        try {
+          await pgPool.end();
+        } catch {}
+        pgPool = null;
+      }
+      dbInitPromise = null;
       readLocalStore();
       return false;
     }
