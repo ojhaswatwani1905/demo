@@ -1,6 +1,11 @@
 import { Pool, QueryResult, QueryResultRow } from "pg";
 import fs from "fs";
 import path from "path";
+import bcrypt from "bcryptjs";
+
+// Server-side default initial admin credentials (can be overridden via server-only env vars)
+const DEFAULT_ADMIN_ID = process.env.ADMIN_ID || "admin";
+const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "BetadrixAdmin2026!";
 
 // 100 realistic dummy identities for the Live Activity pool
 export const DUMMY_USERS = [
@@ -42,6 +47,15 @@ export interface UserRecord {
   email: string;
   password_hash: string;
   created_at: string;
+}
+
+export interface AdminUserRecord {
+  id: number;
+  admin_id: string;
+  password_hash: string;
+  created_at: string;
+  updated_at: string;
+  is_active: boolean;
 }
 
 // Generate the 100 realistic dummy activity records
@@ -94,6 +108,7 @@ const FALLBACK_FILE = path.join(FALLBACK_DIR, "db.json");
 
 interface LocalStore {
   users: UserRecord[];
+  admin_users: AdminUserRecord[];
   site_config: SiteConfigRecord;
   dummy_activity: DummyActivityRecord[];
 }
@@ -105,14 +120,40 @@ function readLocalStore(): LocalStore {
     }
     if (fs.existsSync(FALLBACK_FILE)) {
       const data = fs.readFileSync(FALLBACK_FILE, "utf-8");
-      return JSON.parse(data);
+      const parsed: LocalStore = JSON.parse(data);
+      if (!parsed.admin_users || parsed.admin_users.length === 0) {
+        const hash = bcrypt.hashSync(DEFAULT_ADMIN_PASSWORD, 10);
+        parsed.admin_users = [
+          {
+            id: 1,
+            admin_id: DEFAULT_ADMIN_ID,
+            password_hash: hash,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            is_active: true
+          }
+        ];
+        writeLocalStore(parsed);
+      }
+      return parsed;
     }
   } catch (err) {
     console.error("Local store read error:", err);
   }
 
+  const initialAdminHash = bcrypt.hashSync(DEFAULT_ADMIN_PASSWORD, 10);
   const initialStore: LocalStore = {
     users: [],
+    admin_users: [
+      {
+        id: 1,
+        admin_id: DEFAULT_ADMIN_ID,
+        password_hash: initialAdminHash,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        is_active: true
+      }
+    ],
     site_config: {
       id: 1,
       telegram_url: null,
@@ -196,6 +237,29 @@ export async function initializeDatabase(): Promise<boolean> {
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
           );
         `);
+
+        // 4. Create ADMIN_USERS table
+        await client.query(`
+          CREATE TABLE IF NOT EXISTS admin_users (
+            id SERIAL PRIMARY KEY,
+            admin_id VARCHAR(255) UNIQUE NOT NULL,
+            password_hash VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            is_active BOOLEAN DEFAULT TRUE
+          );
+        `);
+
+        // Ensure default admin user exists
+        const adminCheck = await client.query(`SELECT id FROM admin_users WHERE admin_id = $1`, [DEFAULT_ADMIN_ID]);
+        if (adminCheck.rows.length === 0) {
+          const hash = bcrypt.hashSync(DEFAULT_ADMIN_PASSWORD, 10);
+          await client.query(
+            `INSERT INTO admin_users (admin_id, password_hash, created_at, updated_at, is_active)
+             VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE)`,
+            [DEFAULT_ADMIN_ID, hash]
+          );
+        }
 
         // Ensure default site_config row exists
         const configCheck = await client.query(`SELECT id FROM site_config WHERE id = 1`);
@@ -383,4 +447,110 @@ export async function createUser(name: string, email: string, passwordHash: stri
   store.users.push(newUser);
   writeLocalStore(store);
   return newUser;
+}
+
+// --------------------------------------------------------------------------
+// Admin Authentication & Administration Operations
+// --------------------------------------------------------------------------
+
+export async function findAdminByAdminId(adminId: string): Promise<AdminUserRecord | null> {
+  await initializeDatabase();
+  const cleanId = adminId.trim();
+
+  if (isPgConnected && pgPool) {
+    try {
+      const res = await pgPool.query<AdminUserRecord>(
+        `SELECT id, admin_id, password_hash, created_at, updated_at, is_active
+         FROM admin_users
+         WHERE admin_id = $1 AND is_active = TRUE
+         LIMIT 1`,
+        [cleanId]
+      );
+      return res.rows[0] || null;
+    } catch (err) {
+      console.error("Error querying admin_users in Postgres:", err);
+    }
+  }
+
+  const store = readLocalStore();
+  return store.admin_users?.find(a => a.admin_id === cleanId && a.is_active) || null;
+}
+
+export async function getAllUsers(limit = 100): Promise<Array<{ id: number; name: string; email: string; created_at: string }>> {
+  await initializeDatabase();
+
+  if (isPgConnected && pgPool) {
+    try {
+      // NEVER return password_hash to callers!
+      const res = await pgPool.query<{ id: number; name: string; email: string; created_at: string }>(
+        `SELECT id, name, email, created_at
+         FROM users
+         ORDER BY created_at DESC
+         LIMIT $1`,
+        [limit]
+      );
+      return res.rows;
+    } catch (err) {
+      console.error("Error querying users in Postgres:", err);
+    }
+  }
+
+  const store = readLocalStore();
+  return store.users
+    .slice(0, limit)
+    .map(u => ({ id: u.id, name: u.name, email: u.email, created_at: u.created_at }))
+    .reverse();
+}
+
+export async function getAllDummyActivity(limit = 100): Promise<DummyActivityRecord[]> {
+  await initializeDatabase();
+
+  if (isPgConnected && pgPool) {
+    try {
+      const res = await pgPool.query<DummyActivityRecord>(
+        `SELECT id, username, game, payout_amount, multiplier, created_at
+         FROM dummy_activity
+         ORDER BY id ASC
+         LIMIT $1`,
+        [limit]
+      );
+      return res.rows.map(r => ({
+        ...r,
+        payout_amount: parseFloat(r.payout_amount as any),
+        multiplier: parseFloat(r.multiplier as any)
+      }));
+    } catch (err) {
+      console.error("Error querying all dummy_activity in Postgres:", err);
+    }
+  }
+
+  const store = readLocalStore();
+  return store.dummy_activity.slice(0, limit);
+}
+
+export async function getDatabaseHealth(): Promise<{ isConnected: boolean; engine: "PostgreSQL" | "Local JSON Fallback"; totalUsers: number; totalActivity: number }> {
+  await initializeDatabase();
+
+  if (isPgConnected && pgPool) {
+    try {
+      const uCountRes = await pgPool.query<{ count: string }>(`SELECT COUNT(*) as count FROM users`);
+      const aCountRes = await pgPool.query<{ count: string }>(`SELECT COUNT(*) as count FROM dummy_activity`);
+      return {
+        isConnected: true,
+        engine: "PostgreSQL",
+        totalUsers: parseInt(uCountRes.rows[0]?.count || "0", 10),
+        totalActivity: parseInt(aCountRes.rows[0]?.count || "0", 10)
+      };
+    } catch (err) {
+      console.error("Error checking Postgres health:", err);
+    }
+  }
+
+  const store = readLocalStore();
+  return {
+    isConnected: false,
+    engine: "Local JSON Fallback",
+    totalUsers: store.users.length,
+    totalActivity: store.dummy_activity.length
+  };
 }

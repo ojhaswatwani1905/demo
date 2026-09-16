@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSiteConfig, updateSiteConfig } from "@/lib/db";
+import { authenticateAdmin } from "@/lib/adminSession";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  // 1. Verify authenticated admin session
+  const auth = await authenticateAdmin(req);
+  if (!auth.authenticated) {
+    return NextResponse.json(
+      { success: false, error: auth.error || "Unauthorized admin access." },
+      { status: 401 }
+    );
+  }
+
   try {
     const config = await getSiteConfig();
     return NextResponse.json({
@@ -25,6 +35,15 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  // 1. Verify authenticated admin session
+  const auth = await authenticateAdmin(req);
+  if (!auth.authenticated) {
+    return NextResponse.json(
+      { success: false, error: auth.error || "Unauthorized admin access." },
+      { status: 401 }
+    );
+  }
+
   try {
     const body = await req.json();
     const { telegramUrl, whatsappUrl } = body;
@@ -62,7 +81,7 @@ export async function POST(req: NextRequest) {
         siteName: updated.site_name,
         updatedAt: updated.updated_at
       },
-      message: "Site support configuration saved to database successfully."
+      message: "Site configuration updated successfully in PostgreSQL."
     });
   } catch (error) {
     console.error("Admin config POST error:", error);

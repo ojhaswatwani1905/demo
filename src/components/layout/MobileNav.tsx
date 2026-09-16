@@ -27,6 +27,11 @@ export function MobileNav() {
       });
   }, []);
 
+  // Ensure MobileNav is never rendered on any admin routes
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <>
       {/* Mobile Bottom Navigation Bar: Icon-only, NO Home, NO text labels */}
