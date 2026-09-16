@@ -67,17 +67,27 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/games" className="hover:text-white transition-colors">
-                  All Games
+                  Games Lobby
                 </Link>
               </li>
               <li>
-                <Link href="/#promotions" className="hover:text-white transition-colors">
+                <Link href="/promotions" className="hover:text-white transition-colors">
                   Promotions
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="hover:text-white transition-colors">
-                  Admin Configuration
+                <Link href="/vip" className="hover:text-white transition-colors">
+                  VIP Club
+                </Link>
+              </li>
+              <li>
+                <Link href="/bonus" className="hover:text-white transition-colors">
+                  Bonus Center
+                </Link>
+              </li>
+              <li>
+                <Link href="/fair" className="hover:text-white transition-colors">
+                  Fairness & Integrity
                 </Link>
               </li>
             </ul>

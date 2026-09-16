@@ -21,7 +21,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("yourbrand_demo_balance");
+    // Read betadrix_demo_balance with fallback to legacy yourbrand_demo_balance
+    const saved = localStorage.getItem("betadrix_demo_balance") || localStorage.getItem("yourbrand_demo_balance");
     if (saved) {
       const parsed = parseFloat(saved);
       if (!isNaN(parsed)) {
@@ -33,7 +34,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isInitialized) {
-      localStorage.setItem("yourbrand_demo_balance", balance.toFixed(2));
+      localStorage.setItem("betadrix_demo_balance", balance.toFixed(2));
     }
   }, [balance, isInitialized]);
 

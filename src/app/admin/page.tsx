@@ -20,13 +20,30 @@ import {
   CheckCircle2,
   AlertCircle,
   ExternalLink,
-  Flame
+  Flame,
+  Send,
+  MessageCircle,
+  HelpCircle,
+  Gift,
+  Crown,
+  Sparkles,
+  Save,
+  Database
 } from "lucide-react";
 
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "games" | "providers" | "users" | "activity" | "settings">("dashboard");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"dashboard" | "general" | "support" | "promotions" | "vip" | "bonus" | "games">("dashboard");
   const [configuredCount, setConfiguredCount] = useState<number>(0);
+
+  // Support URLs state (persisted in PostgreSQL)
+  const [telegramUrl, setTelegramUrl] = useState<string>("");
+  const [whatsappUrl, setWhatsappUrl] = useState<string>("");
+  const [isSavingSupport, setIsSavingSupport] = useState<boolean>(false);
+  const [supportMessage, setSupportMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  // General site configuration state
+  const [siteName, setSiteName] = useState<string>("BETADRiX DEMO");
+  const [defaultBalance, setDefaultBalance] = useState<string>("1250.00");
 
   useEffect(() => {
     let count = 0;
@@ -38,15 +55,59 @@ export default function AdminPage() {
       }
     });
     setConfiguredCount(count);
+
+    // Fetch support configuration from PostgreSQL via API
+    fetch("/api/admin/config")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.config) {
+          setTelegramUrl(data.config.telegramUrl || "");
+          setWhatsappUrl(data.config.whatsappUrl || "");
+          if (data.config.siteName) setSiteName(data.config.siteName);
+        }
+      })
+      .catch(err => {
+        console.error("Failed to load admin config:", err);
+      });
   }, []);
+
+  const handleSaveSupport = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingSupport(true);
+    setSupportMessage(null);
+
+    try {
+      const res = await fetch("/api/admin/config", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          telegramUrl: telegramUrl.trim() || null,
+          whatsappUrl: whatsappUrl.trim() || null
+        })
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setSupportMessage({ type: "success", text: "Support URLs saved to PostgreSQL successfully!" });
+      } else {
+        setSupportMessage({ type: "error", text: data.error || "Failed to update configuration" });
+      }
+    } catch (err) {
+      console.error("Support save error:", err);
+      setSupportMessage({ type: "error", text: "Network error saving support configuration." });
+    } finally {
+      setIsSavingSupport(false);
+    }
+  };
 
   const tabs = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "games", label: "Games Registry", icon: Gamepad2 },
-    { id: "providers", label: "Providers", icon: Cpu },
-    { id: "users", label: "Sample Users", icon: Users },
-    { id: "activity", label: "Demo Sessions", icon: Activity },
-    { id: "settings", label: "Platform Config", icon: Sliders },
+    { id: "general", label: "General", icon: Sliders },
+    { id: "support", label: "Support", icon: HelpCircle },
+    { id: "promotions", label: "Promotions", icon: Gift },
+    { id: "vip", label: "VIP Club", icon: Crown },
+    { id: "bonus", label: "Bonus Offers", icon: Sparkles },
+    { id: "games", label: "Games", icon: Gamepad2 },
   ];
 
   return (
@@ -54,7 +115,7 @@ export default function AdminPage() {
       <Sidebar />
 
       <div className="lg:pl-60 flex-1 flex flex-col transition-all duration-300">
-        <Navbar onToggleSidebar={() => setIsSidebarOpen(true)} />
+        <Navbar />
 
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
@@ -64,19 +125,19 @@ export default function AdminPage() {
                 <span className="px-2.5 py-0.5 rounded bg-red-600/20 border border-red-500/40 text-[10px] font-mono text-red-400 font-bold uppercase">
                   DEMONSTRATION CONTROL PANEL
                 </span>
-                <span className="text-xs text-[#707085]">• Pure Demo Scope</span>
+                <span className="text-xs text-[#707085]">• PostgreSQL Storage Active</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight mt-1">
                 PLATFORM CONFIGURATION & DEMO ADMIN
               </h1>
               <p className="text-xs sm:text-sm text-[#8E8E9E] mt-0.5">
-                Inspect game entries, configure authorized Spribe demo URLs, and audit simulation state
+                Manage support URLs, review demo promotions, audit VIP parameters, and configure game provider launch URLs
               </p>
             </div>
 
             <div className="flex items-center gap-3">
               <Link
-                href="/casino"
+                href="/games"
                 className="px-4 py-2 rounded-xl bg-[#141420] hover:bg-[#1C1C2A] border border-[#252538] text-xs font-bold text-[#A0A0B5] hover:text-white transition-colors flex items-center gap-1.5"
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -94,7 +155,7 @@ export default function AdminPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
                     isActive
                       ? "bg-red-600/20 border border-red-500 text-white shadow-[0_0_15px_rgba(255,30,39,0.3)]"
                       : "bg-[#0D0D15] text-[#8E8E9E] hover:text-white hover:bg-[#141420] border border-[#1E1E2C]"
@@ -134,211 +195,292 @@ export default function AdminPage() {
 
                 <div className="p-5 rounded-2xl bg-[#0D0D15] border border-[#222232] space-y-1">
                   <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94]">
-                    Simulated Sessions
+                    Support Configuration
                   </span>
-                  <div className="text-3xl font-black text-emerald-400 font-mono">1,420</div>
-                  <span className="text-[11px] text-[#8E8E9E] block">Sample demo activity counter</span>
+                  <div className="text-3xl font-black text-emerald-400 font-mono">
+                    {telegramUrl || whatsappUrl ? "Active" : "Pending"}
+                  </div>
+                  <span className="text-[11px] text-[#8E8E9E] block">
+                    Telegram & WhatsApp channels
+                  </span>
                 </div>
 
                 <div className="p-5 rounded-2xl bg-[#0D0D15] border border-[#222232] space-y-1">
                   <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94]">
-                    Sample Profiles
+                    Persistent Database
                   </span>
-                  <div className="text-3xl font-black text-white font-mono">4</div>
-                  <span className="text-[11px] text-[#8E8E9E] block">Player01, Player23, LuckyWin...</span>
+                  <div className="text-3xl font-black text-white font-mono flex items-center gap-2">
+                    <Database className="w-6 h-6 text-red-500" />
+                    <span>PostgreSQL</span>
+                  </div>
+                  <span className="text-[11px] text-[#8E8E9E] block">Users, Config, Dummy Activity</span>
                 </div>
               </div>
 
               {/* Games Table Section */}
               <AdminGamesTable />
-
-              {/* Quick Instructions Alert */}
-              <div className="p-6 rounded-2xl bg-[#0F0F18] border border-[#222232] space-y-3">
-                <div className="flex items-center gap-2 text-sm font-black uppercase text-white">
-                  <ShieldCheck className="w-5 h-5 text-red-500" />
-                  <span>How Spribe Demo URLs Work in this Architecture</span>
-                </div>
-                <div className="text-xs text-[#A0A0B2] space-y-2 leading-relaxed">
-                  <p>
-                    1. <strong>No Invented URLs:</strong> The application does not forge or fabricate fake game URLs.
-                  </p>
-                  <p>
-                    2. <strong>Authorized Configuration:</strong> Click <strong>&quot;Edit URL&quot;</strong> on any game row to paste an authorized Spribe demo URL. Once configured, the game launch shell will automatically mount it inside the high-tech game viewport.
-                  </p>
-                  <p>
-                    3. <strong>Graceful Unconfigured Fallback:</strong> If a game URL is not yet configured, the player sees a stylized mock shell with game specifications, UI references, and a clear prompt to add the authorized URL without crashing or breaking.
-                  </p>
-                </div>
-              </div>
             </div>
           )}
 
-          {/* TAB 2: GAMES REGISTRY */}
-          {activeTab === "games" && (
-            <div className="space-y-6">
-              <AdminGamesTable />
-            </div>
-          )}
-
-          {/* TAB 3: PROVIDERS */}
-          {activeTab === "providers" && (
-            <div className="space-y-6">
-              <div className="rounded-2xl bg-[#0D0D15] border border-[#222232] p-6 space-y-4">
-                <div className="flex items-center justify-between border-b border-[#1C1C2A] pb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-[#171724] border border-[#262638] flex items-center justify-center font-black text-red-500 text-lg">
-                      SP
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-black text-white">SPRIBE</h3>
-                      <span className="text-xs text-[#8E8E9E]">Innovative Casino Games Provider</span>
-                    </div>
-                  </div>
-
-                  <span className="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono font-bold">
-                    Demo Integration Architecture
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                  <div className="p-4 rounded-xl bg-[#09090F] border border-[#1A1A26]">
-                    <span className="text-[10px] font-mono text-[#7E7E94] uppercase block">Provider Status</span>
-                    <span className="text-sm font-bold text-emerald-400">Architecture Ready</span>
-                  </div>
-                  <div className="p-4 rounded-xl bg-[#09090F] border border-[#1A1A26]">
-                    <span className="text-[10px] font-mono text-[#7E7E94] uppercase block">Integrated Games</span>
-                    <span className="text-sm font-bold text-white">4 Titles (Mines, Plinko, Dice, Roulette)</span>
-                  </div>
-                  <div className="p-4 rounded-xl bg-[#09090F] border border-[#1A1A26]">
-                    <span className="text-[10px] font-mono text-[#7E7E94] uppercase block">Integration Type</span>
-                    <span className="text-sm font-bold text-white">Authorized Demo Launcher</span>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-red-950/20 border border-red-500/30 text-xs text-[#9E9EB0] leading-relaxed">
-                  Notice: No real-money API keys or live betting gateways are attached. All integration endpoints connect strictly to authorized free demonstration URLs.
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 4: SAMPLE USERS */}
-          {activeTab === "users" && (
-            <div className="rounded-2xl bg-[#0D0D15] border border-[#222232] p-6 space-y-4">
-              <div className="flex items-center justify-between border-b border-[#1C1C2A] pb-4">
-                <div>
-                  <h3 className="text-base font-black uppercase text-white">Sample Demo Users</h3>
-                  <p className="text-xs text-[#8E8E9E]">Simulated player records for demonstrative UI testing</p>
-                </div>
-                <span className="text-xs font-mono text-[#78788C]">4 Sample Records</span>
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs font-medium">
-                  <thead>
-                    <tr className="text-[10px] font-mono uppercase text-[#707086] border-b border-[#1A1A26]">
-                      <th className="pb-3 font-bold">User</th>
-                      <th className="pb-3 font-bold">Role</th>
-                      <th className="pb-3 font-bold">Demo Balance</th>
-                      <th className="pb-3 font-bold">Simulated Sessions</th>
-                      <th className="pb-3 font-bold text-right">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#171724]">
-                    {[
-                      { name: "Player01", role: "Current Client Demo User", balance: "$1,250.00", sessions: 142, status: "Active" },
-                      { name: "Player23", role: "Simulated Test Player", balance: "$850.00", sessions: 98, status: "Simulated" },
-                      { name: "LuckyWin", role: "Simulated Test Player", balance: "$2,400.00", sessions: 215, status: "Simulated" },
-                      { name: "CryptoKing", role: "Simulated Test Player", balance: "$1,120.00", sessions: 67, status: "Simulated" },
-                    ].map(u => (
-                      <tr key={u.name} className="hover:bg-white/[0.02]">
-                        <td className="py-3 font-bold text-white font-mono">{u.name}</td>
-                        <td className="py-3 text-[#A0A0B5]">{u.role}</td>
-                        <td className="py-3 font-mono font-bold text-white">{u.balance}</td>
-                        <td className="py-3 font-mono text-[#8E8E9E]">{u.sessions}</td>
-                        <td className="py-3 text-right">
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                            {u.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 5: DEMO SESSIONS */}
-          {activeTab === "activity" && (
-            <div className="rounded-2xl bg-[#0D0D15] border border-[#222232] p-6 space-y-4">
-              <div className="flex items-center justify-between border-b border-[#1C1C2A] pb-4">
-                <div>
-                  <h3 className="text-base font-black uppercase text-white">Simulated Session Log</h3>
-                  <p className="text-xs text-[#8E8E9E]">Real-time mock events generated for demonstration atmosphere</p>
-                </div>
-                <span className="text-xs font-mono text-emerald-400">Stream Live</span>
-              </div>
-
-              <div className="space-y-2">
-                {INITIAL_DEMO_ACTIVITY.map(item => (
-                  <div
-                    key={item.id}
-                    className="p-3 rounded-xl bg-[#09090F] border border-[#1A1A26] flex items-center justify-between text-xs"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="font-bold text-white">{item.player}</span>
-                      <span className="text-[#78788C]">played</span>
-                      <span className="font-bold text-red-400">{item.gameName}</span>
-                    </div>
-                    <div className="flex items-center gap-4 font-mono">
-                      <span className="text-[#8E8E9E]">${item.bet.toFixed(2)}</span>
-                      <span className={item.isWin ? "text-emerald-400 font-bold" : "text-neutral-500"}>
-                        {item.isWin ? `+${item.multiplier}x ($${item.payout.toFixed(2)})` : "0.00x"}
-                      </span>
-                      <span className="text-[10px] text-[#606070]">{item.time}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* TAB 6: PLATFORM SETTINGS */}
-          {activeTab === "settings" && (
+          {/* TAB 2: GENERAL CONFIGURATION */}
+          {activeTab === "general" && (
             <div className="rounded-2xl bg-[#0D0D15] border border-[#222232] p-6 space-y-6">
               <div>
-                <h3 className="text-base font-black uppercase text-white">Environment Configuration</h3>
+                <h3 className="text-base font-black uppercase text-white">General Platform Settings</h3>
                 <p className="text-xs text-[#8E8E9E] mt-0.5">
-                  Reference variable mappings for production deployment
+                  Configure demonstration platform parameters and defaults
                 </p>
               </div>
 
-              <div className="space-y-3 font-mono text-xs">
-                {GAMES.map(g => (
-                  <div
-                    key={g.id}
-                    className="p-3.5 rounded-xl bg-[#09090F] border border-[#1A1A26] flex flex-col sm:flex-row sm:items-center justify-between gap-2"
-                  >
-                    <div>
-                      <span className="text-[#8E8E9E] block text-[10px]">{g.name} Demo URL Key</span>
-                      <span className="text-white font-bold">{g.demoUrlEnvKey}</span>
-                    </div>
-                    <span className="text-[10px] px-2 py-1 rounded bg-[#151522] border border-[#262638] text-red-400">
-                      Configurable
-                    </span>
-                  </div>
-                ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-[#8E95A5] uppercase tracking-wider block">
+                    Platform Display Name
+                  </label>
+                  <input
+                    type="text"
+                    value={siteName}
+                    onChange={e => setSiteName(e.target.value)}
+                    className="w-full px-3.5 py-2.5 bg-[#141420] border border-[#252538] rounded-xl text-xs text-white placeholder-[#555C70] focus:outline-none focus:border-red-500 font-mono"
+                  />
+                  <span className="text-[10px] text-[#6E768B]">Identifies the demo gaming platform branding.</span>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-[#8E95A5] uppercase tracking-wider block">
+                    Default Demo Balance ($)
+                  </label>
+                  <input
+                    type="text"
+                    value={defaultBalance}
+                    disabled
+                    className="w-full px-3.5 py-2.5 bg-[#141420] border border-[#252538] rounded-xl text-xs text-[#8E8E9E] font-mono cursor-not-allowed"
+                  />
+                  <span className="text-[10px] text-[#6E768B]">Locked at $1,250.00 virtual playground balance per specification.</span>
+                </div>
               </div>
 
               <div className="p-4 rounded-xl bg-red-950/20 border border-red-500/30 text-xs text-[#A0A0B2] space-y-1">
                 <span className="font-bold text-red-400 block uppercase">
-                  Zero Financial Capabilities Guarantee
+                  Demonstration Platform Mode Active
                 </span>
                 <p>
-                  This deployment is permanently locked in demonstration mode. No deposit gateways, payment processors, real balances, or financial webhooks are supported by this code.
+                  Zero financial mechanisms. No payment gateways, credit processing, or withdrawal endpoints exist.
                 </p>
               </div>
+            </div>
+          )}
+
+          {/* TAB 3: SUPPORT (TELEGRAM & WHATSAPP SAVED TO POSTGRESQL) */}
+          {activeTab === "support" && (
+            <div className="rounded-2xl bg-[#0D0D15] border border-[#222232] p-6 space-y-6">
+              <div className="flex items-center justify-between border-b border-[#1C1C2A] pb-4">
+                <div>
+                  <h3 className="text-base font-black uppercase text-white flex items-center gap-2">
+                    <HelpCircle className="w-5 h-5 text-red-500" />
+                    <span>Support Channels Configuration</span>
+                  </h3>
+                  <p className="text-xs text-[#8E8E9E] mt-0.5">
+                    Configure official Telegram and WhatsApp URLs. Values are persisted directly into PostgreSQL.
+                  </p>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-950/40 border border-emerald-500/40 text-[10px] font-mono text-emerald-400 font-bold">
+                  <Database className="w-3 h-3 text-emerald-400" />
+                  <span>PostgreSQL Table: site_config</span>
+                </div>
+              </div>
+
+              {supportMessage && (
+                <div
+                  className={`p-3.5 rounded-xl border flex items-center gap-2.5 text-xs ${
+                    supportMessage.type === "success"
+                      ? "bg-emerald-950/40 border-emerald-500/50 text-emerald-300"
+                      : "bg-red-950/40 border-red-500/50 text-red-300"
+                  }`}
+                >
+                  {supportMessage.type === "success" ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  ) : (
+                    <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  )}
+                  <span>{supportMessage.text}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleSaveSupport} className="space-y-5">
+                {/* Telegram URL */}
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-[#8E95A5] uppercase tracking-wider flex items-center gap-2">
+                    <Send className="w-4 h-4 text-sky-400" />
+                    <span>Telegram Support URL</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={telegramUrl}
+                    onChange={e => setTelegramUrl(e.target.value)}
+                    placeholder="https://t.me/your_betadrix_support"
+                    className="w-full px-3.5 py-2.5 bg-[#141420] border border-[#252538] rounded-xl text-xs text-white placeholder-[#555C70] focus:outline-none focus:border-red-500 font-mono"
+                  />
+                  <span className="text-[10px] text-[#6E768B]">
+                    Leave blank to disable the Telegram option in the sidebar. If configured, users clicking Telegram will open this link in a new tab.
+                  </span>
+                </div>
+
+                {/* WhatsApp URL */}
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-[#8E95A5] uppercase tracking-wider flex items-center gap-2">
+                    <MessageCircle className="w-4 h-4 text-emerald-400" />
+                    <span>WhatsApp Support URL</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={whatsappUrl}
+                    onChange={e => setWhatsappUrl(e.target.value)}
+                    placeholder="https://wa.me/1234567890"
+                    className="w-full px-3.5 py-2.5 bg-[#141420] border border-[#252538] rounded-xl text-xs text-white placeholder-[#555C70] focus:outline-none focus:border-red-500 font-mono"
+                  />
+                  <span className="text-[10px] text-[#6E768B]">
+                    Leave blank to disable the WhatsApp option in the sidebar. If configured, users clicking WhatsApp will open this link in a new tab.
+                  </span>
+                </div>
+
+                {/* Save button */}
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSavingSupport}
+                    className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>{isSavingSupport ? "Saving to Database..." : "Save Support Configuration"}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* TAB 4: PROMOTIONS */}
+          {activeTab === "promotions" && (
+            <div className="rounded-2xl bg-[#0D0D15] border border-[#222232] p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-[#1C1C2A] pb-4">
+                <div>
+                  <h3 className="text-base font-black uppercase text-white">Active Demo Promotions</h3>
+                  <p className="text-xs text-[#8E95A5]">Overview of promotional campaigns displayed at /promotions</p>
+                </div>
+                <Link
+                  href="/promotions"
+                  target="_blank"
+                  className="text-xs text-red-400 hover:text-red-300 font-semibold flex items-center gap-1"
+                >
+                  <span>View Public Page</span>
+                  <ExternalLink className="w-3 h-3" />
+                </Link>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  { title: "100% Demo Deposit Match", badge: "WELCOME OFFER", reward: "$1,250.00 Match", status: "Active" },
+                  { title: "Mines & Dice Sprint", badge: "WEEKEND TOURNAMENT", reward: "$10,000 Prize Pool", status: "Active" },
+                  { title: "15% Simulated Cashback", badge: "WEEKLY REBATE", reward: "15% Rebate", status: "Active" },
+                  { title: "Daily Pegboard Mystery Drop", badge: "DAILY REWARDS", reward: "555x Multiplier", status: "Active" }
+                ].map((p, idx) => (
+                  <div key={idx} className="p-4 rounded-xl bg-[#09090F] border border-[#1A1A26] flex items-center justify-between text-xs">
+                    <div>
+                      <span className="text-[10px] font-mono text-red-400 font-bold uppercase">{p.badge}</span>
+                      <h4 className="font-bold text-white text-sm mt-0.5">{p.title}</h4>
+                      <span className="text-[11px] text-[#7A8296] font-mono">{p.reward}</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-bold">
+                      {p.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: VIP CLUB */}
+          {activeTab === "vip" && (
+            <div className="rounded-2xl bg-[#0D0D15] border border-[#222232] p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-[#1C1C2A] pb-4">
+                <div>
+                  <h3 className="text-base font-black uppercase text-white">VIP Club Configuration</h3>
+                  <p className="text-xs text-[#8E95A5]">Overview of loyalty tiers displayed at /vip</p>
+                </div>
+                <Link
+                  href="/vip"
+                  target="_blank"
+                  className="text-xs text-red-400 hover:text-red-300 font-semibold flex items-center gap-1"
+                >
+                  <span>View Public Page</span>
+                  <ExternalLink className="w-3 h-3" />
+                </Link>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  { tier: "Bronze Tier", levels: "Level 1 – 10", cashback: "5%", req: "$0 – $10,000" },
+                  { tier: "Silver Tier", levels: "Level 11 – 25", cashback: "8%", req: "$10,000 – $50,000" },
+                  { tier: "Gold Tier", levels: "Level 26 – 50", cashback: "12%", req: "$50,000 – $200,000" },
+                  { tier: "Platinum Tier", levels: "Level 51 – 75", cashback: "16%", req: "$200,000 – $500,000" },
+                  { tier: "Diamond Tier", levels: "Level 76+", cashback: "20%", req: "$500,000+" },
+                ].map((v, idx) => (
+                  <div key={idx} className="p-4 rounded-xl bg-[#09090F] border border-[#1A1A26] flex items-center justify-between text-xs">
+                    <div>
+                      <h4 className="font-bold text-white text-sm">{v.tier}</h4>
+                      <span className="text-[11px] text-[#7A8296] font-mono">{v.levels} • Req: {v.req}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-sm font-bold text-emerald-400 font-mono">{v.cashback} Rakeback</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 6: BONUS OFFERS */}
+          {activeTab === "bonus" && (
+            <div className="rounded-2xl bg-[#0D0D15] border border-[#222232] p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-[#1C1C2A] pb-4">
+                <div>
+                  <h3 className="text-base font-black uppercase text-white">Bonus Grants Catalog</h3>
+                  <p className="text-xs text-[#8E95A5]">Overview of simulated bonuses claimable at /bonus</p>
+                </div>
+                <Link
+                  href="/bonus"
+                  target="_blank"
+                  className="text-xs text-red-400 hover:text-red-300 font-semibold flex items-center gap-1"
+                >
+                  <span>View Public Page</span>
+                  <ExternalLink className="w-3 h-3" />
+                </Link>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  { title: "Daily Virtual Playground Grant", amount: "$250.00", freq: "Every 24 hours" },
+                  { title: "Turbo Games Multiplier Booster", amount: "$500.00", freq: "Weekend active" },
+                  { title: "Spribe Classic Reload", amount: "$350.00", freq: "Table games active" },
+                ].map((b, idx) => (
+                  <div key={idx} className="p-4 rounded-xl bg-[#09090F] border border-[#1A1A26] flex items-center justify-between text-xs">
+                    <div>
+                      <h4 className="font-bold text-white text-sm">{b.title}</h4>
+                      <span className="text-[11px] text-[#7A8296] font-mono">{b.freq}</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded bg-red-600/10 text-red-400 border border-red-500/30 text-xs font-mono font-bold">
+                      +{b.amount} Demo
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 7: GAMES REGISTRY */}
+          {activeTab === "games" && (
+            <div className="space-y-6">
+              <AdminGamesTable />
             </div>
           )}
         </main>

@@ -1,0 +1,820 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Alex Morgan",
+      "email": "alex@example.com",
+      "password_hash": "$2b$10$6e5czr7gZouV2lO7OWuQvuXSfxS/YEpOZSkx4sDEQgALDwGaJkfWC",
+      "created_at": "2026-09-15T13:11:36.039Z"
+    }
+  ],
+  "site_config": {
+    "id": 1,
+    "telegram_url": "https://t.me/betadrix_official",
+    "whatsapp_url": "https://wa.me/15551234567",
+    "site_name": "BETADRiX DEMO",
+    "updated_at": "2026-09-15T13:14:43.204Z"
+  },
+  "dummy_activity": [
+    {
+      "id": 1,
+      "username": "Alex",
+      "game": "Mines",
+      "payout_amount": 674,
+      "multiplier": 8.42,
+      "created_at": "2026-09-15T13:11:35.961Z"
+    },
+    {
+      "id": 2,
+      "username": "Sarah",
+      "game": "Dice",
+      "payout_amount": 1078.8,
+      "multiplier": 12.4,
+      "created_at": "2026-09-15T13:10:35.961Z"
+    },
+    {
+      "id": 3,
+      "username": "Marcus",
+      "game": "Roulette",
+      "payout_amount": 98.7,
+      "multiplier": 2.1,
+      "created_at": "2026-09-15T13:09:35.961Z"
+    },
+    {
+      "id": 4,
+      "username": "Elena",
+      "game": "Plinko",
+      "payout_amount": 292.9,
+      "multiplier": 5.8,
+      "created_at": "2026-09-15T13:08:35.961Z"
+    },
+    {
+      "id": 5,
+      "username": "Liam",
+      "game": "Mines",
+      "payout_amount": 99.9,
+      "multiplier": 1.85,
+      "created_at": "2026-09-15T13:07:35.961Z"
+    },
+    {
+      "id": 6,
+      "username": "Sophia",
+      "game": "Dice",
+      "payout_amount": 833.75,
+      "multiplier": 14.5,
+      "created_at": "2026-09-15T13:06:35.961Z"
+    },
+    {
+      "id": 7,
+      "username": "David",
+      "game": "Roulette",
+      "payout_amount": 195.2,
+      "multiplier": 3.2,
+      "created_at": "2026-09-15T13:05:35.961Z"
+    },
+    {
+      "id": 8,
+      "username": "Emma",
+      "game": "Plinko",
+      "payout_amount": 510.84,
+      "multiplier": 7.92,
+      "created_at": "2026-09-15T13:04:35.961Z"
+    },
+    {
+      "id": 9,
+      "username": "Lucas",
+      "game": "Mines",
+      "payout_amount": 1032,
+      "multiplier": 24,
+      "created_at": "2026-09-15T13:03:35.961Z"
+    },
+    {
+      "id": 10,
+      "username": "Olivia",
+      "game": "Dice",
+      "payout_amount": 69.75,
+      "multiplier": 1.5,
+      "created_at": "2026-09-15T13:02:35.961Z"
+    },
+    {
+      "id": 11,
+      "username": "Ethan",
+      "game": "Roulette",
+      "payout_amount": 480,
+      "multiplier": 9.6,
+      "created_at": "2026-09-15T13:01:35.961Z"
+    },
+    {
+      "id": 12,
+      "username": "Mia",
+      "game": "Plinko",
+      "payout_amount": 973.7,
+      "multiplier": 18.2,
+      "created_at": "2026-09-15T13:00:35.961Z"
+    },
+    {
+      "id": 13,
+      "username": "James",
+      "game": "Mines",
+      "payout_amount": 245.1,
+      "multiplier": 4.3,
+      "created_at": "2026-09-15T12:59:35.961Z"
+    },
+    {
+      "id": 14,
+      "username": "Isabella",
+      "game": "Dice",
+      "payout_amount": 408.38,
+      "multiplier": 6.75,
+      "created_at": "2026-09-15T12:58:35.961Z"
+    },
+    {
+      "id": 15,
+      "username": "Benjamin",
+      "game": "Roulette",
+      "payout_amount": 2048,
+      "multiplier": 32,
+      "created_at": "2026-09-15T12:57:35.961Z"
+    },
+    {
+      "id": 16,
+      "username": "Charlotte",
+      "game": "Plinko",
+      "payout_amount": 716.13,
+      "multiplier": 8.42,
+      "created_at": "2026-09-15T12:56:35.961Z"
+    },
+    {
+      "id": 17,
+      "username": "Noah",
+      "game": "Mines",
+      "payout_amount": 1140.8,
+      "multiplier": 12.4,
+      "created_at": "2026-09-15T12:55:35.961Z"
+    },
+    {
+      "id": 18,
+      "username": "Ava",
+      "game": "Dice",
+      "payout_amount": 103.95,
+      "multiplier": 2.1,
+      "created_at": "2026-09-15T12:54:35.961Z"
+    },
+    {
+      "id": 19,
+      "username": "William",
+      "game": "Roulette",
+      "payout_amount": 307.4,
+      "multiplier": 5.8,
+      "created_at": "2026-09-15T12:53:35.961Z"
+    },
+    {
+      "id": 20,
+      "username": "Amelia",
+      "game": "Plinko",
+      "payout_amount": 104.53,
+      "multiplier": 1.85,
+      "created_at": "2026-09-15T12:52:35.961Z"
+    },
+    {
+      "id": 21,
+      "username": "Daniel",
+      "game": "Mines",
+      "payout_amount": 870,
+      "multiplier": 14.5,
+      "created_at": "2026-09-15T12:51:35.961Z"
+    },
+    {
+      "id": 22,
+      "username": "Harper",
+      "game": "Dice",
+      "payout_amount": 203.2,
+      "multiplier": 3.2,
+      "created_at": "2026-09-15T12:50:35.961Z"
+    },
+    {
+      "id": 23,
+      "username": "Matthew",
+      "game": "Roulette",
+      "payout_amount": 332.64,
+      "multiplier": 7.92,
+      "created_at": "2026-09-15T12:49:35.961Z"
+    },
+    {
+      "id": 24,
+      "username": "Evelyn",
+      "game": "Plinko",
+      "payout_amount": 1092,
+      "multiplier": 24,
+      "created_at": "2026-09-15T12:48:35.961Z"
+    },
+    {
+      "id": 25,
+      "username": "Henry",
+      "game": "Mines",
+      "payout_amount": 73.5,
+      "multiplier": 1.5,
+      "created_at": "2026-09-15T12:47:35.961Z"
+    },
+    {
+      "id": 26,
+      "username": "Abigail",
+      "game": "Dice",
+      "payout_amount": 504,
+      "multiplier": 9.6,
+      "created_at": "2026-09-15T12:46:35.961Z"
+    },
+    {
+      "id": 27,
+      "username": "Joseph",
+      "game": "Roulette",
+      "payout_amount": 1019.2,
+      "multiplier": 18.2,
+      "created_at": "2026-09-15T12:45:35.961Z"
+    },
+    {
+      "id": 28,
+      "username": "Emily",
+      "game": "Plinko",
+      "payout_amount": 255.85,
+      "multiplier": 4.3,
+      "created_at": "2026-09-15T12:44:35.961Z"
+    },
+    {
+      "id": 29,
+      "username": "Samuel",
+      "game": "Mines",
+      "payout_amount": 425.25,
+      "multiplier": 6.75,
+      "created_at": "2026-09-15T12:43:35.961Z"
+    },
+    {
+      "id": 30,
+      "username": "Elizabeth",
+      "game": "Dice",
+      "payout_amount": 1328,
+      "multiplier": 32,
+      "created_at": "2026-09-15T12:42:35.961Z"
+    },
+    {
+      "id": 31,
+      "username": "Jackson",
+      "game": "Roulette",
+      "payout_amount": 758.25,
+      "multiplier": 8.42,
+      "created_at": "2026-09-15T12:41:35.961Z"
+    },
+    {
+      "id": 32,
+      "username": "Sofia",
+      "game": "Plinko",
+      "payout_amount": 1202.8,
+      "multiplier": 12.4,
+      "created_at": "2026-09-15T12:40:35.961Z"
+    },
+    {
+      "id": 33,
+      "username": "Sebastian",
+      "game": "Mines",
+      "payout_amount": 109.2,
+      "multiplier": 2.1,
+      "created_at": "2026-09-15T12:39:35.961Z"
+    },
+    {
+      "id": 34,
+      "username": "Avery",
+      "game": "Dice",
+      "payout_amount": 321.9,
+      "multiplier": 5.8,
+      "created_at": "2026-09-15T12:38:35.961Z"
+    },
+    {
+      "id": 35,
+      "username": "Aiden",
+      "game": "Roulette",
+      "payout_amount": 109.15,
+      "multiplier": 1.85,
+      "created_at": "2026-09-15T12:37:35.961Z"
+    },
+    {
+      "id": 36,
+      "username": "Ella",
+      "game": "Plinko",
+      "payout_amount": 906.25,
+      "multiplier": 14.5,
+      "created_at": "2026-09-15T12:36:35.961Z"
+    },
+    {
+      "id": 37,
+      "username": "Gabriel",
+      "game": "Mines",
+      "payout_amount": 131.2,
+      "multiplier": 3.2,
+      "created_at": "2026-09-15T12:35:35.961Z"
+    },
+    {
+      "id": 38,
+      "username": "Scarlett",
+      "game": "Dice",
+      "payout_amount": 352.44,
+      "multiplier": 7.92,
+      "created_at": "2026-09-15T12:34:35.961Z"
+    },
+    {
+      "id": 39,
+      "username": "Carter",
+      "game": "Roulette",
+      "payout_amount": 1152,
+      "multiplier": 24,
+      "created_at": "2026-09-15T12:33:35.961Z"
+    },
+    {
+      "id": 40,
+      "username": "Grace",
+      "game": "Plinko",
+      "payout_amount": 77.25,
+      "multiplier": 1.5,
+      "created_at": "2026-09-15T12:32:35.961Z"
+    },
+    {
+      "id": 41,
+      "username": "Jayden",
+      "game": "Mines",
+      "payout_amount": 528,
+      "multiplier": 9.6,
+      "created_at": "2026-09-15T12:31:35.961Z"
+    },
+    {
+      "id": 42,
+      "username": "Chloe",
+      "game": "Dice",
+      "payout_amount": 1064.7,
+      "multiplier": 18.2,
+      "created_at": "2026-09-15T12:30:35.961Z"
+    },
+    {
+      "id": 43,
+      "username": "John",
+      "game": "Roulette",
+      "payout_amount": 266.6,
+      "multiplier": 4.3,
+      "created_at": "2026-09-15T12:29:35.961Z"
+    },
+    {
+      "id": 44,
+      "username": "Victoria",
+      "game": "Plinko",
+      "payout_amount": 273.38,
+      "multiplier": 6.75,
+      "created_at": "2026-09-15T12:28:35.961Z"
+    },
+    {
+      "id": 45,
+      "username": "Luke",
+      "game": "Mines",
+      "payout_amount": 1408,
+      "multiplier": 32,
+      "created_at": "2026-09-15T12:27:35.962Z"
+    },
+    {
+      "id": 46,
+      "username": "Riley",
+      "game": "Dice",
+      "payout_amount": 800.38,
+      "multiplier": 8.42,
+      "created_at": "2026-09-15T12:26:35.962Z"
+    },
+    {
+      "id": 47,
+      "username": "Anthony",
+      "game": "Roulette",
+      "payout_amount": 1264.8,
+      "multiplier": 12.4,
+      "created_at": "2026-09-15T12:25:35.962Z"
+    },
+    {
+      "id": 48,
+      "username": "Aria",
+      "game": "Plinko",
+      "payout_amount": 114.45,
+      "multiplier": 2.1,
+      "created_at": "2026-09-15T12:24:35.962Z"
+    },
+    {
+      "id": 49,
+      "username": "Isaac",
+      "game": "Mines",
+      "payout_amount": 336.4,
+      "multiplier": 5.8,
+      "created_at": "2026-09-15T12:23:35.962Z"
+    },
+    {
+      "id": 50,
+      "username": "Lily",
+      "game": "Dice",
+      "payout_amount": 113.77,
+      "multiplier": 1.85,
+      "created_at": "2026-09-15T12:22:35.962Z"
+    },
+    {
+      "id": 51,
+      "username": "Dylan",
+      "game": "Roulette",
+      "payout_amount": 580,
+      "multiplier": 14.5,
+      "created_at": "2026-09-15T12:21:35.962Z"
+    },
+    {
+      "id": 52,
+      "username": "Aubrey",
+      "game": "Plinko",
+      "payout_amount": 139.2,
+      "multiplier": 3.2,
+      "created_at": "2026-09-15T12:20:35.962Z"
+    },
+    {
+      "id": 53,
+      "username": "Wyatt",
+      "game": "Mines",
+      "payout_amount": 372.24,
+      "multiplier": 7.92,
+      "created_at": "2026-09-15T12:19:35.962Z"
+    },
+    {
+      "id": 54,
+      "username": "Zoey",
+      "game": "Dice",
+      "payout_amount": 1212,
+      "multiplier": 24,
+      "created_at": "2026-09-15T12:18:35.962Z"
+    },
+    {
+      "id": 55,
+      "username": "Andrew",
+      "game": "Roulette",
+      "payout_amount": 81,
+      "multiplier": 1.5,
+      "created_at": "2026-09-15T12:17:35.962Z"
+    },
+    {
+      "id": 56,
+      "username": "Hannah",
+      "game": "Plinko",
+      "payout_amount": 552,
+      "multiplier": 9.6,
+      "created_at": "2026-09-15T12:16:35.962Z"
+    },
+    {
+      "id": 57,
+      "username": "Joshua",
+      "game": "Mines",
+      "payout_amount": 1110.2,
+      "multiplier": 18.2,
+      "created_at": "2026-09-15T12:15:35.962Z"
+    },
+    {
+      "id": 58,
+      "username": "Layla",
+      "game": "Dice",
+      "payout_amount": 277.35,
+      "multiplier": 4.3,
+      "created_at": "2026-09-15T12:14:35.962Z"
+    },
+    {
+      "id": 59,
+      "username": "Christopher",
+      "game": "Roulette",
+      "payout_amount": 290.25,
+      "multiplier": 6.75,
+      "created_at": "2026-09-15T12:13:35.962Z"
+    },
+    {
+      "id": 60,
+      "username": "Nora",
+      "game": "Plinko",
+      "payout_amount": 1488,
+      "multiplier": 32,
+      "created_at": "2026-09-15T12:12:35.962Z"
+    },
+    {
+      "id": 61,
+      "username": "Gracy",
+      "game": "Mines",
+      "payout_amount": 842.5,
+      "multiplier": 8.42,
+      "created_at": "2026-09-15T12:11:35.962Z"
+    },
+    {
+      "id": 62,
+      "username": "Leo",
+      "game": "Dice",
+      "payout_amount": 1326.8,
+      "multiplier": 12.4,
+      "created_at": "2026-09-15T12:10:35.962Z"
+    },
+    {
+      "id": 63,
+      "username": "Jack",
+      "game": "Roulette",
+      "payout_amount": 119.7,
+      "multiplier": 2.1,
+      "created_at": "2026-09-15T12:09:35.962Z"
+    },
+    {
+      "id": 64,
+      "username": "Julian",
+      "game": "Plinko",
+      "payout_amount": 350.9,
+      "multiplier": 5.8,
+      "created_at": "2026-09-15T12:08:35.962Z"
+    },
+    {
+      "id": 65,
+      "username": "Ryan",
+      "game": "Mines",
+      "payout_amount": 118.4,
+      "multiplier": 1.85,
+      "created_at": "2026-09-15T12:07:35.962Z"
+    },
+    {
+      "id": 66,
+      "username": "Jaxon",
+      "game": "Dice",
+      "payout_amount": 616.25,
+      "multiplier": 14.5,
+      "created_at": "2026-09-15T12:06:35.962Z"
+    },
+    {
+      "id": 67,
+      "username": "Levi",
+      "game": "Roulette",
+      "payout_amount": 147.2,
+      "multiplier": 3.2,
+      "created_at": "2026-09-15T12:05:35.962Z"
+    },
+    {
+      "id": 68,
+      "username": "Nathan",
+      "game": "Plinko",
+      "payout_amount": 392.04,
+      "multiplier": 7.92,
+      "created_at": "2026-09-15T12:04:35.962Z"
+    },
+    {
+      "id": 69,
+      "username": "Caleb",
+      "game": "Mines",
+      "payout_amount": 1272,
+      "multiplier": 24,
+      "created_at": "2026-09-15T12:03:35.962Z"
+    },
+    {
+      "id": 70,
+      "username": "Hunter",
+      "game": "Dice",
+      "payout_amount": 84.75,
+      "multiplier": 1.5,
+      "created_at": "2026-09-15T12:02:35.962Z"
+    },
+    {
+      "id": 71,
+      "username": "Christian",
+      "game": "Roulette",
+      "payout_amount": 576,
+      "multiplier": 9.6,
+      "created_at": "2026-09-15T12:01:35.962Z"
+    },
+    {
+      "id": 72,
+      "username": "Isaiah",
+      "game": "Plinko",
+      "payout_amount": 1155.7,
+      "multiplier": 18.2,
+      "created_at": "2026-09-15T12:00:35.962Z"
+    },
+    {
+      "id": 73,
+      "username": "Thomas",
+      "game": "Mines",
+      "payout_amount": 180.6,
+      "multiplier": 4.3,
+      "created_at": "2026-09-15T11:59:35.962Z"
+    },
+    {
+      "id": 74,
+      "username": "Aaron",
+      "game": "Dice",
+      "payout_amount": 307.13,
+      "multiplier": 6.75,
+      "created_at": "2026-09-15T11:58:35.962Z"
+    },
+    {
+      "id": 75,
+      "username": "Lincoln",
+      "game": "Roulette",
+      "payout_amount": 1568,
+      "multiplier": 32,
+      "created_at": "2026-09-15T11:57:35.962Z"
+    },
+    {
+      "id": 76,
+      "username": "Eli",
+      "game": "Plinko",
+      "payout_amount": 884.63,
+      "multiplier": 8.42,
+      "created_at": "2026-09-15T11:56:35.962Z"
+    },
+    {
+      "id": 77,
+      "username": "Landon",
+      "game": "Mines",
+      "payout_amount": 1388.8,
+      "multiplier": 12.4,
+      "created_at": "2026-09-15T11:55:35.962Z"
+    },
+    {
+      "id": 78,
+      "username": "Connor",
+      "game": "Dice",
+      "payout_amount": 124.95,
+      "multiplier": 2.1,
+      "created_at": "2026-09-15T11:54:35.962Z"
+    },
+    {
+      "id": 79,
+      "username": "Josiah",
+      "game": "Roulette",
+      "payout_amount": 365.4,
+      "multiplier": 5.8,
+      "created_at": "2026-09-15T11:53:35.962Z"
+    },
+    {
+      "id": 80,
+      "username": "Jonathan",
+      "game": "Plinko",
+      "payout_amount": 76.78,
+      "multiplier": 1.85,
+      "created_at": "2026-09-15T11:52:35.962Z"
+    },
+    {
+      "id": 81,
+      "username": "Cameron",
+      "game": "Mines",
+      "payout_amount": 652.5,
+      "multiplier": 14.5,
+      "created_at": "2026-09-15T11:51:35.962Z"
+    },
+    {
+      "id": 82,
+      "username": "Jeremiah",
+      "game": "Dice",
+      "payout_amount": 155.2,
+      "multiplier": 3.2,
+      "created_at": "2026-09-15T11:50:35.962Z"
+    },
+    {
+      "id": 83,
+      "username": "Matei",
+      "game": "Roulette",
+      "payout_amount": 411.84,
+      "multiplier": 7.92,
+      "created_at": "2026-09-15T11:49:35.962Z"
+    },
+    {
+      "id": 84,
+      "username": "Adrian",
+      "game": "Plinko",
+      "payout_amount": 1332,
+      "multiplier": 24,
+      "created_at": "2026-09-15T11:48:35.962Z"
+    },
+    {
+      "id": 85,
+      "username": "Nolan",
+      "game": "Mines",
+      "payout_amount": 88.5,
+      "multiplier": 1.5,
+      "created_at": "2026-09-15T11:47:35.962Z"
+    },
+    {
+      "id": 86,
+      "username": "Nicholas",
+      "game": "Dice",
+      "payout_amount": 600,
+      "multiplier": 9.6,
+      "created_at": "2026-09-15T11:46:35.962Z"
+    },
+    {
+      "id": 87,
+      "username": "Easton",
+      "game": "Roulette",
+      "payout_amount": 746.2,
+      "multiplier": 18.2,
+      "created_at": "2026-09-15T11:45:35.962Z"
+    },
+    {
+      "id": 88,
+      "username": "Colton",
+      "game": "Plinko",
+      "payout_amount": 191.35,
+      "multiplier": 4.3,
+      "created_at": "2026-09-15T11:44:35.962Z"
+    },
+    {
+      "id": 89,
+      "username": "Carson",
+      "game": "Mines",
+      "payout_amount": 324,
+      "multiplier": 6.75,
+      "created_at": "2026-09-15T11:43:35.962Z"
+    },
+    {
+      "id": 90,
+      "username": "Robert",
+      "game": "Dice",
+      "payout_amount": 1648,
+      "multiplier": 32,
+      "created_at": "2026-09-15T11:42:35.962Z"
+    },
+    {
+      "id": 91,
+      "username": "Angel",
+      "game": "Roulette",
+      "payout_amount": 926.75,
+      "multiplier": 8.42,
+      "created_at": "2026-09-15T11:41:35.962Z"
+    },
+    {
+      "id": 92,
+      "username": "Brayden",
+      "game": "Plinko",
+      "payout_amount": 1450.8,
+      "multiplier": 12.4,
+      "created_at": "2026-09-15T11:40:35.962Z"
+    },
+    {
+      "id": 93,
+      "username": "Jordan",
+      "game": "Mines",
+      "payout_amount": 130.2,
+      "multiplier": 2.1,
+      "created_at": "2026-09-15T11:39:35.962Z"
+    },
+    {
+      "id": 94,
+      "username": "Dominic",
+      "game": "Dice",
+      "payout_amount": 234.9,
+      "multiplier": 5.8,
+      "created_at": "2026-09-15T11:38:35.962Z"
+    },
+    {
+      "id": 95,
+      "username": "Austin",
+      "game": "Roulette",
+      "payout_amount": 81.4,
+      "multiplier": 1.85,
+      "created_at": "2026-09-15T11:37:35.962Z"
+    },
+    {
+      "id": 96,
+      "username": "Ian",
+      "game": "Plinko",
+      "payout_amount": 688.75,
+      "multiplier": 14.5,
+      "created_at": "2026-09-15T11:36:35.962Z"
+    },
+    {
+      "id": 97,
+      "username": "Adam",
+      "game": "Mines",
+      "payout_amount": 163.2,
+      "multiplier": 3.2,
+      "created_at": "2026-09-15T11:35:35.962Z"
+    },
+    {
+      "id": 98,
+      "username": "Elias",
+      "game": "Dice",
+      "payout_amount": 431.64,
+      "multiplier": 7.92,
+      "created_at": "2026-09-15T11:34:35.962Z"
+    },
+    {
+      "id": 99,
+      "username": "Jaxson",
+      "game": "Roulette",
+      "payout_amount": 1392,
+      "multiplier": 24,
+      "created_at": "2026-09-15T11:33:35.962Z"
+    },
+    {
+      "id": 100,
+      "username": "Greyson",
+      "game": "Plinko",
+      "payout_amount": 92.25,
+      "multiplier": 1.5,
+      "created_at": "2026-09-15T11:32:35.962Z"
+    }
+  ]
+}

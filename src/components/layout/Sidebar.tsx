@@ -1,21 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Home,
   Gamepad2,
-  LayoutGrid,
   Gift,
-  Settings,
+  Crown,
+  Sparkles,
+  ShieldCheck,
   X,
   Dice5,
   Layers,
   CircleDot,
   Bomb,
-  ShieldCheck,
-  Shield
+  Shield,
+  Send,
+  MessageCircle,
+  HelpCircle,
+  ExternalLink
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { useUI } from "@/context/UIContext";
@@ -23,21 +26,51 @@ import { useUI } from "@/context/UIContext";
 interface SidebarProps {
   isOpen?: boolean;
   onClose?: () => void;
-  isFixedDesktop?: boolean;
 }
 
 export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarProps = {}) {
   const pathname = usePathname();
   const { isSidebarOpen, closeSidebar } = useUI();
 
-  // Support controlled or context-driven state
   const isOpen = propIsOpen !== undefined ? propIsOpen : isSidebarOpen;
   const handleClose = propOnClose !== undefined ? propOnClose : closeSidebar;
 
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Support URLs fetched from PostgreSQL site configuration
+  const [telegramUrl, setTelegramUrl] = useState<string | null>(null);
+  const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/config")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.config) {
+          setTelegramUrl(data.config.telegramUrl || null);
+          setWhatsappUrl(data.config.whatsappUrl || null);
+        }
+      })
+      .catch(err => {
+        console.error("Failed to load support config:", err);
+      });
+  }, []);
+
   const mainNav = [
-    { name: "Home", href: "/", icon: Home },
     { name: "Games", href: "/games", icon: Gamepad2 },
-    { name: "All Games", href: "/games#all-games", icon: LayoutGrid },
+    { name: "Promotions", href: "/promotions", icon: Gift },
+    { name: "VIP", href: "/vip", icon: Crown },
+    { name: "Bonus", href: "/bonus", icon: Sparkles },
+    { name: "Fairness & Integrity", href: "/fair", icon: ShieldCheck },
   ];
 
   const gameNav = [
@@ -47,37 +80,30 @@ export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarPro
     { name: "Plinko", href: "/games/plinko", icon: Layers, provider: "Spribe" },
   ];
 
-  const secondaryNav = [
-    { name: "Promotions", href: "/#promotions", icon: Gift },
-    { name: "Provably Fair", href: "/fair", icon: ShieldCheck },
-  ];
-
   const isItemActive = (href: string) => {
-    if (href === "/") return pathname === "/";
     if (href === "/games") return pathname === "/games";
     if (href === "/fair") return pathname === "/fair";
-    if (href.startsWith("/games/")) return pathname === href;
     return pathname === href;
   };
 
   return (
     <>
-      {/* Mobile Drawer Backdrop */}
+      {/* Mobile Drawer Backdrop (z-40) */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 lg:hidden transition-opacity duration-200"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-200"
           onClick={handleClose}
           aria-hidden="true"
         />
       )}
 
-      {/* Sidebar: Fixed on desktop (lg:translate-x-0), off-canvas drawer on mobile */}
+      {/* Sidebar: Fixed on desktop (lg:translate-x-0), off-canvas drawer on mobile (z-50) */}
       <aside
         className={`fixed top-0 bottom-0 left-0 z-50 w-60 bg-[#101217] border-r border-[#232632] flex flex-col transition-transform duration-250 ease-in-out lg:translate-x-0 ${
           isOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
         }`}
       >
-        {/* Sidebar Header: Logo + Clear Close Button */}
+        {/* Sidebar Header */}
         <div className="h-14 px-4 flex items-center justify-between border-b border-[#232632] shrink-0">
           <div className="flex items-center gap-2">
             <Logo compact />
@@ -87,7 +113,7 @@ export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarPro
           </div>
           <button
             onClick={handleClose}
-            className="lg:hidden p-2 text-[#8E95A5] hover:text-white rounded-lg hover:bg-[#181B24] transition-colors"
+            className="lg:hidden p-2 text-[#8E95A5] hover:text-white rounded-lg hover:bg-[#181B24] transition-colors cursor-pointer"
             aria-label="Close navigation menu"
           >
             <X className="w-5 h-5" />
@@ -119,14 +145,14 @@ export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarPro
             })}
           </nav>
 
-          {/* Featured Games */}
+          {/* Featured Active Games */}
           <div>
             <div className="text-[10px] font-bold uppercase tracking-wider text-[#5A6072] px-3 mb-1">
-              Featured Games
+              Active Games
             </div>
             <nav className="space-y-0.5">
               {gameNav.map(item => {
-                const active = isItemActive(item.href);
+                const active = pathname === item.href;
                 const Icon = item.icon;
                 return (
                   <Link
@@ -152,55 +178,76 @@ export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarPro
             </nav>
           </div>
 
-          {/* Offers & Fairness */}
+          {/* Support Section (Telegram & WhatsApp from PostgreSQL) */}
           <div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-[#5A6072] px-3 mb-1">
-              Information
+            <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#5A6072] px-3 mb-1">
+              <HelpCircle className="w-3 h-3 text-red-500" />
+              <span>Support</span>
             </div>
-            <nav className="space-y-0.5">
-              {secondaryNav.map(item => {
-                const active = isItemActive(item.href);
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={handleClose}
-                    className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
-                      active
-                        ? "bg-red-600/10 text-white border-l-2 border-red-500 font-bold"
-                        : "text-[#8E95A5] hover:text-white hover:bg-[#181B24]"
-                    }`}
-                  >
-                    <Icon className={`w-4 h-4 shrink-0 ${active ? "text-red-500" : "text-[#6A7182]"}`} />
-                    <span>{item.name}</span>
-                  </Link>
-                );
-              })}
-            </nav>
+            <div className="space-y-1">
+              {/* Telegram Support Link */}
+              {telegramUrl ? (
+                <a
+                  href={telegramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold text-[#8E95A5] hover:text-white hover:bg-[#181B24] transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <Send className="w-4 h-4 text-sky-400 group-hover:scale-110 transition-transform" />
+                    <span>Telegram</span>
+                  </div>
+                  <ExternalLink className="w-3 h-3 text-[#5A6072] group-hover:text-white" />
+                </a>
+              ) : (
+                <div
+                  className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold text-[#525766] cursor-not-allowed opacity-60"
+                  title="Telegram support URL not configured"
+                >
+                  <div className="flex items-center gap-3">
+                    <Send className="w-4 h-4 text-[#525766]" />
+                    <span>Telegram</span>
+                  </div>
+                  <span className="text-[9px] font-mono uppercase bg-[#14161F] px-1.5 py-0.5 rounded border border-[#232736]">
+                    Disabled
+                  </span>
+                </div>
+              )}
+
+              {/* WhatsApp Support Link */}
+              {whatsappUrl ? (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold text-[#8E95A5] hover:text-white hover:bg-[#181B24] transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                    <span>WhatsApp</span>
+                  </div>
+                  <ExternalLink className="w-3 h-3 text-[#5A6072] group-hover:text-white" />
+                </a>
+              ) : (
+                <div
+                  className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold text-[#525766] cursor-not-allowed opacity-60"
+                  title="WhatsApp support URL not configured"
+                >
+                  <div className="flex items-center gap-3">
+                    <MessageCircle className="w-4 h-4 text-[#525766]" />
+                    <span>WhatsApp</span>
+                  </div>
+                  <span className="text-[9px] font-mono uppercase bg-[#14161F] px-1.5 py-0.5 rounded border border-[#232736]">
+                    Disabled
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Sidebar Footer */}
         <div className="p-3 border-t border-[#232632] space-y-2 shrink-0">
-          <Link
-            href="/admin"
-            onClick={handleClose}
-            className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
-              pathname === "/admin"
-                ? "bg-red-600/10 text-white border-l-2 border-red-500 font-bold"
-                : "text-[#8E95A5] hover:text-white hover:bg-[#181B24]"
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <Settings className="w-3.5 h-3.5 text-red-400" />
-              <span>Spyke Admin</span>
-            </div>
-            <span className="text-[9px] font-mono bg-[#181B24] text-[#8E95A5] px-1.5 py-0.5 rounded border border-[#2B2F3D]">
-              CONFIG
-            </span>
-          </Link>
-
           <div className="px-2.5 py-2 rounded-lg bg-[#14161E] border border-[#232632] text-[10px] text-[#788094] flex items-center gap-2">
             <Shield className="w-3.5 h-3.5 text-red-400 shrink-0" />
             <span>Virtual simulation. Zero real-money risk.</span>

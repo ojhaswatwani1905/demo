@@ -1,12 +1,10 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { BannerCarousel } from "@/components/landing/BannerCarousel";
 import { PopularGamesSlider } from "@/components/landing/PopularGamesSlider";
-import { AllGamesSection } from "@/components/landing/AllGamesSection";
 import { PromoInfoSection } from "@/components/landing/PromoInfoSection";
+import { RecentWinsSection } from "@/components/landing/RecentWinsSection";
 import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
@@ -22,17 +20,17 @@ export default function HomePage() {
 
         {/* Homepage Content */}
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-6 space-y-6 sm:space-y-8 pb-24 lg:pb-8">
-          {/* 1. Large promotional banner carousel at the top with auto-slide, arrows and indicators */}
+          {/* 1. Games / Game Lobby Promotional Banner (Clickable -> /games) */}
           <BannerCarousel />
 
-          {/* 2. Popular Games horizontal slider */}
+          {/* 2. Popular Games Only (Mines, Dice, Roulette, Plinko - No Crash) */}
           <PopularGamesSlider />
 
-          {/* 3. All Games section */}
-          <AllGamesSection />
-
-          {/* 4. Small promotional/info section */}
+          {/* 3. Promotional/Info section */}
           <PromoInfoSection />
+
+          {/* 4. Live Activity / Recent Wins at the bottom of main lobby */}
+          <RecentWinsSection />
         </main>
 
         {/* 5. Footer */}

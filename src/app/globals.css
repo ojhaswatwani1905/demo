@@ -55,3 +55,23 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Continuous Vertical Live Activity Ticker */
+@keyframes verticalTicker {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-vertical-ticker {
+  animation: verticalTicker 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-vertical-ticker:hover {
+  animation-play-state: paused;
+}
+

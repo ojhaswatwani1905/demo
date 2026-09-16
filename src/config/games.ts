@@ -32,7 +32,7 @@ export const GAMES: GameConfig[] = [
     rtp: "97.00%",
     minBet: "$0.10",
     maxBet: "$100.00",
-    maxMultiplier: "10,000x"
+    maxMultiplier: "1,000x"
   },
   {
     id: "plinko",
@@ -63,7 +63,7 @@ export const GAMES: GameConfig[] = [
     defaultDemoUrl:
       process.env.NEXT_PUBLIC_SPYKE_DICE_URL ||
       "https://dice.turbogames.io/",
-    description: "Set your target slider, balance probability against payout multiplier, and roll the digital dice with instant cryptographic feedback.",
+    description: "Set your target slider, balance probability against payout multiplier, and roll the digital dice with instant simulated feedback.",
     badges: ["FAST", "INSTANT ROLL"],
     rtp: "97.00%",
     minBet: "$0.10",

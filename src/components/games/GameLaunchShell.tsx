@@ -253,30 +253,19 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                     <span>Demo URL is not configured yet.</span>
                   </div>
                   <p className="text-xs text-[#A0A0B2] leading-relaxed">
-                    Awaiting authorized game URL supplied through Spyke. Once supplied, configure in the Admin Panel or set the <code className="text-white font-mono text-[11px]">{game.demoUrlEnvKey}</code> environment variable.
+                    Awaiting authorized game launch endpoint. Return to the lobby to play available games or select another active title.
                   </p>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                <div className="flex items-center justify-center gap-3 pt-2">
                   <Button
                     size="md"
-                    href="/admin"
-                    glow
-                    icon={<Settings className="w-4 h-4" />}
-                    className="w-full sm:w-auto"
-                  >
-                    Configure in Admin
-                  </Button>
-
-                  <Button
-                    size="md"
-                    variant="glass"
-                    href="/casino"
+                    href="/games"
                     icon={<ArrowLeft className="w-4 h-4" />}
                     className="w-full sm:w-auto"
                   >
-                    Back to Lobby
+                    Back to Games Lobby
                   </Button>
                 </div>
 
