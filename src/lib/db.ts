@@ -523,7 +523,30 @@ export async function initializeDatabase(): Promise<boolean> {
         });
       }
 
-      const client = await pgPool.connect();
+      let client;
+      try {
+        client = await pgPool.connect();
+      } catch (connErr: any) {
+        if (
+          connErr?.message?.includes("does not support SSL") ||
+          connErr?.message?.includes("server does not support SSL")
+        ) {
+          console.warn("PostgreSQL server does not support SSL, retrying with SSL disabled...");
+          try {
+            await pgPool.end();
+          } catch {}
+          pgPool = new Pool({
+            connectionString: dbUrl,
+            connectionTimeoutMillis: 10000,
+            max: 10,
+            idleTimeoutMillis: 30000,
+            ssl: false
+          });
+          client = await pgPool.connect();
+        } else {
+          throw connErr;
+        }
+      }
       try {
         // 1. Users table
         await client.query(`
