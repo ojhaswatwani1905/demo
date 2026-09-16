@@ -1,25 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
-import { Gift, Calendar, Trophy, ArrowRight, ShieldCheck, Sparkles, Flame } from "lucide-react";
+import { Gift, Calendar, ArrowRight, ShieldCheck } from "lucide-react";
+import { useRealtime } from "@/context/RealtimeContext";
 
 interface Promotion {
-  id: string;
-  badge: string;
+  id: string | number;
+  badge?: string;
   title: string;
-  description: string;
-  bonus: string;
-  terms: string;
-  expires: string;
-  ctaText: string;
-  ctaHref: string;
+  short_desc?: string;
+  description?: string;
+  long_desc?: string;
+  bonus?: string;
+  terms?: string;
+  expires?: string;
+  ctaText?: string;
+  cta_text?: string;
+  ctaHref?: string;
+  is_active?: boolean;
 }
 
-const PROMOTIONS: Promotion[] = [
+const FALLBACK_PROMOTIONS: Promotion[] = [
   {
     id: "welcome-match",
     badge: "WELCOME OFFER",
@@ -67,6 +72,45 @@ const PROMOTIONS: Promotion[] = [
 ];
 
 export default function PromotionsPage() {
+  const { subscribe } = useRealtime();
+  const [promotions, setPromotions] = useState<Promotion[]>(FALLBACK_PROMOTIONS);
+
+  const loadPromotions = async () => {
+    try {
+      const res = await fetch("/api/promotions");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.promotions && data.promotions.length > 0) {
+          const mapped = data.promotions.map((p: any) => ({
+            id: p.id,
+            badge: p.badge || "PROMOTION",
+            title: p.title,
+            description: p.short_desc || p.description || p.long_desc,
+            bonus: p.reward_value || p.bonus || "Virtual Demo Reward",
+            terms: p.terms || "Strictly demonstration credit. No cash value.",
+            expires: p.end_date ? new Date(p.end_date).toLocaleDateString() : "Ongoing Demo",
+            ctaText: p.cta_text || "Play Demo Games",
+            ctaHref: "/games"
+          }));
+          setPromotions(mapped);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load dynamic promotions:", err);
+    }
+  };
+
+  useEffect(() => {
+    loadPromotions();
+  }, []);
+
+  useEffect(() => {
+    const unsub = subscribe("PROMOTION_UPDATED", () => {
+      loadPromotions();
+    });
+    return unsub;
+  }, [subscribe]);
+
   return (
     <div className="min-h-screen flex flex-col bg-[#0B0C10] text-[#EDEDF0]">
       <Sidebar />
@@ -91,7 +135,7 @@ export default function PromotionsPage() {
 
           {/* Promotion Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {PROMOTIONS.map(promo => (
+            {promotions.map(promo => (
               <div
                 key={promo.id}
                 className="rounded-2xl bg-[#13151D] border border-[#232632] hover:border-red-500/50 transition-all p-5 sm:p-6 flex flex-col justify-between space-y-4"
@@ -127,10 +171,10 @@ export default function PromotionsPage() {
                     {promo.terms}
                   </span>
                   <Link
-                    href={promo.ctaHref}
+                    href={promo.ctaHref || "/games"}
                     className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-1.5 shrink-0"
                   >
-                    <span>{promo.ctaText}</span>
+                    <span>{promo.ctaText || "Play Demo Games"}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>

@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
-import { Crown, CheckCircle2, ChevronRight, Award, Shield, ArrowRight } from "lucide-react";
+import { Crown, CheckCircle2, Shield } from "lucide-react";
+import { useRealtime } from "@/context/RealtimeContext";
 
 interface VipTier {
-  id: string;
+  id: string | number;
   name: string;
   level: string;
   wagerRequired: string;
@@ -17,7 +17,7 @@ interface VipTier {
   color: string;
 }
 
-const VIP_TIERS: VipTier[] = [
+const FALLBACK_TIERS: VipTier[] = [
   {
     id: "bronze",
     name: "Bronze Tier",
@@ -86,7 +86,43 @@ const VIP_TIERS: VipTier[] = [
 ];
 
 export default function VipClubPage() {
-  const [activeTier, setActiveTier] = useState<string>("silver");
+  const { subscribe } = useRealtime();
+  const [tiers, setTiers] = useState<VipTier[]>(FALLBACK_TIERS);
+  const [activeTier, setActiveTier] = useState<string | number>("silver");
+
+  const loadTiers = async () => {
+    try {
+      const res = await fetch("/api/vip");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.tiers && data.tiers.length > 0) {
+          const mapped = data.tiers.map((t: any) => ({
+            id: t.id || t.tier_name.toLowerCase(),
+            name: t.tier_name,
+            level: `Level ${t.level_requirement || 1}+`,
+            wagerRequired: `$${Number(t.wager_required || 0).toLocaleString()}`,
+            cashback: `${t.cashback_percent || 5}%`,
+            perks: Array.isArray(t.perks) ? t.perks : [t.perks].filter(Boolean),
+            color: t.badge_color ? `border-[${t.badge_color}] text-[${t.badge_color}]` : "border-cyan-500 text-cyan-400"
+          }));
+          setTiers(mapped);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load dynamic VIP tiers:", err);
+    }
+  };
+
+  useEffect(() => {
+    loadTiers();
+  }, []);
+
+  useEffect(() => {
+    const unsub = subscribe("VIP_TIER_UPDATED", () => {
+      loadTiers();
+    });
+    return unsub;
+  }, [subscribe]);
 
   // Mock player VIP progression
   const currentLevel = 14;
@@ -159,7 +195,7 @@ export default function VipClubPage() {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {VIP_TIERS.map(tier => {
+              {tiers.map(tier => {
                 const isSelected = activeTier === tier.id;
                 return (
                   <div

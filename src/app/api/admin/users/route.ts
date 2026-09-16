@@ -14,14 +14,27 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const users = await getAllUsers(100);
-    // Add active status for demonstration
+    const { searchParams } = new URL(req.url);
+    const search = searchParams.get("search")?.toLowerCase().trim();
+
+    let users = await getAllUsers(200);
+
+    if (search) {
+      users = users.filter(
+        u => u.name.toLowerCase().includes(search) || u.email.toLowerCase().includes(search) || String(u.id).includes(search)
+      );
+    }
+
+    // Sanitize: ensure password hashes are NEVER returned in response
     const sanitized = users.map(u => ({
       id: u.id,
       name: u.name,
       email: u.email,
+      balance: Number(u.balance || 1250),
+      is_active: u.is_active !== undefined ? u.is_active : true,
       created_at: u.created_at,
-      status: "Active"
+      last_activity: u.last_activity || u.created_at,
+      status: u.is_active ? "Active" : "Disabled"
     }));
 
     return NextResponse.json({
@@ -45,7 +58,7 @@ export async function POST(req: NextRequest) {
       { status: 401 }
     );
   }
-  return NextResponse.json({ success: false, error: "Not implemented" }, { status: 501 });
+  return NextResponse.json({ success: false, error: "Direct user creation through admin is restricted. Use standard registration." }, { status: 400 });
 }
 
 export async function PUT(req: NextRequest) {
@@ -59,4 +72,3 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   return POST(req);
 }
-

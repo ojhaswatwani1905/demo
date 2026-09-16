@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { RealtimeProvider } from "@/context/RealtimeContext";
 import { WalletProvider } from "@/context/WalletContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
 import { UIProvider } from "@/context/UIContext";
@@ -40,16 +41,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} dark`}>
       <body className="bg-[#0B0C10] text-[#EDEDF0] min-h-screen flex flex-col font-sans antialiased selection:bg-red-600 selection:text-white">
-        <WalletProvider>
-          <FavoritesProvider>
-            <UIProvider>
-              {children}
-              <SearchModal />
-              <DemoWalletModal />
-              <MobileNav />
-            </UIProvider>
-          </FavoritesProvider>
-        </WalletProvider>
+        <RealtimeProvider>
+          <WalletProvider>
+            <FavoritesProvider>
+              <UIProvider>
+                {children}
+                <SearchModal />
+                <DemoWalletModal />
+                <MobileNav />
+              </UIProvider>
+            </FavoritesProvider>
+          </WalletProvider>
+        </RealtimeProvider>
       </body>
     </html>
   );

@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import { getSiteConfig } from "@/lib/db";
+import { getSiteConfig, getGeneralConfig } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
     const config = await getSiteConfig();
+    const general = await getGeneralConfig();
     return NextResponse.json({
       success: true,
       config: {
@@ -13,6 +14,17 @@ export async function GET() {
         whatsappUrl: config.whatsapp_url,
         siteName: config.site_name,
         updatedAt: config.updated_at
+      },
+      general: {
+        platformName: general.platform_name,
+        demoMode: general.demo_mode,
+        defaultDemoBalance: general.default_demo_balance,
+        currencySymbol: general.currency_symbol,
+        maintenanceMode: general.maintenance_mode,
+        registrationEnabled: general.registration_enabled,
+        signinEnabled: general.signin_enabled,
+        topupEnabled: general.topup_enabled,
+        maxDemoBalance: general.max_demo_balance
       }
     });
   } catch (error) {

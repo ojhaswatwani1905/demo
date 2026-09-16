@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDatabaseHealth, getSiteConfig } from "@/lib/db";
+import { getDetailedSystemStats, getSiteConfig } from "@/lib/db";
 import { authenticateAdmin } from "@/lib/adminSession";
-import { GAMES } from "@/config/games";
 
 export const dynamic = "force-dynamic";
 
@@ -15,24 +14,25 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const health = await getDatabaseHealth();
+    const system = await getDetailedSystemStats();
     const config = await getSiteConfig();
-
-    // Count configured games from standard configuration
-    const configuredGamesCount = GAMES.filter(g => g.defaultDemoUrl && g.defaultDemoUrl.trim() !== "").length;
 
     return NextResponse.json({
       success: true,
       stats: {
-        totalUsers: health.totalUsers,
-        totalGames: GAMES.length,
-        configuredGames: configuredGamesCount,
-        dbEngine: health.engine,
-        isDbConnected: health.isConnected,
-        totalActivity: health.totalActivity,
+        totalUsers: system.totalUsers,
+        activeUsers: system.activeUsers,
+        totalGames: 4,
+        configuredGames: system.configuredGames,
+        totalAllocatedDemoBalance: system.totalAllocatedDemoBalance,
+        totalSimulatedPayouts: system.totalSimulatedPayouts,
+        dbEngine: system.engine,
+        isDbConnected: system.isDbConnected,
+        totalActivity: system.totalActivityRecords,
         telegramConfigured: Boolean(config.telegram_url),
         whatsappConfigured: Boolean(config.whatsapp_url),
-        siteName: config.site_name
+        siteName: config.site_name,
+        lastSuccessfulDbOp: system.lastSuccessfulDbOp
       }
     });
   } catch (err) {
@@ -66,4 +66,3 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   return POST(req);
 }
-

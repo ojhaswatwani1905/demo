@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useRealtime } from "@/context/RealtimeContext";
 
 interface WalletContextType {
   balance: number;
@@ -9,6 +10,7 @@ interface WalletContextType {
   closeWalletModal: () => void;
   demoDeposit: (amount: number) => void;
   resetDemoBalance: () => void;
+  setDirectBalance: (amount: number) => void;
 }
 
 const DEFAULT_DEMO_BALANCE = 1250.00;
@@ -19,6 +21,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [balance, setBalance] = useState<number>(DEFAULT_DEMO_BALANCE);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState<boolean>(false);
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
+
+  const { subscribe } = useRealtime();
 
   useEffect(() => {
     // Read betadrix_demo_balance with fallback to legacy yourbrand_demo_balance
@@ -38,6 +42,18 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
   }, [balance, isInitialized]);
 
+  // Real-time server-to-client balance sync without page reload!
+  useEffect(() => {
+    const unsubscribe = subscribe("USER_BALANCE_UPDATED", (payload: any) => {
+      if (payload && typeof payload.newBalance === "number") {
+        setBalance(payload.newBalance);
+        localStorage.setItem("betadrix_demo_balance", payload.newBalance.toFixed(2));
+      }
+    });
+
+    return unsubscribe;
+  }, [subscribe]);
+
   const openWalletModal = () => setIsWalletModalOpen(true);
   const closeWalletModal = () => setIsWalletModalOpen(false);
 
@@ -49,6 +65,10 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setBalance(DEFAULT_DEMO_BALANCE);
   };
 
+  const setDirectBalance = (amount: number) => {
+    setBalance(amount);
+  };
+
   return (
     <WalletContext.Provider
       value={{
@@ -57,7 +77,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         openWalletModal,
         closeWalletModal,
         demoDeposit,
-        resetDemoBalance
+        resetDemoBalance,
+        setDirectBalance
       }}
     >
       {children}

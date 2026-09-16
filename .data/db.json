@@ -5,7 +5,10 @@
       "name": "Alex Morgan",
       "email": "alex@example.com",
       "password_hash": "$2b$10$6e5czr7gZouV2lO7OWuQvuXSfxS/YEpOZSkx4sDEQgALDwGaJkfWC",
-      "created_at": "2026-09-15T13:11:36.039Z"
+      "created_at": "2026-09-15T13:11:36.039Z",
+      "balance": 1550,
+      "is_active": true,
+      "last_activity": "2026-09-16T12:51:53.075Z"
     }
   ],
   "site_config": {
@@ -823,9 +826,352 @@
       "admin_id": "admin",
       "password_hash": "$2b$10$AvyKAHMycyss8BTqb/6WTOTxsUDlmdwQszNsv6FsCky35JC6/lun.",
       "created_at": "2026-09-16T11:17:57.978Z",
-      "updated_at": "2026-09-16T12:08:27.440Z",
+      "updated_at": "2026-09-16T12:51:57.224Z",
       "is_active": true,
-      "session_version": 6
+      "session_version": 8
+    }
+  ],
+  "general_config": {
+    "id": 1,
+    "platform_name": "BETADRiX DEMO",
+    "demo_mode": true,
+    "default_demo_balance": 1250,
+    "currency_symbol": "$",
+    "maintenance_mode": false,
+    "registration_enabled": true,
+    "signin_enabled": true,
+    "topup_enabled": true,
+    "max_demo_balance": 100000,
+    "default_language": "English",
+    "timezone": "UTC",
+    "updated_at": "2026-09-16T12:48:15.525Z"
+  },
+  "promotions": [
+    {
+      "id": 1,
+      "title": "100% Demo Reload Match",
+      "short_desc": "Double your virtual test balance on your demo wallet with up to $2,500.00 in simulated credits.",
+      "long_desc": "Explore authorized demo titles with an immediate virtual credit boost. Ideal for trying diverse multiplier strategies across Mines and Roulette.",
+      "banner_image": "/assets/ui/promotions_hero.jpg",
+      "cta_text": "CLAIM DEMO RELOAD",
+      "display_order": 1,
+      "is_active": true,
+      "created_at": "2026-09-16T12:48:15.525Z",
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    },
+    {
+      "id": 2,
+      "title": "Weekly High-Roller Playground",
+      "short_desc": "Experience high-limit simulation tables with maximum demonstration multipliers.",
+      "long_desc": "Participate in simulated high-stakes test sessions across authorized Spribe & Turbo Games mechanics.",
+      "banner_image": "/assets/ui/banner_vip.jpg",
+      "cta_text": "VIEW TABLES",
+      "display_order": 2,
+      "is_active": true,
+      "created_at": "2026-09-16T12:48:15.525Z",
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    },
+    {
+      "id": 3,
+      "title": "Minesweeper Multiplier Sprint",
+      "short_desc": "Hit consecutive clean diamonds in Mines demo to unlock simulated leaderboard achievements.",
+      "long_desc": "Configure grid sizes and mine densities to test mathematical risk vs payout algorithms in a safe environment.",
+      "banner_image": "/assets/ui/banner_mines.jpg",
+      "cta_text": "PLAY MINES DEMO",
+      "display_order": 3,
+      "is_active": true,
+      "created_at": "2026-09-16T12:48:15.525Z",
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    }
+  ],
+  "vip_tiers": [
+    {
+      "id": 1,
+      "name": "VIP Bronze",
+      "badge": "BRONZE",
+      "min_activity": 0,
+      "demo_bonus": 500,
+      "benefits": [
+        "Standard demo reload balance",
+        "Access to Mines, Dice, and Roulette",
+        "Community demo events"
+      ],
+      "display_order": 1,
+      "is_active": true,
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    },
+    {
+      "id": 2,
+      "name": "VIP Silver",
+      "badge": "SILVER",
+      "min_activity": 10000,
+      "demo_bonus": 1500,
+      "benefits": [
+        "1.5x Daily Faucet allocation",
+        "Priority game launch sandbox",
+        "Custom simulated bet size limits"
+      ],
+      "display_order": 2,
+      "is_active": true,
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    },
+    {
+      "id": 3,
+      "name": "VIP Gold",
+      "badge": "GOLD",
+      "min_activity": 50000,
+      "demo_bonus": 5000,
+      "benefits": [
+        "2x Daily Faucet allocation",
+        "Exclusive early-access game previews",
+        "Dedicated Telegram demo concierge"
+      ],
+      "display_order": 3,
+      "is_active": true,
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    },
+    {
+      "id": 4,
+      "name": "VIP Platinum",
+      "badge": "PLATINUM",
+      "min_activity": 200000,
+      "demo_bonus": 20000,
+      "benefits": [
+        "Unlimited sandbox refills",
+        "Custom theme & sound pack controls",
+        "Direct channel with engineering team"
+      ],
+      "display_order": 4,
+      "is_active": true,
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    }
+  ],
+  "bonus_settings": {
+    "id": 1,
+    "daily_faucet_amount": 1200,
+    "faucet_cooldown_hours": 24,
+    "topup_options": [
+      500,
+      1000,
+      5000
+    ],
+    "max_balance": 100000,
+    "bonus_multiplier": 1,
+    "is_active": true,
+    "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+    "updated_at": "2026-09-16T12:51:53.306Z"
+  },
+  "game_configs": [
+    {
+      "id": 1,
+      "game_id": "mines",
+      "name": "Mines",
+      "provider": "Turbo Games",
+      "category": "Originals",
+      "image_url": "/assets/games/game_card_mines.png",
+      "launch_url": "https://mines.turbogames.io/",
+      "is_active": true,
+      "display_order": 1,
+      "updated_at": "2026-09-16T12:51:53.229Z",
+      "is_enabled": true
+    },
+    {
+      "id": 2,
+      "game_id": "plinko",
+      "name": "Plinko",
+      "provider": "Spribe",
+      "category": "Originals",
+      "image_url": "/assets/games/game_card_plinko.png",
+      "launch_url": "",
+      "is_active": true,
+      "display_order": 2,
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    },
+    {
+      "id": 3,
+      "game_id": "dice",
+      "name": "Dice",
+      "provider": "Turbo Games",
+      "category": "Table",
+      "image_url": "/assets/games/game_card_dice.png",
+      "launch_url": "https://dice.turbogames.io/",
+      "is_active": true,
+      "display_order": 3,
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    },
+    {
+      "id": 4,
+      "game_id": "roulette",
+      "name": "Roulette",
+      "provider": "Spribe",
+      "category": "Table",
+      "image_url": "/assets/games/game_card_roulette.png",
+      "launch_url": "https://demo.spribe.io/launch/mini-roulette?currency=EUR&lang=EN",
+      "is_active": true,
+      "display_order": 4,
+      "updated_at": "2026-09-16T12:48:15.525Z"
+    }
+  ],
+  "balance_audit_logs": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 1250,
+      "adjustment_amount": 150,
+      "new_balance": 1400,
+      "action_type": "add",
+      "reason": "Automated real-time test transaction",
+      "created_at": "2026-09-16T12:51:17.986Z"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 1400,
+      "adjustment_amount": 150,
+      "new_balance": 1550,
+      "action_type": "add",
+      "reason": "Automated real-time test transaction",
+      "created_at": "2026-09-16T12:51:53.075Z"
+    }
+  ],
+  "admin_audit_logs": [
+    {
+      "id": 1,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 1250
+      },
+      "new_value": {
+        "balance": 1400
+      },
+      "reason": "Automated real-time test transaction",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-16T12:51:17.987Z"
+    },
+    {
+      "id": 2,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1000,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-09-16T12:48:15.525Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-09-16T12:51:18.264Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-16T12:51:18.267Z"
+    },
+    {
+      "id": 3,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 1400
+      },
+      "new_value": {
+        "balance": 1550
+      },
+      "reason": "Automated real-time test transaction",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-16T12:51:53.082Z"
+    },
+    {
+      "id": 4,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "mines",
+      "old_value": null,
+      "new_value": {
+        "id": 1,
+        "game_id": "mines",
+        "name": "Mines",
+        "provider": "Turbo Games",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_mines.png",
+        "launch_url": "https://mines.turbogames.io/",
+        "is_active": true,
+        "display_order": 1,
+        "updated_at": "2026-09-16T12:51:53.229Z",
+        "is_enabled": true
+      },
+      "reason": "Admin updated game configuration for mines",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-16T12:51:53.229Z"
+    },
+    {
+      "id": 5,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-09-16T12:51:18.264Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-09-16T12:51:53.306Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-16T12:51:53.307Z"
     }
   ]
 }

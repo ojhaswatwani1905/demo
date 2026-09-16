@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 import { useWallet } from "@/context/WalletContext";
-import { Sparkles, Check, Clock, ShieldCheck, ArrowRight, Gift } from "lucide-react";
+import { Sparkles, Check, Clock, ShieldCheck, Gift } from "lucide-react";
+import { useRealtime } from "@/context/RealtimeContext";
 
 interface BonusOffer {
   id: string;
@@ -21,14 +21,15 @@ interface BonusOffer {
 
 export default function BonusPage() {
   const { demoDeposit } = useWallet();
+  const { subscribe } = useRealtime();
 
   const [offers, setOffers] = useState<BonusOffer[]>([
     {
       id: "daily-bonus",
       tag: "DAILY REWARD",
       title: "Daily Virtual Playground Grant",
-      reward: "+$250.00 Demo Credit",
-      amount: 250,
+      reward: "+$1,000.00 Demo Credit",
+      amount: 1000,
       requirement: "Claimable every 24 hours",
       description: "Top up your demonstration wallet with a fresh reload of complimentary simulated credits.",
       claimed: false
@@ -56,6 +57,45 @@ export default function BonusPage() {
   ]);
 
   const [notification, setNotification] = useState<string | null>(null);
+
+  const loadBonusSettings = async () => {
+    try {
+      const res = await fetch("/api/bonus");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.settings) {
+          const faucetAmt = Number(data.settings.daily_faucet_amount || 1000);
+          const cooldown = Number(data.settings.faucet_cooldown_hours || 24);
+          setOffers(prev =>
+            prev.map(o => {
+              if (o.id === "daily-bonus") {
+                return {
+                  ...o,
+                  amount: faucetAmt,
+                  reward: `+$${faucetAmt.toFixed(2)} Demo Credit`,
+                  requirement: `Claimable every ${cooldown} hours`
+                };
+              }
+              return o;
+            })
+          );
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load bonus settings:", err);
+    }
+  };
+
+  useEffect(() => {
+    loadBonusSettings();
+  }, []);
+
+  useEffect(() => {
+    const unsub = subscribe("BONUS_UPDATED", () => {
+      loadBonusSettings();
+    });
+    return unsub;
+  }, [subscribe]);
 
   const handleClaim = (id: string, amount: number, title: string) => {
     // Add simulated credit to demo balance

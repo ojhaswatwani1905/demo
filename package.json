@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:security": "node scripts/test-admin-security.js"
+    "test:security": "node scripts/test-admin-security.js",
+    "test:realtime": "node scripts/test-realtime-admin.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
