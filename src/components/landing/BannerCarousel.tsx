@@ -260,34 +260,34 @@ export function BannerCarousel() {
           })}
         </div>
 
-        {/* Main Content Area: Compact layout & responsive padding */}
-        <div className="relative z-10 min-h-[200px] sm:min-h-[185px] md:min-h-[220px] p-5 sm:p-6 md:p-8 flex flex-col justify-between max-w-xl">
-          <div className="space-y-2 sm:space-y-3">
+        {/* Main Content Area: Spacious layout & responsive padding */}
+        <div className="relative z-10 min-h-[280px] sm:min-h-[320px] md:min-h-[360px] lg:min-h-[400px] p-6 sm:p-8 md:p-10 flex flex-col justify-between max-w-2xl">
+          <div className="space-y-2.5 sm:space-y-4">
             {/* Slide Badge */}
             <div
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/70 backdrop-blur-md border text-[9px] sm:text-[10px] font-mono font-bold ${currentSlide.badgeColor}`}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/70 backdrop-blur-md border text-[10px] sm:text-xs font-mono font-bold ${currentSlide.badgeColor}`}
             >
-              {React.createElement(currentSlide.badgeIcon, { className: "w-2.5 h-2.5 sm:w-3 sm:h-3" })}
+              {React.createElement(currentSlide.badgeIcon, { className: "w-3 h-3 sm:w-3.5 sm:h-3.5" })}
               <span>{currentSlide.badge}</span>
             </div>
 
             {/* Slide Title */}
-            <h2 className="text-base sm:text-xl md:text-2xl font-black text-white tracking-tight uppercase leading-snug">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tight uppercase leading-snug sm:leading-tight">
               {currentSlide.title}
             </h2>
 
             {/* Slide Subtitle */}
-            <p className="text-[11px] sm:text-xs md:text-sm text-[#C4CBD8] leading-relaxed max-w-md">
+            <p className="text-xs sm:text-sm md:text-base text-[#D0D7E4] leading-relaxed max-w-lg">
               {currentSlide.subtitle}
             </p>
           </div>
 
           {/* Action Button: Styled visual CTA that navigates to /games */}
-          <div className="pt-2">
-            <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-red-600 group-hover:bg-red-700 text-white text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors shadow-md group/btn">
-              <Gamepad2 className="w-3.5 h-3.5" />
+          <div className="pt-4">
+            <span className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-red-600 group-hover:bg-red-700 text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] group/btn">
+              <Gamepad2 className="w-4 h-4" />
               <span>{currentSlide.buttonText}</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
             </span>
           </div>
         </div>
@@ -302,9 +302,9 @@ export function BannerCarousel() {
           prevSlide();
         }}
         aria-label="Previous slide"
-        className="hidden sm:flex items-center justify-center absolute left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/60 hover:bg-red-600 border border-white/10 text-white transition-all backdrop-blur-md cursor-pointer opacity-80 hover:opacity-100 hover:scale-105"
+        className="hidden sm:flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-red-600 border border-white/10 text-white transition-all backdrop-blur-md cursor-pointer opacity-80 hover:opacity-100 hover:scale-105 shadow-lg"
       >
-        <ChevronLeft className="w-4 h-4" />
+        <ChevronLeft className="w-5 h-5" />
       </button>
 
       <button
@@ -315,9 +315,9 @@ export function BannerCarousel() {
           nextSlide();
         }}
         aria-label="Next slide"
-        className="hidden sm:flex items-center justify-center absolute right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/60 hover:bg-red-600 border border-white/10 text-white transition-all backdrop-blur-md cursor-pointer opacity-80 hover:opacity-100 hover:scale-105"
+        className="hidden sm:flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-red-600 border border-white/10 text-white transition-all backdrop-blur-md cursor-pointer opacity-80 hover:opacity-100 hover:scale-105 shadow-lg"
       >
-        <ChevronRight className="w-4 h-4" />
+        <ChevronRight className="w-5 h-5" />
       </button>
 
       {/* Slide Indicator Dots: Explicitly isolated from link navigation */}
