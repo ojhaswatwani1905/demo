@@ -217,7 +217,7 @@ export function BannerCarousel() {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      className="relative rounded-xl sm:rounded-2xl bg-[#13151D] border border-[#232632] hover:border-red-500/50 transition-all overflow-hidden select-none group shadow-lg"
+      className="relative -mx-4 sm:mx-0 rounded-none sm:rounded-2xl bg-[#13151D] border-y sm:border border-[#232632] hover:border-red-500/50 transition-all overflow-hidden select-none group shadow-lg"
     >
       {/* 
         ENTIRE BANNER IS A SEMANTIC GAMES LOBBY LINK:
@@ -228,7 +228,7 @@ export function BannerCarousel() {
         href="/games"
         aria-label="Open Games Lobby"
         onClick={handleLinkClick}
-        className="block relative w-full h-full cursor-pointer focus:outline-none focus:ring-1 focus:ring-red-500/60 rounded-xl sm:rounded-2xl overflow-hidden"
+        className="block relative w-full h-full cursor-pointer focus:outline-none focus:ring-1 focus:ring-red-500/60 rounded-none sm:rounded-2xl overflow-hidden"
       >
         {/* Background Slides: Stacked with crossfade transition */}
         <div className="absolute inset-0 z-0">
@@ -261,7 +261,7 @@ export function BannerCarousel() {
         </div>
 
         {/* Main Content Area: Compact layout & responsive padding */}
-        <div className="relative z-10 min-h-[155px] sm:min-h-[185px] md:min-h-[220px] p-4 sm:p-6 md:p-8 flex flex-col justify-between max-w-xl">
+        <div className="relative z-10 min-h-[200px] sm:min-h-[185px] md:min-h-[220px] p-5 sm:p-6 md:p-8 flex flex-col justify-between max-w-xl">
           <div className="space-y-2 sm:space-y-3">
             {/* Slide Badge */}
             <div
