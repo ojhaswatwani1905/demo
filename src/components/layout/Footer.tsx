@@ -12,9 +12,6 @@ export function Footer() {
           <div className="md:col-span-2 space-y-3">
             <div className="flex items-center gap-2">
               <Logo compact />
-              <span className="text-[10px] font-mono font-bold bg-[#1A1D27] text-red-400 px-1.5 py-0.5 rounded border border-[#2B3041]">
-                DEMO LOBBY
-              </span>
             </div>
             <p className="text-xs text-[#8E95A5] max-w-md leading-relaxed">
               BETADRiX is an authorized game demonstration and simulation portal. All gameplay is performed strictly using simulated virtual balance with no real currency, financial risk, or wagering engines.
@@ -88,6 +85,11 @@ export function Footer() {
               <li>
                 <Link href="/fair" className="hover:text-white transition-colors">
                   Fairness & Integrity
+                </Link>
+              </li>
+              <li>
+                <Link href="/support" className="hover:text-white transition-colors">
+                  Support
                 </Link>
               </li>
             </ul>

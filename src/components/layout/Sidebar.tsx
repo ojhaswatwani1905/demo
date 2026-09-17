@@ -71,6 +71,7 @@ export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarPro
     { name: "VIP", href: "/vip", icon: Crown },
     { name: "Bonus", href: "/bonus", icon: Sparkles },
     { name: "Fairness & Integrity", href: "/fair", icon: ShieldCheck },
+    { name: "Support", href: "/support", icon: HelpCircle },
   ];
 
   const gameNav = [
@@ -81,8 +82,9 @@ export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarPro
   ];
 
   const isItemActive = (href: string) => {
-    if (href === "/games") return pathname === "/games";
+    if (href === "/games") return pathname === "/games" || pathname.startsWith("/games/");
     if (href === "/fair") return pathname === "/fair";
+    if (href === "/support") return pathname === "/support";
     return pathname === href;
   };
 

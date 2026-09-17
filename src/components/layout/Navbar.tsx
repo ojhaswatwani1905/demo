@@ -7,37 +7,55 @@ import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import { BalanceDisplay } from "@/components/wallet/BalanceDisplay";
 import { useFavorites } from "@/context/FavoritesContext";
-import { Search, ShieldCheck, Gamepad2 } from "lucide-react";
+import { useUI } from "@/context/UIContext";
+import { useAuth } from "@/context/AuthContext";
+import { Search, ShieldCheck, Gamepad2, Menu, User, LogOut } from "lucide-react";
 
 export default function Navbar({ onToggleSidebar }: { onToggleSidebar?: () => void } = {}) {
   const pathname = usePathname();
   const { setIsSearchOpen } = useFavorites();
+  const { toggleSidebar } = useUI();
+  const { user, openAuthModal, logout } = useAuth();
+
+  const handleToggle = onToggleSidebar || toggleSidebar;
 
   return (
     <>
-      {/* 1. MOBILE TOP BAR: Minimalist, ONLY the small logo with minimal surrounding space */}
-      <div className="lg:hidden w-full py-2 px-4 bg-[#0B0C10] border-b border-[#181A22] flex items-center justify-between shrink-0">
-        <Logo compact />
-        {/* Compact Mobile Top-Bar GAMES Button */}
-        <Link
-          href="/games"
-          className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#14161F] border border-[#262B3B] hover:border-red-500/50 transition-all group shrink-0"
-          title="Open Games Lobby"
-        >
-          <div className="relative w-8 h-[18px] rounded overflow-hidden bg-black border border-white/10 shrink-0">
-            <Image
-              src="/assets/ui/nav_games_badge.jpg"
-              alt="Games Lobby"
-              fill
-              sizes="32px"
-              className="object-cover object-center"
-            />
-          </div>
-          <span className="text-[11px] font-black tracking-wider text-white uppercase group-hover:text-red-400 transition-colors">
-            GAMES
-          </span>
-          <Gamepad2 className="w-3 h-3 text-red-500" />
-        </Link>
+      {/* 1. MOBILE TOP BAR: [☰] [BETADRiX LOGO]             [Balance / Auth Action] */}
+      <div className="lg:hidden w-full py-2.5 px-4 bg-[#0B0C10] border-b border-[#181A22] flex items-center justify-between shrink-0 sticky top-0 z-30">
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={handleToggle}
+            className="p-1.5 rounded-lg bg-[#14161F] border border-[#262B3B] text-[#8E95A5] hover:text-white hover:border-red-500/50 transition-colors cursor-pointer"
+            aria-label="Open Navigation Menu"
+            title="Open Menu"
+          >
+            <Menu className="w-4 h-4 text-white" />
+          </button>
+          <Logo compact />
+        </div>
+
+        {/* Right side: Demo Balance & Sign In / User */}
+        <div className="flex items-center gap-2">
+          <BalanceDisplay />
+          {user ? (
+            <button
+              onClick={logout}
+              className="p-1.5 rounded-lg bg-[#14161F] border border-[#262B3B] text-[#8E95A5] hover:text-white hover:border-red-500/50 transition-colors"
+              title="Sign Out"
+              aria-label="Sign Out"
+            >
+              <LogOut className="w-3.5 h-3.5 text-red-400" />
+            </button>
+          ) : (
+            <button
+              onClick={() => openAuthModal("signin")}
+              className="px-2.5 py-1 rounded-lg bg-red-600 hover:bg-red-700 text-white text-[10px] font-black uppercase tracking-wider transition-colors shadow-[0_0_10px_rgba(220,38,38,0.3)]"
+            >
+              Sign In
+            </button>
+          )}
+        </div>
       </div>
 
       {/* 2. DESKTOP HEADER: Fixed height h-14, clean lobby controls */}
@@ -113,7 +131,7 @@ export default function Navbar({ onToggleSidebar }: { onToggleSidebar?: () => vo
               }`}
             >
               <ShieldCheck className="w-3.5 h-3.5 text-red-400" />
-              <span>Fairness & Integrity</span>
+              <span>Fairness</span>
             </Link>
           </div>
         </div>
@@ -136,13 +154,37 @@ export default function Navbar({ onToggleSidebar }: { onToggleSidebar?: () => vo
           {/* Demo Balance display with Top Up modal */}
           <BalanceDisplay />
 
-          {/* Auth links for quick access */}
-          <Link
-            href="/sign-in"
-            className="px-2.5 py-1.5 rounded-lg bg-[#161820] hover:bg-[#1E212B] border border-[#262A38] text-[#8E95A5] hover:text-white transition-colors text-xs font-semibold"
-          >
-            Sign In
-          </Link>
+          {/* Auth links or user status */}
+          {user ? (
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#161820] border border-[#262A38] text-xs">
+                <User className="w-3.5 h-3.5 text-red-400" />
+                <span className="text-white font-bold max-w-[100px] truncate">{user.name}</span>
+              </div>
+              <button
+                onClick={logout}
+                className="px-2 py-1.5 rounded-lg bg-[#161820] hover:bg-red-950/40 border border-[#262A38] hover:border-red-500/50 text-[#8E95A5] hover:text-red-400 transition-colors text-xs font-semibold"
+                title="Sign out of player profile"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => openAuthModal("signin")}
+                className="px-2.5 py-1.5 rounded-lg bg-[#161820] hover:bg-[#1E212B] border border-[#262A38] text-[#8E95A5] hover:text-white transition-colors text-xs font-semibold cursor-pointer"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => openAuthModal("signup")}
+                className="px-2.5 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white transition-colors text-xs font-bold uppercase tracking-wider cursor-pointer shadow-[0_0_10px_rgba(220,38,38,0.25)]"
+              >
+                Sign Up
+              </button>
+            </div>
+          )}
         </div>
       </header>
     </>

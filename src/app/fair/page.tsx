@@ -16,7 +16,7 @@ export function FairPage() {
       <div className="lg:pl-60 flex-1 flex flex-col min-w-0">
         <Navbar />
 
-        <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-24 lg:pb-12">
+        <main className="flex-1 w-full lg:max-w-4xl lg:mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-28 lg:pb-12">
           {/* Header */}
           <div className="border-b border-[#232632] pb-5">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1C1F2B] border border-[#2D3344] text-[10px] font-mono font-bold text-red-400 uppercase tracking-wider mb-2.5">

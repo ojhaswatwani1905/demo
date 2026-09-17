@@ -22,11 +22,11 @@ export function PopularGamesSlider() {
   };
 
   return (
-    <section className="space-y-3">
+    <section className="space-y-3.5">
       {/* Section Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="p-1 rounded-md bg-red-600/10 text-red-500">
+          <div className="p-1.5 rounded-lg bg-red-600/10 text-red-500 border border-red-500/20">
             <Flame className="w-4 h-4" />
           </div>
           <div>
@@ -36,19 +36,19 @@ export function PopularGamesSlider() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {/* Desktop Arrow Controls */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-1.5">
             <button
               onClick={scrollLeft}
-              className="p-1.5 rounded-lg bg-[#161820] hover:bg-[#1E212B] text-[#8E95A5] hover:text-white border border-[#262A38] transition-colors"
+              className="p-2 rounded-xl bg-[#161820] hover:bg-[#1E212B] text-[#8E95A5] hover:text-white border border-[#262A38] transition-colors cursor-pointer"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={scrollRight}
-              className="p-1.5 rounded-lg bg-[#161820] hover:bg-[#1E212B] text-[#8E95A5] hover:text-white border border-[#262A38] transition-colors"
+              className="p-2 rounded-xl bg-[#161820] hover:bg-[#1E212B] text-[#8E95A5] hover:text-white border border-[#262A38] transition-colors cursor-pointer"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-4 h-4" />
@@ -57,35 +57,34 @@ export function PopularGamesSlider() {
 
           <Link
             href="/games"
-            className="text-xs font-bold text-[#8E95A5] hover:text-white transition-colors flex items-center gap-1"
+            className="text-xs font-bold text-[#8E95A5] hover:text-white transition-colors flex items-center gap-1 group"
           >
             <span>See All</span>
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
       </div>
 
       {/* Slider / Grid Container:
-          - On Mobile: horizontal swipe slider showing roughly 2–2.5 cards at once (w-[148px] with 12px gap)
-          - On Desktop (md+): clean responsive grid showing all games together side-by-side
+          - On Mobile: horizontal swipe slider showing ~2 to 2.5 cards with natural spacing/peek
+          - On Desktop (md+): clean 4-column responsive grid
       */}
       <div className="md:hidden">
         <div
           ref={sliderRef}
-          className="flex gap-2.5 sm:gap-3 overflow-x-auto scrollbar-none pb-2 pt-0.5 px-0.5 snap-x snap-mandatory touch-pan-x"
+          className="flex gap-3 overflow-x-auto scrollbar-none pb-2 pt-0.5 px-0.5 snap-x snap-mandatory touch-pan-x"
         >
           {GAMES.map(game => (
             <div
               key={game.id}
-              className="w-[140px] sm:w-[155px] shrink-0 snap-start"
+              className="w-[165px] sm:w-[185px] shrink-0 snap-start"
             >
-              <GameCard game={game} compact />
+              <GameCard game={game} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Desktop Grid View */}
       <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         {GAMES.map(game => (
           <GameCard key={game.id} game={game} />

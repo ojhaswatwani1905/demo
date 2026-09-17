@@ -5,8 +5,10 @@ import { RealtimeProvider } from "@/context/RealtimeContext";
 import { WalletProvider } from "@/context/WalletContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
 import { UIProvider } from "@/context/UIContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { SearchModal } from "@/components/ui/SearchModal";
 import { DemoWalletModal } from "@/components/wallet/DemoWalletModal";
+import { AuthModal } from "@/components/auth/AuthModal";
 import { MobileNav } from "@/components/layout/MobileNav";
 
 const inter = Inter({
@@ -42,16 +44,19 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} dark`}>
       <body className="bg-[#0B0C10] text-[#EDEDF0] min-h-screen flex flex-col font-sans antialiased selection:bg-red-600 selection:text-white">
         <RealtimeProvider>
-          <WalletProvider>
-            <FavoritesProvider>
-              <UIProvider>
-                {children}
-                <SearchModal />
-                <DemoWalletModal />
-                <MobileNav />
-              </UIProvider>
-            </FavoritesProvider>
-          </WalletProvider>
+          <AuthProvider>
+            <WalletProvider>
+              <FavoritesProvider>
+                <UIProvider>
+                  {children}
+                  <SearchModal />
+                  <DemoWalletModal />
+                  <AuthModal />
+                  <MobileNav />
+                </UIProvider>
+              </FavoritesProvider>
+            </WalletProvider>
+          </AuthProvider>
         </RealtimeProvider>
       </body>
     </html>

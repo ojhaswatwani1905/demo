@@ -5,6 +5,7 @@ import { BannerCarousel } from "@/components/landing/BannerCarousel";
 import { PopularGamesSlider } from "@/components/landing/PopularGamesSlider";
 import { PromoInfoSection } from "@/components/landing/PromoInfoSection";
 import { RecentWinsSection } from "@/components/landing/RecentWinsSection";
+import { ProviderMarquee } from "@/components/landing/ProviderMarquee";
 import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
@@ -19,7 +20,7 @@ export default function HomePage() {
         <Navbar />
 
         {/* Homepage Content */}
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-6 space-y-6 sm:space-y-8 pb-24 lg:pb-8">
+        <main className="flex-1 w-full lg:max-w-7xl lg:mx-auto px-4 sm:px-6 py-5 sm:py-6 space-y-6 sm:space-y-8 pb-28 lg:pb-12">
           {/* 1. Games / Game Lobby Promotional Banner (Clickable -> /games) */}
           <BannerCarousel />
 
@@ -31,9 +32,12 @@ export default function HomePage() {
 
           {/* 4. Live Activity / Recent Wins at the bottom of main lobby */}
           <RecentWinsSection />
+
+          {/* 5. Continuous 2-Row Provider Marquee */}
+          <ProviderMarquee />
         </main>
 
-        {/* 5. Footer */}
+        {/* 6. Footer */}
         <Footer />
       </div>
     </div>

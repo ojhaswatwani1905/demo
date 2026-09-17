@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { useWallet } from "@/context/WalletContext";
 import { useFavorites } from "@/context/FavoritesContext";
+import { useAuth } from "@/context/AuthContext";
 import {
   ExternalLink,
   Settings,
@@ -20,7 +21,8 @@ import {
   Maximize2,
   Minimize2,
   Heart,
-  ArrowLeft
+  ArrowLeft,
+  Lock
 } from "lucide-react";
 
 interface GameLaunchShellProps {
@@ -35,6 +37,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
   const [isIframeLoading, setIsIframeLoading] = useState<boolean>(true);
   const { balance, openWalletModal } = useWallet();
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { isAuthenticated, isLoading: isAuthLoading, openAuthModal } = useAuth();
   const favorited = isFavorite(game.id);
 
   // Check resolved demo URL on mount and whenever game changes
@@ -129,7 +132,51 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {/* Game Area */}
         <div className="flex-1 flex flex-col bg-[#07070B] relative min-h-[580px] lg:min-h-[700px]">
-          {isUrlConfigured && !iframeError ? (
+          {!isAuthLoading && !isAuthenticated ? (
+            /* AUTHENTICATION GATE */
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#09090F] space-y-4">
+              <div className="relative mb-2">
+                <Image
+                  src="/assets/ui/betadrix_logo.png"
+                  alt="BETADRiX"
+                  width={140}
+                  height={41}
+                  className="h-7 w-auto object-contain"
+                />
+              </div>
+              <div className="space-y-2 max-w-md">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-600/20 border border-red-500/40 text-red-400 font-mono text-xs font-bold">
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>SIGN IN REQUIRED</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight">
+                  AUTHENTICATE TO PLAY DEMO
+                </h3>
+                <p className="text-xs text-[#8E8E9E] leading-relaxed">
+                  Sign in or create a demonstration player profile to launch {game.name} ({game.provider}) and synchronize your virtual demo credits.
+                </p>
+              </div>
+
+              <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
+                <button
+                  onClick={() => openAuthModal("signin")}
+                  className="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(220,38,38,0.3)] cursor-pointer"
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => openAuthModal("signup")}
+                  className="px-5 py-2.5 rounded-xl bg-[#181B26] hover:bg-[#202534] border border-[#2B3042] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  Create Account
+                </button>
+              </div>
+
+              <div className="pt-2 text-[10px] text-[#636B7E] font-mono">
+                100% Free virtual simulation • Zero real-money gambling
+              </div>
+            </div>
+          ) : isUrlConfigured && !iframeError ? (
             /* REAL GAME IFRAME VIEWPORT */
             <div className="relative w-full flex-1 flex flex-col bg-black">
               {/* Clean BETADRiX Loading Overlay */}

@@ -1,94 +1,98 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
-import { Crown, CheckCircle2, Shield } from "lucide-react";
 import { useRealtime } from "@/context/RealtimeContext";
+import {
+  Crown,
+  CheckCircle2,
+  Shield,
+  Sparkles,
+  ArrowRight,
+  Gift,
+  Zap,
+  Headphones,
+  Award,
+  ChevronRight
+} from "lucide-react";
 
 interface VipTier {
-  id: string | number;
+  id: string;
   name: string;
   level: string;
   wagerRequired: string;
   cashback: string;
+  description: string;
   perks: string[];
-  color: string;
+  isGold?: boolean;
 }
 
-const FALLBACK_TIERS: VipTier[] = [
+const STATIC_TIERS: VipTier[] = [
   {
     id: "bronze",
-    name: "Bronze Tier",
-    level: "Level 1 – 10",
+    name: "BRONZE",
+    level: "Tier 1 (Levels 1–10)",
     wagerRequired: "$0 – $10,000",
-    cashback: "5%",
+    cashback: "5% Demo Cashback",
+    description: "Your starting milestone in the BETADRiX demo loyalty program.",
     perks: [
-      "Standard demo reload balance",
+      "Standard daily demo reload",
       "Access to weekly leaderboard sprint",
-      "Community support channel access"
+      "Community support channel access",
     ],
-    color: "border-[#A77B51] text-[#D8A87D]"
   },
   {
     id: "silver",
-    name: "Silver Tier",
-    level: "Level 11 – 25",
+    name: "SILVER",
+    level: "Tier 2 (Levels 11–25)",
     wagerRequired: "$10,000 – $50,000",
-    cashback: "8%",
+    cashback: "8% Demo Cashback",
+    description: "Enhanced demonstration limits and accelerated demo reward rates.",
     perks: [
-      "Daily simulated spin wheel",
+      "Daily simulated spin boost",
       "8% weekly demo rakeback",
-      "Priority demo server throughput"
+      "Priority demo server throughput",
     ],
-    color: "border-[#8E95A5] text-[#C4C9D6]"
   },
   {
     id: "gold",
-    name: "Gold Tier",
-    level: "Level 26 – 50",
+    name: "GOLD",
+    level: "Tier 3 (Levels 26–50)",
     wagerRequired: "$50,000 – $200,000",
-    cashback: "12%",
+    cashback: "12% Demo Cashback",
+    description: "The distinguished Gold circle with premium demo privileges and direct concierge.",
+    isGold: true,
     perks: [
-      "Exclusive Gold-only tournament access",
+      "Exclusive Gold-only demo tournaments",
       "Instant 12% virtual loss compensation",
-      "Dedicated VIP concierge chat"
+      "Priority VIP desk & concierge chat",
+      "Special demonstration multiplier events",
     ],
-    color: "border-[#D4AF37] text-[#FFD700]"
   },
   {
     id: "platinum",
-    name: "Platinum Tier",
-    level: "Level 51 – 75",
-    wagerRequired: "$200,000 – $500,000",
-    cashback: "16%",
+    name: "PLATINUM",
+    level: "Tier 4 (Levels 51+)",
+    wagerRequired: "$200,000+",
+    cashback: "16% Demo Cashback",
+    description: "The peak demonstration status reserved for high-activity test simulators.",
     perks: [
-      "Custom multiplier challenges",
-      "Weekly virtual playground grant",
-      "Alpha beta tester access to new titles"
+      "Custom multiplier simulator challenges",
+      "Complimentary high-roller playground reloads",
+      "Early preview access to new game titles",
+      "Direct communication channel to engineers",
     ],
-    color: "border-[#00C0A3] text-[#4EEDD2]"
   },
-  {
-    id: "diamond",
-    name: "Diamond Tier",
-    level: "Level 76+",
-    wagerRequired: "$500,000+",
-    cashback: "20%",
-    perks: [
-      "Maximum 20% instant demo cashback",
-      "Bespoke high-roller simulation limits",
-      "Direct channel to platform engineers"
-    ],
-    color: "border-red-500 text-red-400"
-  }
 ];
 
-export default function VipClubPage() {
+export default function VipPage() {
   const { subscribe } = useRealtime();
-  const [tiers, setTiers] = useState<VipTier[]>(FALLBACK_TIERS);
-  const [activeTier, setActiveTier] = useState<string | number>("silver");
+  const [tiers, setTiers] = useState<VipTier[]>(STATIC_TIERS);
+  const [selectedTier, setSelectedTier] = useState<string>("gold");
 
   const loadTiers = async () => {
     try {
@@ -96,20 +100,68 @@ export default function VipClubPage() {
       if (res.ok) {
         const data = await res.json();
         if (data.tiers && data.tiers.length > 0) {
-          const mapped = data.tiers.map((t: any) => ({
-            id: t.id || t.tier_name.toLowerCase(),
-            name: t.tier_name,
-            level: `Level ${t.level_requirement || 1}+`,
-            wagerRequired: `$${Number(t.wager_required || 0).toLocaleString()}`,
-            cashback: `${t.cashback_percent || 5}%`,
-            perks: Array.isArray(t.perks) ? t.perks : [t.perks].filter(Boolean),
-            color: t.badge_color ? `border-[${t.badge_color}] text-[${t.badge_color}]` : "border-cyan-500 text-cyan-400"
-          }));
+          const mapped: VipTier[] = [
+            {
+              id: "bronze",
+              name: "BRONZE",
+              level: "Tier 1 (Levels 1–10)",
+              wagerRequired: "$0 – $10,000",
+              cashback: "5% Demo Cashback",
+              description: "Your starting milestone in the BETADRiX demo loyalty program.",
+              perks: [
+                "Standard daily demo reload",
+                "Access to weekly leaderboard sprint",
+                "Community support channel access",
+              ],
+            },
+            {
+              id: "silver",
+              name: "SILVER",
+              level: "Tier 2 (Levels 11–25)",
+              wagerRequired: "$10,000 – $50,000",
+              cashback: "8% Demo Cashback",
+              description: "Enhanced demonstration limits and accelerated demo reward rates.",
+              perks: [
+                "Daily simulated spin boost",
+                "8% weekly demo rakeback",
+                "Priority demo server throughput",
+              ],
+            },
+            {
+              id: "gold",
+              name: "GOLD",
+              level: "Tier 3 (Levels 26–50)",
+              wagerRequired: "$50,000 – $200,000",
+              cashback: "12% Demo Cashback",
+              description: "The distinguished Gold circle with premium demo privileges and direct concierge.",
+              isGold: true,
+              perks: [
+                "Exclusive Gold-only demo tournaments",
+                "Instant 12% virtual loss compensation",
+                "Priority VIP desk & concierge chat",
+                "Special demonstration multiplier events",
+              ],
+            },
+            {
+              id: "platinum",
+              name: "PLATINUM",
+              level: "Tier 4 (Levels 51+)",
+              wagerRequired: "$200,000+",
+              cashback: "16% Demo Cashback",
+              description: "The peak demonstration status reserved for high-activity test simulators.",
+              perks: [
+                "Custom multiplier simulator challenges",
+                "Complimentary high-roller playground reloads",
+                "Early preview access to new game titles",
+                "Direct communication channel to engineers",
+              ],
+            },
+          ];
           setTiers(mapped);
         }
       }
     } catch (err) {
-      console.error("Failed to load dynamic VIP tiers:", err);
+      console.error("Failed to fetch dynamic VIP tiers:", err);
     }
   };
 
@@ -124,10 +176,12 @@ export default function VipClubPage() {
     return unsub;
   }, [subscribe]);
 
-  // Mock player VIP progression
+  // Player progress simulation
+  const currentTier = "Silver";
+  const nextTier = "Gold";
   const currentLevel = 14;
-  const currentTier = "Silver Tier";
   const progressPercent = 68;
+  const xpNeeded = "3,200 XP";
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0B0C10] text-[#EDEDF0]">
@@ -136,48 +190,94 @@ export default function VipClubPage() {
       <div className="lg:pl-60 flex-1 flex flex-col min-w-0">
         <Navbar />
 
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 pb-24 lg:pb-12">
-          {/* Header */}
-          <div className="border-b border-[#232632] pb-5">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1C1F2B] border border-[#2D3344] text-[10px] font-mono font-bold text-red-400 uppercase tracking-wider mb-2.5">
-              <Crown className="w-3.5 h-3.5 text-red-500" />
-              <span>VIP Loyalty Program</span>
+        <main className="flex-1 w-full lg:max-w-7xl lg:mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-8 pb-28 lg:pb-12">
+          {/* A. VIP HERO: More Rewards. More Benefits. */}
+          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#12141C] via-[#1B1612] to-[#12141C] border border-[#2B2720] p-6 sm:p-10 shadow-2xl">
+            {/* Background Glow */}
+            <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-3 max-w-xl text-center md:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-black uppercase tracking-wider">
+                  <Crown className="w-3.5 h-3.5 text-amber-400" />
+                  <span>VIP LOYALTY EXPERIENCE</span>
+                </div>
+
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-none">
+                  BECOME A VIP
+                </h1>
+
+                <p className="text-sm sm:text-base text-[#D4AF37] font-semibold">
+                  More Rewards. More Benefits.
+                </p>
+
+                <p className="text-xs sm:text-sm text-[#8E95A5] leading-relaxed">
+                  Unlock simulated rakeback, personalized demo boosts, and high-roller testing privileges as you advance through demonstration loyalty tiers.
+                </p>
+
+                <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
+                  <Link
+                    href="/games"
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] flex items-center gap-2"
+                  >
+                    <span>Play Demo Games</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <a
+                    href="#tiers"
+                    className="px-4 py-2.5 rounded-xl bg-[#181B26] hover:bg-[#202534] border border-[#2A3042] text-white font-bold text-xs uppercase tracking-wider transition-colors"
+                  >
+                    View All Tiers
+                  </a>
+                </div>
+              </div>
+
+              {/* Hero Crown Artwork */}
+              <div className="relative w-44 h-44 sm:w-56 sm:h-56 shrink-0">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-amber-500/20 to-transparent blur-xl" />
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-amber-500/40 shadow-[0_0_30px_rgba(245,158,11,0.2)]">
+                  <Image
+                    src="/assets/ui/vip_gold_crown.jpg"
+                    alt="VIP Gold Crown"
+                    fill
+                    sizes="(max-width: 768px) 180px, 240px"
+                    className="object-cover object-center"
+                    priority
+                  />
+                </div>
+              </div>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
-              VIP Club & Loyalty Tiers
-            </h1>
-            <p className="text-xs sm:text-sm text-[#8E95A5] mt-1.5 max-w-2xl leading-relaxed">
-              Earn virtual experience points with every demo spin. Unlock enhanced simulated rakeback, bonus spins, and exclusive VIP privileges.
-            </p>
           </div>
 
-          {/* Player Progress Card */}
-          <div className="p-6 rounded-2xl bg-[#13151D] border border-[#232632] space-y-4">
+          {/* E. USER VIP PROGRESSION */}
+          <div className="p-6 rounded-2xl bg-[#11131A] border border-[#222634] space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <span className="text-[11px] font-mono uppercase text-[#7A8296] font-bold block">
                   Current Player Status
                 </span>
-                <div className="text-xl sm:text-2xl font-black text-white flex items-center gap-2 mt-0.5">
-                  <span>{currentTier}</span>
-                  <span className="text-xs font-mono font-bold bg-[#1E222D] text-red-400 px-2 py-0.5 rounded border border-[#2E3547]">
+                <div className="text-xl sm:text-2xl font-black text-white flex items-center gap-2.5 mt-0.5">
+                  <span>{currentTier} Tier</span>
+                  <span className="text-xs font-mono font-bold bg-[#1C1F2B] text-amber-400 px-2 py-0.5 rounded border border-[#2D3344]">
                     Level {currentLevel}
                   </span>
                 </div>
               </div>
 
-              <div className="text-right sm:block">
-                <span className="text-xs text-[#8E95A5]">Next Tier: </span>
-                <strong className="text-white text-xs font-bold">Gold Tier</strong>
-                <span className="text-xs text-[#7A8296] block font-mono">3,200 XP required</span>
+              <div className="sm:text-right">
+                <span className="text-xs text-[#8E95A5]">Next Milestone: </span>
+                <strong className="text-amber-400 text-xs font-bold uppercase">{nextTier} Tier</strong>
+                <span className="text-xs text-[#7A8296] block font-mono mt-0.5">
+                  {xpNeeded} to level up
+                </span>
               </div>
             </div>
 
             {/* Progress Bar */}
             <div className="space-y-1.5">
-              <div className="h-2.5 w-full bg-[#1A1D27] rounded-full overflow-hidden p-0.5 border border-[#252A3A]">
+              <div className="h-3 w-full bg-[#161822] rounded-full overflow-hidden p-0.5 border border-[#262B3B]">
                 <div
-                  className="h-full bg-red-600 rounded-full transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-amber-500 to-red-500 rounded-full transition-all duration-500"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -188,57 +288,164 @@ export default function VipClubPage() {
             </div>
           </div>
 
-          {/* VIP Tiers Table / List */}
-          <div className="space-y-3">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-white">
-              All VIP Tiers & Benefits
-            </h2>
+          {/* C. SPECIAL FEATURED GOLD TIER CARD */}
+          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#251D0C] via-[#1A150A] to-[#100E07] border-2 border-amber-500/60 p-6 sm:p-8 shadow-[0_0_35px_rgba(245,158,11,0.18)]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              {/* Left Column: Image & Badge */}
+              <div className="lg:col-span-5 flex flex-col sm:flex-row items-center gap-5">
+                <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_0_25px_rgba(245,158,11,0.3)] shrink-0">
+                  <Image
+                    src="/assets/ui/vip_gold_crown.jpg"
+                    alt="VIP Gold Crown Distinctive"
+                    fill
+                    sizes="(max-width: 640px) 130px, 160px"
+                    className="object-cover object-center"
+                  />
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="text-center sm:text-left space-y-1.5">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/50 text-amber-300 font-mono text-xs font-black">
+                    <Crown className="w-3.5 h-3.5 text-amber-400" />
+                    <span>FEATURED TIER</span>
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-black text-amber-300 uppercase tracking-tight">
+                    VIP GOLD
+                  </h2>
+                  <p className="text-xs text-amber-200/80 font-semibold">
+                    Play More. Get More.
+                  </p>
+                  <div className="text-[11px] font-mono text-[#A39268] pt-1">
+                    Turnover: $50,000 – $200,000
+                  </div>
+                </div>
+              </div>
+
+              {/* Middle Column: Benefits List */}
+              <div className="lg:col-span-4 space-y-2">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-400 block">
+                  Gold Privileges:
+                </span>
+                <div className="space-y-1.5">
+                  {[
+                    "Higher Demo Bonuses & Weekly Grants",
+                    "Dedicated VIP Concierge Assistance",
+                    "Exclusive Gold-Only Tournaments",
+                    "Instant 12% Virtual Loss Compensation",
+                  ].map((benefit, idx) => (
+                    <div key={idx} className="flex items-center gap-2 text-xs text-[#E5D7B7]">
+                      <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: CTA */}
+              <div className="lg:col-span-3 flex flex-col items-center sm:items-end justify-center">
+                <Link
+                  href="/games"
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-black font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(245,158,11,0.4)] text-center"
+                >
+                  Upgrade to Gold
+                </Link>
+                <span className="text-[10px] font-mono text-[#A39268] mt-2">
+                  Simulation milestone
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* B. ALL VIP TIERS (Bronze, Silver, Gold, Platinum) */}
+          <div id="tiers" className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight">
+                  VIP Membership Tiers
+                </h2>
+                <p className="text-xs text-[#8E95A5] mt-0.5">
+                  Compare tier criteria and unlocked simulation perks
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {tiers.map(tier => {
-                const isSelected = activeTier === tier.id;
+                const isSelected = selectedTier === tier.id;
+                const isGoldTier = tier.isGold;
+
                 return (
                   <div
                     key={tier.id}
-                    onClick={() => setActiveTier(tier.id)}
-                    className={`p-5 rounded-2xl bg-[#13151D] border transition-all cursor-pointer flex flex-col justify-between space-y-4 ${
-                      isSelected
-                        ? "border-red-500 bg-[#161924]"
-                        : "border-[#232632] hover:border-[#353A4C]"
+                    onClick={() => setSelectedTier(tier.id)}
+                    className={`rounded-2xl p-5 flex flex-col justify-between space-y-4 transition-all cursor-pointer ${
+                      isGoldTier
+                        ? "bg-[#1E190E] border-2 border-amber-500/70 shadow-[0_0_20px_rgba(245,158,11,0.15)]"
+                        : isSelected
+                        ? "bg-[#161822] border-2 border-red-500"
+                        : "bg-[#11131A] border border-[#222634] hover:border-[#353A4C]"
                     }`}
                   >
                     <div className="space-y-3">
+                      {/* Tier Top Meta */}
                       <div className="flex items-center justify-between">
-                        <span className={`text-xs font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-[#181B26] border ${tier.color}`}>
+                        <span
+                          className={`text-xs font-mono font-black uppercase px-2.5 py-0.5 rounded ${
+                            isGoldTier
+                              ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+                              : tier.id === "platinum"
+                              ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
+                              : tier.id === "silver"
+                              ? "bg-slate-500/20 text-slate-300 border border-slate-500/40"
+                              : "bg-amber-900/30 text-amber-400 border border-amber-800/40"
+                          }`}
+                        >
                           {tier.name}
                         </span>
-                        <span className="text-[11px] font-mono text-[#7A8296]">
-                          {tier.level}
-                        </span>
+                        <span className="text-[10px] font-mono text-[#7A8296]">{tier.level}</span>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-[#0E1016] border border-[#1C1F2B] flex items-center justify-between">
+                      {/* Cashback Metric */}
+                      <div
+                        className={`p-3 rounded-xl border flex items-center justify-between ${
+                          isGoldTier
+                            ? "bg-[#141108] border-amber-500/30"
+                            : "bg-[#0E1016] border-[#1C1F2B]"
+                        }`}
+                      >
                         <span className="text-[11px] text-[#7A8296]">Demo Rakeback</span>
-                        <span className="text-sm font-black text-emerald-400 font-mono">
+                        <span
+                          className={`text-sm font-black font-mono ${
+                            isGoldTier ? "text-amber-400" : "text-white"
+                          }`}
+                        >
                           {tier.cashback}
                         </span>
                       </div>
 
-                      <div className="space-y-2 pt-1">
-                        <span className="text-[10px] font-mono font-bold uppercase text-[#5A6072] block">
-                          Tier Benefits:
+                      <p className="text-xs text-[#8E95A5] leading-relaxed">
+                        {tier.description}
+                      </p>
+
+                      {/* Benefits Checklist */}
+                      <div className="space-y-1.5 pt-1">
+                        <span className="text-[10px] font-mono font-bold uppercase text-[#636B7E] block">
+                          Included Perks:
                         </span>
                         {tier.perks.map((perk, idx) => (
                           <div key={idx} className="flex items-start gap-2 text-xs text-[#959CAE]">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" />
+                            <CheckCircle2
+                              className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${
+                                isGoldTier ? "text-amber-400" : "text-red-500"
+                              }`}
+                            />
                             <span>{perk}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="pt-2 border-t border-[#1C1F2B] text-[10px] text-[#636B7E]">
-                      Simulated Turnover: {tier.wagerRequired}
+                    <div className="pt-2 border-t border-[#1C1F2B] text-[10px] text-[#636B7E] font-mono">
+                      Turnover: {tier.wagerRequired}
                     </div>
                   </div>
                 );
@@ -246,11 +453,85 @@ export default function VipClubPage() {
             </div>
           </div>
 
-          {/* Demo disclaimer */}
+          {/* D. VIP BENEFITS GRID */}
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight">
+                VIP Benefits & Privileges
+              </h2>
+              <p className="text-xs text-[#8E95A5] mt-0.5">
+                Elevate your demo gaming experience with exclusive player advantages
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="p-5 rounded-2xl bg-[#11131A] border border-[#222634] space-y-2.5">
+                <div className="p-2 rounded-xl bg-red-600/10 text-red-500 w-fit">
+                  <Gift className="w-5 h-5" />
+                </div>
+                <h3 className="text-sm font-bold text-white uppercase tracking-tight">
+                  Better Demo Rewards
+                </h3>
+                <p className="text-xs text-[#8E95A5] leading-relaxed">
+                  Higher daily faucet allowances and weekly reload allocations tailored to active test simulators.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-[#11131A] border border-[#222634] space-y-2.5">
+                <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 w-fit">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <h3 className="text-sm font-bold text-white uppercase tracking-tight">
+                  VIP Promotions
+                </h3>
+                <p className="text-xs text-[#8E95A5] leading-relaxed">
+                  Access tier-exclusive demonstration multiplier challenges and seasonal simulator leaderboard sprints.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-[#11131A] border border-[#222634] space-y-2.5">
+                <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 w-fit">
+                  <Headphones className="w-5 h-5" />
+                </div>
+                <h3 className="text-sm font-bold text-white uppercase tracking-tight">
+                  Priority Support
+                </h3>
+                <p className="text-xs text-[#8E95A5] leading-relaxed">
+                  Direct live assistance with faster response times on official Telegram and WhatsApp channels.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-[#11131A] border border-[#222634] space-y-2.5">
+                <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400 w-fit">
+                  <Award className="w-5 h-5" />
+                </div>
+                <h3 className="text-sm font-bold text-white uppercase tracking-tight">
+                  Special Events
+                </h3>
+                <p className="text-xs text-[#8E95A5] leading-relaxed">
+                  Early beta access to new titles from Turbo Games and Spribe before broad lobby deployment.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-[#11131A] border border-[#222634] space-y-2.5 sm:col-span-2 lg:col-span-2">
+                <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 w-fit">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <h3 className="text-sm font-bold text-white uppercase tracking-tight">
+                  Loyalty Benefits & Level Milestones
+                </h3>
+                <p className="text-xs text-[#8E95A5] leading-relaxed">
+                  Every simulated round logs XP towards milestone achievement badges. All loyalty points, rakebacks, and rank rewards are strictly virtual demonstration credits.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Compliance Notice */}
           <div className="p-4 rounded-xl bg-[#14161E] border border-[#232632] flex items-start gap-3 text-xs text-[#8E95A5]">
             <Shield className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
             <p>
-              VIP tiers and loyalty points are simulated records tied to demo session activity. All perks, cashbacks, and rakebacks award non-cash demonstration credits.
+              VIP tiers, points, and rakebacks are simulated loyalty metrics tied to demo gameplay sessions. No cash deposits, wagering turnover, or monetary rewards are supported.
             </p>
           </div>
         </main>
