@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Logo } from "@/components/layout/Logo";
-import { CaptchaBox } from "@/components/auth/CaptchaBox";
 import { X, ShieldCheck, Mail, Lock, User, AlertCircle, ArrowRight, CheckCircle2 } from "lucide-react";
 
 export function AuthModal() {
@@ -14,10 +13,6 @@ export function AuthModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const [captchaToken, setCaptchaToken] = useState("");
-  const [captchaAnswer, setCaptchaAnswer] = useState("");
-  const [refreshCaptchaCount, setRefreshCaptchaCount] = useState(0);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,11 +38,6 @@ export function AuthModal() {
 
   if (!isAuthModalOpen) return null;
 
-  const handleChallengeChange = (token: string, answer: string) => {
-    setCaptchaToken(token);
-    setCaptchaAnswer(answer);
-  };
-
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
@@ -57,25 +47,19 @@ export function AuthModal() {
       return;
     }
 
-    if (!captchaAnswer.trim()) {
-      setErrorMessage("Please complete the security CAPTCHA verification.");
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, captchaToken, captchaAnswer }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
 
       if (!res.ok || !data.success) {
         setErrorMessage(data.error || "Invalid credentials. Please check your details.");
-        setRefreshCaptchaCount(prev => prev + 1);
         setIsSubmitting(false);
         return;
       }
@@ -84,7 +68,6 @@ export function AuthModal() {
     } catch (err) {
       console.error("Sign in error:", err);
       setErrorMessage("A network error occurred. Please try again.");
-      setRefreshCaptchaCount(prev => prev + 1);
       setIsSubmitting(false);
     }
   };
@@ -109,10 +92,6 @@ export function AuthModal() {
       setErrorMessage("Passwords do not match.");
       return;
     }
-    if (!captchaAnswer.trim()) {
-      setErrorMessage("Please complete the security CAPTCHA verification.");
-      return;
-    }
 
     setIsSubmitting(true);
 
@@ -125,8 +104,6 @@ export function AuthModal() {
           email,
           password,
           confirmPassword,
-          captchaToken,
-          captchaAnswer,
         }),
       });
 
@@ -134,7 +111,6 @@ export function AuthModal() {
 
       if (!res.ok || !data.success) {
         setErrorMessage(data.error || "Failed to create account. Please try again.");
-        setRefreshCaptchaCount(prev => prev + 1);
         setIsSubmitting(false);
         return;
       }
@@ -143,7 +119,6 @@ export function AuthModal() {
     } catch (err) {
       console.error("Sign up error:", err);
       setErrorMessage("A network error occurred. Please try again.");
-      setRefreshCaptchaCount(prev => prev + 1);
       setIsSubmitting(false);
     }
   };
@@ -268,11 +243,6 @@ export function AuthModal() {
                 </div>
               </div>
 
-              {/* Security CAPTCHA */}
-              <CaptchaBox
-                onChallengeChange={handleChallengeChange}
-                refreshTrigger={refreshCaptchaCount}
-              />
 
               {/* Submit Button */}
               <button
@@ -359,11 +329,6 @@ export function AuthModal() {
                 </div>
               </div>
 
-              {/* Security CAPTCHA */}
-              <CaptchaBox
-                onChallengeChange={handleChallengeChange}
-                refreshTrigger={refreshCaptchaCount}
-              />
 
               {/* Submit Button */}
               <button

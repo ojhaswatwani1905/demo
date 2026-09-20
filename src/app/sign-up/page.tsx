@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Logo } from "@/components/layout/Logo";
-import { CaptchaBox } from "@/components/auth/CaptchaBox";
 import { ShieldCheck, User, Mail, Lock, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
 
 export default function SignUpPage() {
@@ -15,17 +14,9 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [captchaToken, setCaptchaToken] = useState("");
-  const [captchaAnswer, setCaptchaAnswer] = useState("");
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [refreshCaptchaCount, setRefreshCaptchaCount] = useState(0);
-
-  const handleChallengeChange = (token: string, answer: string) => {
-    setCaptchaToken(token);
-    setCaptchaAnswer(answer);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,11 +24,6 @@ export default function SignUpPage() {
 
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match.");
-      return;
-    }
-
-    if (!captchaAnswer.trim()) {
-      setErrorMessage("Please complete the security CAPTCHA verification.");
       return;
     }
 
@@ -51,9 +37,7 @@ export default function SignUpPage() {
           name,
           email,
           password,
-          confirmPassword,
-          captchaToken,
-          captchaAnswer
+          confirmPassword
         })
       });
 
@@ -61,8 +45,6 @@ export default function SignUpPage() {
 
       if (!res.ok || !data.success) {
         setErrorMessage(data.error || "Failed to create account. Please check your inputs.");
-        // Regenerate CAPTCHA on error
-        setRefreshCaptchaCount(prev => prev + 1);
         setIsSubmitting(false);
         return;
       }
@@ -72,7 +54,6 @@ export default function SignUpPage() {
     } catch (err) {
       console.error("Sign up submit error:", err);
       setErrorMessage("A network or server error occurred. Please try again.");
-      setRefreshCaptchaCount(prev => prev + 1);
       setIsSubmitting(false);
     }
   };
@@ -188,11 +169,6 @@ export default function SignUpPage() {
                 </div>
               </div>
 
-              {/* Dynamic CAPTCHA verification */}
-              <CaptchaBox
-                onChallengeChange={handleChallengeChange}
-                refreshTrigger={refreshCaptchaCount}
-              />
 
               {/* Submit button */}
               <button

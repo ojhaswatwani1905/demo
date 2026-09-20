@@ -25,20 +25,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. CAPTCHA verification
-    if (!captchaToken || !captchaAnswer) {
-      return NextResponse.json(
-        { success: false, error: "Please complete the CAPTCHA challenge." },
-        { status: 400 }
-      );
-    }
-
-    const isCaptchaValid = verifyCaptcha(captchaToken, captchaAnswer);
-    if (!isCaptchaValid) {
-      return NextResponse.json(
-        { success: false, error: "Invalid or expired CAPTCHA. Please try again." },
-        { status: 400 }
-      );
+    // CAPTCHA verification disabled for now
+    if (captchaToken && captchaAnswer) {
+      const isCaptchaValid = verifyCaptcha(captchaToken, captchaAnswer);
+      if (!isCaptchaValid) {
+        return NextResponse.json(
+          { success: false, error: "Invalid or expired CAPTCHA. Please try again." },
+          { status: 400 }
+        );
+      }
     }
 
     // 3. Find user

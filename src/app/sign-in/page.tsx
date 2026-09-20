@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Logo } from "@/components/layout/Logo";
-import { CaptchaBox } from "@/components/auth/CaptchaBox";
 import { ShieldCheck, Mail, Lock, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
 
 export default function SignInPage() {
@@ -13,26 +12,13 @@ export default function SignInPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [captchaToken, setCaptchaToken] = useState("");
-  const [captchaAnswer, setCaptchaAnswer] = useState("");
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [refreshCaptchaCount, setRefreshCaptchaCount] = useState(0);
-
-  const handleChallengeChange = (token: string, answer: string) => {
-    setCaptchaToken(token);
-    setCaptchaAnswer(answer);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
-
-    if (!captchaAnswer.trim()) {
-      setErrorMessage("Please complete the security CAPTCHA verification.");
-      return;
-    }
 
     setIsSubmitting(true);
 
@@ -42,9 +28,7 @@ export default function SignInPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          password,
-          captchaToken,
-          captchaAnswer
+          password
         })
       });
 
@@ -52,8 +36,6 @@ export default function SignInPage() {
 
       if (!res.ok || !data.success) {
         setErrorMessage(data.error || "Invalid credentials. Please check your details.");
-        // Regenerate CAPTCHA on failed verification
-        setRefreshCaptchaCount(prev => prev + 1);
         setIsSubmitting(false);
         return;
       }
@@ -63,7 +45,6 @@ export default function SignInPage() {
     } catch (err) {
       console.error("Sign in submit error:", err);
       setErrorMessage("A network or server error occurred. Please try again.");
-      setRefreshCaptchaCount(prev => prev + 1);
       setIsSubmitting(false);
     }
   };
@@ -139,11 +120,6 @@ export default function SignInPage() {
                 </div>
               </div>
 
-              {/* Dynamic CAPTCHA verification */}
-              <CaptchaBox
-                onChallengeChange={handleChallengeChange}
-                refreshTrigger={refreshCaptchaCount}
-              />
 
               {/* Submit button */}
               <button
