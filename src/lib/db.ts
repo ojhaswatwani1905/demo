@@ -142,6 +142,11 @@ export interface GameConfigRecord {
   is_active: boolean;
   display_order: number;
   updated_at: string;
+  is_enabled?: boolean;
+  min_bet?: number;
+  max_bet?: number;
+  rtp_percentage?: number;
+  maintenance_message?: string;
 }
 
 export interface AdminAuditRecord {
@@ -402,6 +407,19 @@ function readLocalStore(): LocalStore {
       if (!parsed.game_configs || parsed.game_configs.length === 0) {
         parsed.game_configs = getDefaultGameConfigs();
         updated = true;
+      } else {
+        const plinkoEntry = parsed.game_configs.find(g => g.game_id.toLowerCase() === "plinko");
+        if (plinkoEntry) {
+          if (plinkoEntry.provider === "Spribe" || !plinkoEntry.launch_url || plinkoEntry.launch_url.trim() === "") {
+            plinkoEntry.provider = "BETADRiX";
+            plinkoEntry.name = "PLINKO";
+            plinkoEntry.launch_url = "https://plinko-1-b1u5.onrender.com/embed";
+            plinkoEntry.is_active = true;
+            plinkoEntry.is_enabled = true;
+            plinkoEntry.updated_at = new Date().toISOString();
+            updated = true;
+          }
+        }
       }
 
       if (!parsed.balance_audit_logs) {
@@ -791,6 +809,16 @@ export async function initializeDatabase(): Promise<boolean> {
               [g.game_id, g.name, g.provider, g.category, g.image_url, g.launch_url, g.is_active, g.display_order]
             );
           }
+        } else {
+          // Ensure Plinko is migrated from Spribe to BETADRiX standalone embed in existing DB
+          await client.query(`
+            UPDATE game_configs
+            SET provider = 'BETADRiX',
+                name = 'PLINKO',
+                launch_url = 'https://plinko-1-b1u5.onrender.com/embed',
+                updated_at = CURRENT_TIMESTAMP
+            WHERE LOWER(game_id) = 'plinko' AND (provider = 'Spribe' OR launch_url IS NULL OR launch_url = '')
+          `);
         }
 
         // Seed dummy activity if empty
@@ -1769,28 +1797,91 @@ export async function updateBonusSettings(data: Partial<BonusSettingsRecord>): P
 export async function getGameConfigs(): Promise<GameConfigRecord[]> {
   await initializeDatabase();
 
+  let rows: GameConfigRecord[] = [];
   if (isPgConnected && pgPool) {
     try {
       const res = await pgPool.query<GameConfigRecord>(
         `SELECT * FROM game_configs ORDER BY display_order ASC, id ASC`
       );
       lastSuccessfulDbOp = new Date().toISOString();
-      return res.rows;
+      rows = res.rows;
     } catch (err) {
       console.error("Error loading game configs from Postgres:", err);
     }
   }
 
-  const store = readLocalStore();
-  return store.game_configs || getDefaultGameConfigs();
+  if (rows.length === 0) {
+    const store = readLocalStore();
+    rows = store.game_configs || getDefaultGameConfigs();
+  }
+
+  return rows.map(r => ({
+    ...r,
+    is_enabled: r.is_enabled !== undefined ? r.is_enabled : r.is_active
+  }));
 }
 
-export async function updateGameConfig(gameId: string, data: Partial<GameConfigRecord>): Promise<GameConfigRecord | null> {
+export async function getGameConfigById(gameId: string): Promise<GameConfigRecord | null> {
   await initializeDatabase();
+  const normalizedId = gameId.toLowerCase();
 
   if (isPgConnected && pgPool) {
     try {
-      const existing = await pgPool.query(`SELECT * FROM game_configs WHERE game_id = $1`, [gameId]);
+      const res = await pgPool.query<GameConfigRecord>(
+        `SELECT * FROM game_configs WHERE LOWER(game_id) = $1`,
+        [normalizedId]
+      );
+      lastSuccessfulDbOp = new Date().toISOString();
+      if (res.rows.length > 0) {
+        const row = res.rows[0];
+        return {
+          ...row,
+          is_enabled: row.is_enabled !== undefined ? row.is_enabled : row.is_active
+        };
+      }
+    } catch (err) {
+      console.error("Error loading game config by ID from Postgres:", err);
+    }
+  }
+
+  const store = readLocalStore();
+  const g = store.game_configs?.find(x => x.game_id.toLowerCase() === normalizedId);
+  if (g) {
+    return {
+      ...g,
+      is_enabled: g.is_enabled !== undefined ? g.is_enabled : g.is_active
+    };
+  }
+
+  const def = getDefaultGameConfigs().find(x => x.game_id.toLowerCase() === normalizedId);
+  if (def) {
+    return {
+      ...def,
+      is_enabled: def.is_enabled !== undefined ? def.is_enabled : def.is_active
+    };
+  }
+
+  return null;
+}
+
+export async function updateGameConfig(
+  gameId: string,
+  data: Partial<GameConfigRecord> & { is_enabled?: boolean; min_bet?: number; max_bet?: number; rtp_percentage?: number; maintenance_message?: string }
+): Promise<GameConfigRecord | null> {
+  await initializeDatabase();
+  const normalizedId = gameId.toLowerCase();
+
+  const isActive = data.is_active !== undefined
+    ? data.is_active
+    : data.is_enabled !== undefined
+      ? data.is_enabled
+      : undefined;
+
+  const trimmedLaunchUrl = data.launch_url !== undefined ? data.launch_url.trim() : undefined;
+
+  if (isPgConnected && pgPool) {
+    try {
+      const existing = await pgPool.query(`SELECT * FROM game_configs WHERE LOWER(game_id) = $1`, [normalizedId]);
       if (existing.rows.length === 0) return null;
       const cur = existing.rows[0];
 
@@ -1804,29 +1895,50 @@ export async function updateGameConfig(gameId: string, data: Partial<GameConfigR
           is_active = $6,
           display_order = $7,
           updated_at = CURRENT_TIMESTAMP
-         WHERE game_id = $8 RETURNING *`,
+         WHERE LOWER(game_id) = $8 RETURNING *`,
         [
           data.name !== undefined ? data.name : cur.name,
           data.provider !== undefined ? data.provider : cur.provider,
           data.category !== undefined ? data.category : cur.category,
           data.image_url !== undefined ? data.image_url : cur.image_url,
-          data.launch_url !== undefined ? data.launch_url : cur.launch_url,
-          data.is_active !== undefined ? data.is_active : cur.is_active,
+          trimmedLaunchUrl !== undefined ? trimmedLaunchUrl : cur.launch_url,
+          isActive !== undefined ? isActive : cur.is_active,
           data.display_order !== undefined ? data.display_order : cur.display_order,
-          gameId
+          normalizedId
         ]
       );
       lastSuccessfulDbOp = new Date().toISOString();
-      return res.rows[0];
+      const updatedRow = {
+        ...res.rows[0],
+        is_enabled: res.rows[0].is_active,
+        min_bet: data.min_bet ?? cur.min_bet,
+        max_bet: data.max_bet ?? cur.max_bet,
+        rtp_percentage: data.rtp_percentage ?? cur.rtp_percentage,
+        maintenance_message: data.maintenance_message ?? cur.maintenance_message
+      };
+      return updatedRow;
     } catch (err) {
       console.error("Error updating game config in Postgres:", err);
     }
   }
 
   const store = readLocalStore();
-  const g = store.game_configs?.find(x => x.game_id === gameId);
+  const g = store.game_configs?.find(x => x.game_id.toLowerCase() === normalizedId);
   if (!g) return null;
-  Object.assign(g, data, { updated_at: new Date().toISOString() });
+
+  if (trimmedLaunchUrl !== undefined) {
+    g.launch_url = trimmedLaunchUrl;
+  }
+  if (isActive !== undefined) {
+    g.is_active = isActive;
+    g.is_enabled = isActive;
+  }
+  Object.assign(g, data, {
+    launch_url: trimmedLaunchUrl !== undefined ? trimmedLaunchUrl : g.launch_url,
+    is_active: isActive !== undefined ? isActive : g.is_active,
+    is_enabled: isActive !== undefined ? isActive : (g.is_enabled ?? g.is_active),
+    updated_at: new Date().toISOString()
+  });
   writeLocalStore(store);
   return g;
 }

@@ -35,7 +35,11 @@ export default function AdminGamesPage() {
       const res = await fetch("/api/admin/games");
       if (res.ok) {
         const data = await res.json();
-        setGames(data.games || []);
+        const normalized = (data.games || []).map((g: any) => ({
+          ...g,
+          is_enabled: g.is_enabled !== undefined ? g.is_enabled : (g.is_active !== undefined ? g.is_active : true)
+        }));
+        setGames(normalized);
       }
     } catch (err) {
       console.error("Failed to load games:", err);
@@ -52,7 +56,11 @@ export default function AdminGamesPage() {
     const unsub = subscribe("GAME_CONFIG_UPDATED", (payload: any) => {
       if (payload) {
         setGames(prev =>
-          prev.map(g => (g.game_id === payload.game_id ? { ...g, ...payload } : g))
+          prev.map(g => (g.game_id === payload.game_id ? {
+            ...g,
+            ...payload,
+            is_enabled: payload.is_enabled !== undefined ? payload.is_enabled : (payload.is_active !== undefined ? payload.is_active : g.is_enabled)
+          } : g))
         );
       }
     });
@@ -60,23 +68,25 @@ export default function AdminGamesPage() {
   }, [subscribe]);
 
   const toggleGameStatus = async (game: GameConfig) => {
+    const nextState = !game.is_enabled;
     try {
       const res = await fetch("/api/admin/games", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           game_id: game.game_id,
-          is_enabled: !game.is_enabled
+          is_enabled: nextState,
+          is_active: nextState
         })
       });
       const data = await res.json();
       if (res.ok && data.success) {
         setGames(prev =>
-          prev.map(g => (g.game_id === game.game_id ? { ...g, is_enabled: !game.is_enabled } : g))
+          prev.map(g => (g.game_id === game.game_id ? { ...g, is_enabled: nextState, is_active: nextState } : g))
         );
         setStatusMessage({
           type: "success",
-          text: `Game ${game.name} is now ${!game.is_enabled ? "ENABLED" : "DISABLED"} across platform!`
+          text: `Game ${game.name} is now ${nextState ? "ENABLED" : "DISABLED"} across platform!`
         });
       } else {
         setStatusMessage({ type: "error", text: data.error || "Failed to update game status" });
@@ -96,7 +106,10 @@ export default function AdminGamesPage() {
       const res = await fetch("/api/admin/games", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editingGame)
+        body: JSON.stringify({
+          ...editingGame,
+          is_active: editingGame.is_enabled
+        })
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -134,7 +147,7 @@ export default function AdminGamesPage() {
           <div className="flex items-center gap-2.5">
             <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
             <span>
-              <strong>Compliance Notice:</strong> Crash game has been permanently decommissioned. Plinko remains disabled by default until an authorized external URL is configured.
+              <strong>Catalog Notice:</strong> Crash game has been permanently decommissioned. Plinko is configured with our standalone embed endpoint.
             </span>
           </div>
           <button

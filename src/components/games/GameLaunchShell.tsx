@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/Badge";
 import { useWallet } from "@/context/WalletContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import { useAuth } from "@/context/AuthContext";
+import { useRealtime } from "@/context/RealtimeContext";
 import {
   ExternalLink,
   Settings,
@@ -32,21 +33,55 @@ interface GameLaunchShellProps {
 export function GameLaunchShell({ game }: GameLaunchShellProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [resolvedUrl, setResolvedUrl] = useState<string>("");
+  const [gameConfig, setGameConfig] = useState<GameConfig>(game);
+  const [resolvedUrl, setResolvedUrl] = useState<string>(
+    game.defaultDemoUrl && game.defaultDemoUrl.trim() !== ""
+      ? game.defaultDemoUrl.trim()
+      : getResolvedDemoUrl(game.id)
+  );
   const [iframeError, setIframeError] = useState<boolean>(false);
   const [isIframeLoading, setIsIframeLoading] = useState<boolean>(true);
   const { balance, openWalletModal } = useWallet();
   const { isFavorite, toggleFavorite } = useFavorites();
   const { isAuthenticated, isLoading: isAuthLoading, openAuthModal } = useAuth();
-  const favorited = isFavorite(game.id);
+  const { subscribe } = useRealtime();
+  const favorited = isFavorite(gameConfig.id);
 
-  // Check resolved demo URL on mount and whenever game changes
+  // Sync state if game prop changes
   useEffect(() => {
-    const url = getResolvedDemoUrl(game.id);
+    setGameConfig(game);
+    const url = (game.defaultDemoUrl && game.defaultDemoUrl.trim() !== "")
+      ? game.defaultDemoUrl.trim()
+      : getResolvedDemoUrl(game.id);
     setResolvedUrl(url);
     setIsIframeLoading(true);
     setIframeError(false);
-  }, [game.id]);
+  }, [game]);
+
+  // Real-time synchronization when Admin updates game config
+  useEffect(() => {
+    const unsub = subscribe("GAME_CONFIG_UPDATED", (payload: any) => {
+      if (payload && (payload.game_id?.toLowerCase() === game.id.toLowerCase() || payload.id === game.id)) {
+        if (payload.launch_url !== undefined) {
+          setResolvedUrl(payload.launch_url.trim());
+          setIsIframeLoading(true);
+          setIframeError(false);
+        }
+        setGameConfig(prev => ({
+          ...prev,
+          name: payload.name || prev.name,
+          provider: (game.id.toLowerCase() === "plinko")
+            ? "BETADRiX"
+            : (payload.provider || prev.provider),
+          defaultDemoUrl: payload.launch_url !== undefined ? payload.launch_url.trim() : prev.defaultDemoUrl,
+          isActive: payload.is_active !== undefined ? payload.is_active : (payload.is_enabled !== undefined ? payload.is_enabled : prev.isActive),
+          isEnabled: payload.is_enabled !== undefined ? payload.is_enabled : (payload.is_active !== undefined ? payload.is_active : prev.isEnabled),
+          maintenanceMessage: payload.maintenance_message !== undefined ? payload.maintenance_message : prev.maintenanceMessage,
+        }));
+      }
+    });
+    return unsub;
+  }, [subscribe, game.id]);
 
   // Fullscreen change listener
   useEffect(() => {
@@ -70,6 +105,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     }
   };
 
+  const isGameActive = gameConfig.isActive !== false && gameConfig.isEnabled !== false;
   const isUrlConfigured = Boolean(resolvedUrl && resolvedUrl.trim().length > 0);
 
   const formattedBalance = new Intl.NumberFormat("en-US", {
@@ -87,7 +123,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     >
       {/* 1. TOP HEADER: BETADRiX Official Logo & Lobby Backlink */}
       <GameHeader
-        game={game}
+        game={gameConfig}
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}
         demoUrl={resolvedUrl}
@@ -99,15 +135,22 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
           <div>
             <div className="flex items-center gap-2.5">
               <h1 className="text-xl sm:text-2xl font-black uppercase text-white tracking-wide">
-                {game.name}
+                {gameConfig.name}
               </h1>
               <Badge variant="demo" size="sm">DEMO GAME</Badge>
               <span className="text-[11px] font-mono text-[#8E8E9E] bg-[#12131D] px-2 py-0.5 rounded border border-[#202130]">
-                {game.provider}
+                {gameConfig.provider}
               </span>
+              {gameConfig.providerType && (
+                <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/30">
+                  {gameConfig.providerType}
+                </span>
+              )}
             </div>
             <p className="text-xs text-[#8E8E9E] mt-0.5">
-              Zero real-money risk • Theoretical RTP {game.rtp} • Max Multiplier {game.maxMultiplier}
+              Zero real-money risk
+              {gameConfig.rtp ? ` • Theoretical RTP ${gameConfig.rtp}` : ""}
+              {gameConfig.maxMultiplier ? ` • Max Multiplier ${gameConfig.maxMultiplier}` : ""}
             </p>
           </div>
 
@@ -153,7 +196,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                   AUTHENTICATE TO PLAY DEMO
                 </h3>
                 <p className="text-xs text-[#8E8E9E] leading-relaxed">
-                  Sign in or create a demonstration player profile to launch {game.name} ({game.provider}) and synchronize your virtual demo credits.
+                  Sign in or create a demonstration player profile to launch {gameConfig.name} ({gameConfig.provider}) and synchronize your virtual demo credits.
                 </p>
               </div>
 
@@ -176,6 +219,51 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                 100% Free virtual simulation • Zero real-money gambling
               </div>
             </div>
+          ) : !isGameActive ? (
+            /* DISABLED / MAINTENANCE STATE */
+            <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-12 text-center relative overflow-hidden bg-[#08080E]">
+              <div className="relative z-10 max-w-md mx-auto space-y-5 bg-[#0D0E16] p-6 sm:p-8 rounded-2xl border border-amber-500/30 shadow-2xl">
+                <div className="flex justify-center mb-1">
+                  <Image
+                    src="/assets/ui/betadrix_logo.png"
+                    alt="BETADRiX"
+                    width={130}
+                    height={38}
+                    className="h-7 w-auto object-contain"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-xl font-black text-white uppercase tracking-wide">
+                    {gameConfig.name}
+                  </h3>
+                  <span className="text-xs font-mono text-[#8E8E9E] block">
+                    {gameConfig.provider}
+                  </span>
+                </div>
+
+                <div className="p-4 rounded-xl bg-amber-950/30 border border-amber-500/40 text-left space-y-1.5">
+                  <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-wide">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>Game Under Maintenance</span>
+                  </div>
+                  <p className="text-xs text-[#A0A0B2] leading-relaxed">
+                    {gameConfig.maintenanceMessage || "This game is temporarily unavailable due to administrative maintenance. Please check back later."}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-center gap-3 pt-2">
+                  <Button
+                    size="md"
+                    href="/games"
+                    icon={<ArrowLeft className="w-4 h-4" />}
+                    className="w-full sm:w-auto"
+                  >
+                    Back to Games Lobby
+                  </Button>
+                </div>
+              </div>
+            </div>
           ) : isUrlConfigured && !iframeError ? (
             /* REAL GAME IFRAME VIEWPORT */
             <div className="relative w-full flex-1 flex flex-col bg-black">
@@ -194,7 +282,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                   </div>
                   <div className="flex items-center gap-2 text-sm text-white font-bold">
                     <RotateCw className="w-4 h-4 animate-spin text-red-500" />
-                    <span>Loading {game.name}...</span>
+                    <span>Loading {gameConfig.name}...</span>
                   </div>
                   <p className="text-xs text-[#8E8E9E]">
                     Please wait while the demo game loads.
@@ -204,7 +292,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
 
               <iframe
                 src={resolvedUrl}
-                title={`${game.name} Demo Game`}
+                title={`${gameConfig.name} Demo Game`}
                 className="w-full flex-1 min-h-[560px] sm:min-h-[660px] lg:min-h-[720px] border-0 bg-black"
                 allow="autoplay; fullscreen; clipboard-read; clipboard-write; camera; microphone"
                 sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
@@ -230,10 +318,10 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
               <div className="space-y-1.5 max-w-md">
                 <Badge variant="demo" size="md">DEMO GAME READY</Badge>
                 <h3 className="text-2xl font-black text-white mt-1">
-                  OPEN DEMO GAME
+                  OPEN {gameConfig.name.toUpperCase()}
                 </h3>
                 <p className="text-xs text-[#8E8E9E] leading-relaxed">
-                  Due to provider security and browser iframe policies (CSP / X-Frame-Options), this demo game launches directly in an authorized window.
+                  Due to browser iframe security restrictions, this demo game can be opened directly in a new window.
                 </p>
               </div>
 
@@ -245,14 +333,14 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                   glow
                   icon={<Play className="w-4 h-4 fill-current" />}
                 >
-                  Open Demo Game
+                  Open {gameConfig.name}
                 </Button>
                 <button
                   onClick={() => {
                     setIframeError(false);
                     setIsIframeLoading(true);
                   }}
-                  className="p-3 rounded-xl bg-[#141420] text-[#8E8E9E] hover:text-white border border-[#252535]"
+                  className="p-3 rounded-xl bg-[#141420] text-[#8E8E9E] hover:text-white border border-[#252535] cursor-pointer"
                   title="Retry embedded frame"
                 >
                   <RotateCw className="w-4 h-4" />
@@ -260,7 +348,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
               </div>
             </div>
           ) : (
-            /* UNCONFIGURED STATE (e.g. Plinko) */
+            /* GENERIC UNCONFIGURED / UNAVAILABLE STATE */
             <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-12 text-center relative overflow-hidden bg-[#08080E]">
               <div className="relative z-10 max-w-md mx-auto space-y-5 bg-[#0D0E16] p-6 sm:p-8 rounded-2xl border border-[#222332] shadow-2xl">
                 {/* BETADRiX Logo */}
@@ -277,8 +365,8 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                 {/* Game artwork banner */}
                 <div className="relative w-48 aspect-[250/90] mx-auto rounded-xl overflow-hidden border border-[#2A2B3D] bg-black p-0.5">
                   <Image
-                    src={game.image}
-                    alt={game.name}
+                    src={gameConfig.image}
+                    alt={gameConfig.name}
                     fill
                     className="object-contain object-center"
                   />
@@ -286,10 +374,10 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
 
                 <div className="space-y-1">
                   <h3 className="text-xl font-black text-white uppercase tracking-wide">
-                    {game.name}
+                    {gameConfig.name}
                   </h3>
                   <span className="text-xs font-mono text-[#8E8E9E] block">
-                    {game.provider} • RTP {game.rtp}
+                    {gameConfig.provider}
                   </span>
                 </div>
 
@@ -297,7 +385,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                 <div className="p-4 rounded-xl bg-red-950/30 border border-red-500/40 text-left space-y-1.5">
                   <div className="flex items-center gap-2 text-xs font-bold text-red-400 uppercase tracking-wide">
                     <AlertCircle className="w-4 h-4 shrink-0" />
-                    <span>Demo URL is not configured yet.</span>
+                    <span>Game Currently Unavailable</span>
                   </div>
                   <p className="text-xs text-[#A0A0B2] leading-relaxed">
                     Awaiting authorized game launch endpoint. Return to the lobby to play available games or select another active title.
@@ -314,10 +402,6 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                   >
                     Back to Games Lobby
                   </Button>
-                </div>
-
-                <div className="text-[10px] font-mono text-[#707085] pt-1">
-                  Strict Spyke source integration • No guessed or invented URLs
                 </div>
               </div>
             </div>
@@ -340,8 +424,8 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
 
             <div className="flex items-center gap-2">
               <button
-                onClick={() => toggleFavorite(game.id)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12131D] hover:bg-[#1A1C2A] border border-[#202232] text-neutral-300 hover:text-white transition-colors text-xs font-semibold"
+                onClick={() => toggleFavorite(gameConfig.id)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12131D] hover:bg-[#1A1C2A] border border-[#202232] text-neutral-300 hover:text-white transition-colors text-xs font-semibold cursor-pointer"
               >
                 <Heart className={`w-3.5 h-3.5 ${favorited ? "fill-red-500 text-red-500" : "text-neutral-400"}`} />
                 <span>{favorited ? "Favorited" : "Favorite"}</span>
@@ -349,7 +433,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
 
               <button
                 onClick={toggleFullscreen}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12131D] hover:bg-[#1A1C2A] border border-[#202232] text-neutral-300 hover:text-white transition-colors text-xs font-semibold"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12131D] hover:bg-[#1A1C2A] border border-[#202232] text-neutral-300 hover:text-white transition-colors text-xs font-semibold cursor-pointer"
               >
                 {isFullscreen ? <Minimize2 className="w-3.5 h-3.5 text-red-500" /> : <Maximize2 className="w-3.5 h-3.5 text-red-500" />}
                 <span>Fullscreen</span>
@@ -361,7 +445,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
         {/* 5. SIDE PANEL: Game Details & Stats */}
         {!isFullscreen && (
           <aside className="w-full lg:w-96 bg-[#08090E] border-t lg:border-t-0 lg:border-l border-[#1A1B28] p-5 sm:p-6 overflow-y-auto">
-            <GameInfo game={game} />
+            <GameInfo game={gameConfig} />
           </aside>
         )}
       </div>

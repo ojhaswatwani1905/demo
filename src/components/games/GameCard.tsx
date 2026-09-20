@@ -80,14 +80,20 @@ export function GameCard({ game, compact = false }: GameCardProps) {
             <h3 className="text-xs sm:text-sm font-black text-white group-hover:text-red-400 transition-colors truncate uppercase tracking-tight">
               {game.name}
             </h3>
-            <span className="text-[10px] font-mono text-[#7A8296] shrink-0 font-bold">
-              RTP {game.rtp}
-            </span>
+            {game.rtp && (
+              <span className="text-[10px] font-mono text-[#7A8296] shrink-0 font-bold">
+                RTP {game.rtp}
+              </span>
+            )}
           </div>
 
           <div className="flex items-center justify-between text-[11px] text-[#8E95A5]">
             <span className="text-[10px] text-[#7A8296] font-mono">{game.category}</span>
-            <span className="text-[10px] text-emerald-400 font-mono font-bold">Max {game.maxMultiplier}</span>
+            {game.maxMultiplier ? (
+              <span className="text-[10px] text-emerald-400 font-mono font-bold">Max {game.maxMultiplier}</span>
+            ) : (
+              <span className="text-[10px] text-cyan-400 font-mono font-bold">{game.provider}</span>
+            )}
           </div>
         </div>
 

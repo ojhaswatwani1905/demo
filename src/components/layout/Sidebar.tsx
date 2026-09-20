@@ -78,7 +78,7 @@ export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarPro
     { name: "Mines", href: "/games/mines", icon: Bomb, provider: "Turbo Games" },
     { name: "Dice", href: "/games/dice", icon: Dice5, provider: "Turbo Games" },
     { name: "Roulette", href: "/games/roulette", icon: CircleDot, provider: "Spribe" },
-    { name: "Plinko", href: "/games/plinko", icon: Layers, provider: "Spribe" },
+    { name: "Plinko", href: "/games/plinko", icon: Layers, provider: "BETADRiX" },
   ];
 
   const isItemActive = (href: string) => {

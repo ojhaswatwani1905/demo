@@ -45,7 +45,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/games/plinko" className="hover:text-white transition-colors">
-                  Plinko (Spribe)
+                  Plinko (BETADRiX)
                 </Link>
               </li>
             </ul>

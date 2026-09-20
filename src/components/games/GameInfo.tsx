@@ -3,37 +3,50 @@ import { GameConfig } from "@/config/games";
 import { ShieldCheck, Info, Sparkles, TrendingUp, AlertTriangle } from "lucide-react";
 
 export function GameInfo({ game }: { game: GameConfig }) {
+  const hasRtp = Boolean(game.rtp && game.rtp.trim() !== "");
+  const hasBetRange = Boolean(game.minBet && game.maxBet);
+  const hasMultiplier = Boolean(game.maxMultiplier && game.maxMultiplier.trim() !== "");
+
   return (
     <div className="space-y-6">
       {/* Game Spec Highlights */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-3">
         <div className="p-3.5 rounded-xl bg-[#0D0D14] border border-[#1E1E2C]">
           <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94] block mb-1">
             Provider
           </span>
           <span className="text-sm font-black text-white">{game.provider}</span>
+          {game.providerType && (
+            <span className="text-[10px] font-mono text-cyan-400 block mt-0.5">{game.providerType}</span>
+          )}
         </div>
 
-        <div className="p-3.5 rounded-xl bg-[#0D0D14] border border-[#1E1E2C]">
-          <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94] block mb-1">
-            Theoretical RTP
-          </span>
-          <span className="text-sm font-black text-emerald-400 font-mono">{game.rtp}</span>
-        </div>
+        {hasRtp && (
+          <div className="p-3.5 rounded-xl bg-[#0D0D14] border border-[#1E1E2C]">
+            <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94] block mb-1">
+              Theoretical RTP
+            </span>
+            <span className="text-sm font-black text-emerald-400 font-mono">{game.rtp}</span>
+          </div>
+        )}
 
-        <div className="p-3.5 rounded-xl bg-[#0D0D14] border border-[#1E1E2C]">
-          <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94] block mb-1">
-            Demo Bet Range
-          </span>
-          <span className="text-sm font-black text-white font-mono">{game.minBet} - {game.maxBet}</span>
-        </div>
+        {hasBetRange && (
+          <div className="p-3.5 rounded-xl bg-[#0D0D14] border border-[#1E1E2C]">
+            <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94] block mb-1">
+              Demo Bet Range
+            </span>
+            <span className="text-sm font-black text-white font-mono">{game.minBet} - {game.maxBet}</span>
+          </div>
+        )}
 
-        <div className="p-3.5 rounded-xl bg-[#0D0D14] border border-[#1E1E2C]">
-          <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94] block mb-1">
-            Peak Multiplier
-          </span>
-          <span className="text-sm font-black text-red-400 font-mono">{game.maxMultiplier}</span>
-        </div>
+        {hasMultiplier && (
+          <div className="p-3.5 rounded-xl bg-[#0D0D14] border border-[#1E1E2C]">
+            <span className="text-[10px] font-mono uppercase font-bold text-[#7E7E94] block mb-1">
+              Peak Multiplier
+            </span>
+            <span className="text-sm font-black text-red-400 font-mono">{game.maxMultiplier}</span>
+          </div>
+        )}
       </div>
 
       {/* Description */}

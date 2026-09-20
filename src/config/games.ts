@@ -2,6 +2,7 @@ export interface GameConfig {
   id: string;
   name: string;
   provider: string;
+  providerType?: string;
   image: string;
   uiPreview?: string;
   category: "Originals" | "Table" | "Featured";
@@ -9,10 +10,13 @@ export interface GameConfig {
   defaultDemoUrl: string;
   description: string;
   badges: string[];
-  rtp: string;
-  minBet: string;
-  maxBet: string;
-  maxMultiplier: string;
+  rtp?: string;
+  minBet?: string;
+  maxBet?: string;
+  maxMultiplier?: string;
+  isActive?: boolean;
+  isEnabled?: boolean;
+  maintenanceMessage?: string;
 }
 
 export const GAMES: GameConfig[] = [
@@ -36,21 +40,18 @@ export const GAMES: GameConfig[] = [
   },
   {
     id: "plinko",
-    name: "Plinko",
-    provider: "Spribe",
+    name: "PLINKO",
+    provider: "BETADRiX",
+    providerType: "Internal Demo Game",
     image: "/assets/games/game_card_plinko.png",
     uiPreview: "/assets/ui/plinko_game_ui.png",
     category: "Originals",
-    demoUrlEnvKey: "NEXT_PUBLIC_SPYKE_PLINKO_URL",
+    demoUrlEnvKey: "NEXT_PUBLIC_PLINKO_URL",
     defaultDemoUrl:
-      process.env.NEXT_PUBLIC_SPYKE_PLINKO_URL ||
-      "",
-    description: "Drop the disc down the pegboard pyramid. Watch physics-driven bounces dictate landing in multi-tiered payout pockets.",
-    badges: ["CASUAL", "POPULAR"],
-    rtp: "97.00%",
-    minBet: "$0.10",
-    maxBet: "$100.00",
-    maxMultiplier: "555x"
+      process.env.NEXT_PUBLIC_PLINKO_URL ||
+      "https://plinko-1-b1u5.onrender.com/embed",
+    description: "Physics-based Plinko demo with virtual credits.",
+    badges: ["ORIGINAL", "PHYSICS DEMO"]
   },
   {
     id: "dice",
@@ -102,13 +103,20 @@ export function getGameById(id: string): GameConfig | undefined {
 }
 
 /**
- * Gets configured demo URL prioritizing client-side admin override from localStorage
- * (supports spyke_url_[id] as primary and spribe_demo_url_[id] as fallback),
- * then falling back to environment variable configuration.
- *
- * Never guesses or invents URLs. If not supplied by Spyke, returns empty string.
+ * Gets configured demo URL prioritizing explicit configured URL,
+ * then falling back to environment variable / default configuration.
  */
-export function getResolvedDemoUrl(gameId: string): string {
+export function getResolvedDemoUrl(gameId: string, initialUrl?: string): string {
+  if (initialUrl && initialUrl.trim() !== "") {
+    return initialUrl.trim();
+  }
+
+  // Plinko uses authoritative standalone Plinko application directly
+  if (gameId.toLowerCase() === "plinko") {
+    const game = getGameById("plinko");
+    return game?.defaultDemoUrl?.trim() || "https://plinko-1-b1u5.onrender.com/embed";
+  }
+
   if (typeof window !== "undefined") {
     const spykeStored = localStorage.getItem(`spyke_url_${gameId}`);
     if (spykeStored && spykeStored.trim() !== "") return spykeStored.trim();

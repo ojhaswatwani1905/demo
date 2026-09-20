@@ -34,7 +34,7 @@ const FAQ_ITEMS: FaqItem[] = [
   },
   {
     q: "What game providers are hosted on the platform?",
-    a: "BETADRiX hosts authorized demonstration titles from verified industry providers, currently featuring Turbo Games (Mines, Dice) and Spribe (Roulette, Plinko)."
+    a: "BETADRiX hosts authorized demonstration titles from verified industry providers (Turbo Games for Mines, Dice; Spribe for Roulette) as well as our internal BETADRiX Originals demo games (Plinko)."
   },
   {
     q: "Why did a game open in a separate browser window?",

@@ -36,7 +36,7 @@ function SpribeLogo() {
         <span className="text-xs font-black tracking-widest text-white uppercase font-sans">
           SPRIBE
         </span>
-        <span className="text-[9px] font-mono text-[#7A8296] -mt-0.5">Roulette • Plinko Studio</span>
+        <span className="text-[9px] font-mono text-[#7A8296] -mt-0.5">Roulette Studio</span>
       </div>
     </div>
   );
