@@ -32,6 +32,7 @@ interface GameLaunchShellProps {
 
 export function GameLaunchShell({ game }: GameLaunchShellProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [gameConfig, setGameConfig] = useState<GameConfig>(game);
   const [resolvedUrl, setResolvedUrl] = useState<string>(
@@ -47,15 +48,27 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
   const { subscribe } = useRealtime();
   const favorited = isFavorite(gameConfig.id);
 
-  // Sync state if game prop changes
+  // Helper to mark iframe game as fully ready and remove loading overlay
+  const markGameReady = React.useCallback(() => {
+    setIsIframeLoading(false);
+    setIframeError(false);
+  }, []);
+
+  // Sync state if game prop changes (only reset loading if URL actually changes)
   useEffect(() => {
     setGameConfig(game);
     const url = (game.defaultDemoUrl && game.defaultDemoUrl.trim() !== "")
       ? game.defaultDemoUrl.trim()
       : getResolvedDemoUrl(game.id);
-    setResolvedUrl(url);
-    setIsIframeLoading(true);
-    setIframeError(false);
+
+    setResolvedUrl(prev => {
+      if (prev !== url) {
+        setIsIframeLoading(true);
+        setIframeError(false);
+        return url;
+      }
+      return prev;
+    });
   }, [game]);
 
   // Real-time synchronization when Admin updates game config
@@ -63,9 +76,15 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     const unsub = subscribe("GAME_CONFIG_UPDATED", (payload: any) => {
       if (payload && (payload.game_id?.toLowerCase() === game.id.toLowerCase() || payload.id === game.id)) {
         if (payload.launch_url !== undefined) {
-          setResolvedUrl(payload.launch_url.trim());
-          setIsIframeLoading(true);
-          setIframeError(false);
+          const newUrl = payload.launch_url.trim();
+          setResolvedUrl(prev => {
+            if (prev !== newUrl) {
+              setIsIframeLoading(true);
+              setIframeError(false);
+              return newUrl;
+            }
+            return prev;
+          });
         }
         setGameConfig(prev => ({
           ...prev,
@@ -82,6 +101,88 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     });
     return unsub;
   }, [subscribe, game.id]);
+
+  // Safety fallback timeout (8-10s): If iframe onLoad and PLINKO_READY do not fire, show fallback UI
+  useEffect(() => {
+    if (!resolvedUrl || resolvedUrl.trim() === "") return;
+
+    const timeoutTimer = setTimeout(() => {
+      setIsIframeLoading(currentLoading => {
+        if (currentLoading) {
+          console.warn(`[GameLaunchShell] Game loading timed out after 9s for ${gameConfig.name}. Showing fallback.`);
+          setIframeError(true);
+          return false;
+        }
+        return currentLoading;
+      });
+    }, 9000);
+
+    return () => clearTimeout(timeoutTimer);
+  }, [resolvedUrl, gameConfig.name]);
+
+  // Native DOM load event listener and immediate readiness verification
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    const handleNativeLoad = () => {
+      markGameReady();
+    };
+
+    iframe.addEventListener("load", handleNativeLoad);
+
+    // If iframe already loaded before effect runs (cached document)
+    try {
+      if (iframe.contentDocument && iframe.contentDocument.readyState === "complete") {
+        markGameReady();
+      }
+    } catch {
+      // Cross-origin access restriction is expected
+    }
+
+    return () => {
+      iframe.removeEventListener("load", handleNativeLoad);
+    };
+  }, [resolvedUrl, markGameReady]);
+
+  // PostMessage listener supporting PLINKO_READY, PLINKO_STARTED, PLINKO_RESULT
+  useEffect(() => {
+    const TRUSTED_PLINKO_ORIGIN = "https://plinko-1-b1u5.onrender.com";
+
+    const handleWindowMessage = (event: MessageEvent) => {
+      // Origin validation: strictly check against trusted Plinko origin
+      // or configured launch URL origin
+      let isAllowedOrigin = event.origin === TRUSTED_PLINKO_ORIGIN;
+      if (!isAllowedOrigin && resolvedUrl) {
+        try {
+          const parsedOrigin = new URL(resolvedUrl).origin;
+          if (parsedOrigin === event.origin) {
+            isAllowedOrigin = true;
+          }
+        } catch {
+          // Ignore URL parse error
+        }
+      }
+
+      if (!isAllowedOrigin) return;
+
+      const data = event.data;
+      if (!data || typeof data !== "object") return;
+
+      if (data.type === "PLINKO_READY") {
+        markGameReady();
+      } else if (data.type === "PLINKO_STARTED") {
+        // Plinko ball drop started: data.payload = { dropId, betAmount }
+      } else if (data.type === "PLINKO_RESULT") {
+        // Plinko ball landed: data.payload = { dropId, betAmount, multiplier, payout, profit, finalSlotIndex, risk, rows }
+      }
+    };
+
+    window.addEventListener("message", handleWindowMessage);
+    return () => {
+      window.removeEventListener("message", handleWindowMessage);
+    };
+  }, [resolvedUrl, markGameReady]);
 
   // Fullscreen change listener
   useEffect(() => {
@@ -291,12 +392,14 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
               )}
 
               <iframe
+                ref={iframeRef}
+                key={resolvedUrl}
                 src={resolvedUrl}
                 title={`${gameConfig.name} Demo Game`}
                 className="w-full flex-1 min-h-[560px] sm:min-h-[660px] lg:min-h-[720px] border-0 bg-black"
                 allow="autoplay; fullscreen; clipboard-read; clipboard-write; camera; microphone"
                 sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
-                onLoad={() => setIsIframeLoading(false)}
+                onLoad={() => markGameReady()}
                 onError={() => {
                   setIsIframeLoading(false);
                   setIframeError(true);
@@ -304,7 +407,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
               />
             </div>
           ) : isUrlConfigured && iframeError ? (
-            /* IFRAME BLOCKED / CSP FALLBACK */
+            /* IFRAME LOAD TIMEOUT / CSP / BLOCKED FALLBACK */
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#09090F] space-y-4">
               <div className="relative mb-2">
                 <Image
@@ -316,25 +419,27 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
                 />
               </div>
               <div className="space-y-1.5 max-w-md">
-                <Badge variant="demo" size="md">DEMO GAME READY</Badge>
+                <Badge variant="demo" size="md">DEMO GAME</Badge>
                 <h3 className="text-2xl font-black text-white mt-1">
-                  OPEN {gameConfig.name.toUpperCase()}
+                  {gameConfig.id.toLowerCase() === "plinko" ? "Unable to load Plinko" : `OPEN ${gameConfig.name.toUpperCase()}`}
                 </h3>
                 <p className="text-xs text-[#8E8E9E] leading-relaxed">
-                  Due to browser iframe security restrictions, this demo game can be opened directly in a new window.
+                  {gameConfig.id.toLowerCase() === "plinko"
+                    ? "The Plinko demo could not be embedded directly or timed out. You can launch it directly in a separate browser tab."
+                    : "Due to browser iframe security restrictions, this demo game can be opened directly in a new window."}
                 </p>
               </div>
 
               <div className="pt-2 flex items-center gap-3">
-                <Button
-                  size="lg"
+                <a
                   href={resolvedUrl}
-                  isExternal
-                  glow
-                  icon={<Play className="w-4 h-4 fill-current" />}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-black text-sm uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)]"
                 >
-                  Open {gameConfig.name}
-                </Button>
+                  <ExternalLink className="w-4 h-4" />
+                  <span>Open in Separate Tab</span>
+                </a>
                 <button
                   onClick={() => {
                     setIframeError(false);

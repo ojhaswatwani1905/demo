@@ -6,9 +6,29 @@
       "email": "alex@example.com",
       "password_hash": "$2b$10$6e5czr7gZouV2lO7OWuQvuXSfxS/YEpOZSkx4sDEQgALDwGaJkfWC",
       "created_at": "2026-09-15T13:11:36.039Z",
-      "balance": 2150,
+      "balance": 2450,
       "is_active": true,
-      "last_activity": "2026-09-20T12:03:42.023Z"
+      "last_activity": "2026-09-23T18:45:38.806Z"
+    },
+    {
+      "id": 2,
+      "name": "Test User",
+      "email": "test@example.com",
+      "password_hash": "$2b$10$Hd17TZCRZ7cUGf9PGhO7e.llkDiY2K8MnMaVfZIdpWnaAeIB2uXSq",
+      "balance": 1250,
+      "is_active": true,
+      "created_at": "2026-09-23T18:28:54.811Z",
+      "last_activity": "2026-09-23T18:28:54.813Z"
+    },
+    {
+      "id": 3,
+      "name": "ojhas",
+      "email": "ojhas@gmail.com",
+      "password_hash": "$2b$10$hFzYvOhM41/gNepx04Pwku0VVjIabApaidVJmLr.wpxV3mDLhw2zq",
+      "balance": 1250,
+      "is_active": true,
+      "created_at": "2026-09-23T18:46:49.532Z",
+      "last_activity": "2026-09-23T18:46:49.532Z"
     }
   ],
   "site_config": {
@@ -826,9 +846,9 @@
       "admin_id": "admin",
       "password_hash": "$2b$10$AvyKAHMycyss8BTqb/6WTOTxsUDlmdwQszNsv6FsCky35JC6/lun.",
       "created_at": "2026-09-16T11:17:57.978Z",
-      "updated_at": "2026-09-20T12:02:52.748Z",
+      "updated_at": "2026-09-23T18:45:28.111Z",
       "is_active": true,
-      "session_version": 12
+      "session_version": 14
     }
   ],
   "general_config": {
@@ -959,7 +979,7 @@
     "bonus_multiplier": 1,
     "is_active": true,
     "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
-    "updated_at": "2026-09-20T12:03:42.103Z"
+    "updated_at": "2026-09-23T18:45:38.921Z"
   },
   "game_configs": [
     {
@@ -972,7 +992,7 @@
       "launch_url": "https://mines.turbogames.io/",
       "is_active": true,
       "display_order": 1,
-      "updated_at": "2026-09-20T12:03:42.058Z",
+      "updated_at": "2026-09-23T18:45:38.870Z",
       "is_enabled": true
     },
     {
@@ -1079,6 +1099,28 @@
       "action_type": "add",
       "reason": "Automated real-time test transaction",
       "created_at": "2026-09-20T12:03:42.023Z"
+    },
+    {
+      "id": 7,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 2150,
+      "adjustment_amount": 150,
+      "new_balance": 2300,
+      "action_type": "add",
+      "reason": "Automated real-time test transaction",
+      "created_at": "2026-09-23T18:08:56.517Z"
+    },
+    {
+      "id": 8,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 2300,
+      "adjustment_amount": 150,
+      "new_balance": 2450,
+      "action_type": "add",
+      "reason": "Automated real-time test transaction",
+      "created_at": "2026-09-23T18:45:38.806Z"
     }
   ],
   "admin_audit_logs": [
@@ -1537,6 +1579,166 @@
       "reason": "Admin updated bonus & faucet settings",
       "ip_address": "127.0.0.1",
       "created_at": "2026-09-20T12:03:42.103Z"
+    },
+    {
+      "id": 18,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 2150
+      },
+      "new_value": {
+        "balance": 2300
+      },
+      "reason": "Automated real-time test transaction",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-23T18:08:56.522Z"
+    },
+    {
+      "id": 19,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "mines",
+      "old_value": null,
+      "new_value": {
+        "id": 1,
+        "game_id": "mines",
+        "name": "Mines",
+        "provider": "Turbo Games",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_mines.png",
+        "launch_url": "https://mines.turbogames.io/",
+        "is_active": true,
+        "display_order": 1,
+        "updated_at": "2026-09-23T18:08:56.619Z",
+        "is_enabled": true
+      },
+      "reason": "Admin updated game configuration for mines",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-23T18:08:56.623Z"
+    },
+    {
+      "id": 20,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-09-20T12:03:42.103Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-09-23T18:08:56.676Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-23T18:08:56.686Z"
+    },
+    {
+      "id": 21,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 2300
+      },
+      "new_value": {
+        "balance": 2450
+      },
+      "reason": "Automated real-time test transaction",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-23T18:45:38.806Z"
+    },
+    {
+      "id": 22,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "mines",
+      "old_value": null,
+      "new_value": {
+        "id": 1,
+        "game_id": "mines",
+        "name": "Mines",
+        "provider": "Turbo Games",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_mines.png",
+        "launch_url": "https://mines.turbogames.io/",
+        "is_active": true,
+        "display_order": 1,
+        "updated_at": "2026-09-23T18:45:38.870Z",
+        "is_enabled": true
+      },
+      "reason": "Admin updated game configuration for mines",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-23T18:45:38.870Z"
+    },
+    {
+      "id": 23,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-09-23T18:08:56.676Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-09-23T18:45:38.921Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-23T18:45:38.921Z"
     }
   ]
 }

@@ -14,7 +14,7 @@ const cspHeader = `
   base-uri 'self';
   form-action 'self';
   frame-ancestors 'self';
-  frame-src 'self' https://mines.turbogames.io https://dice.turbogames.io https://demo.spribe.io https://*.turbogames.io https://*.spribe.io;
+  frame-src 'self' https://mines.turbogames.io https://dice.turbogames.io https://demo.spribe.io https://*.turbogames.io https://*.spribe.io https://plinko-1-b1u5.onrender.com https://*.onrender.com;
   connect-src 'self' https: wss:;
   upgrade-insecure-requests;
 `.replace(/\s{2,}/g, ' ').trim();
