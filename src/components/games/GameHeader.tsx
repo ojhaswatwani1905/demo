@@ -37,7 +37,7 @@ export function GameHeader({ game, isFullscreen, onToggleFullscreen, demoUrl }: 
 
       {/* Right: Controls & Back to Lobby */}
       <div className="flex items-center gap-2 sm:gap-3">
-        <div className="hidden sm:block">
+        <div className="flex items-center">
           <BalanceDisplay compact />
         </div>
 
