@@ -26,18 +26,15 @@ import {
   Lock
 } from "lucide-react";
 
-// Canonical Plinko Origin and Bet Parameters
+// Canonical Plinko Origin
 const CANONICAL_PLINKO_ORIGIN = "https://plinko-1-b1u5.onrender.com";
-const PLINKO_MIN_BET = 1;
-const PLINKO_MAX_BET = 500;
-const VALID_PLINKO_MULTIPLIERS = new Set([0.2, 0.5, 1, 2, 5, 10]);
 
 function getPlinkoTargetOrigin(url?: string): string {
   if (url) {
     try {
       const parsed = new URL(url);
       if (parsed.origin === CANONICAL_PLINKO_ORIGIN) return CANONICAL_PLINKO_ORIGIN;
-      if (process.env.NODE_ENV !== "production" && (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1")) {
+      if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") {
         return parsed.origin;
       }
     } catch {
@@ -54,7 +51,7 @@ function isTrustedPlinkoOrigin(origin: string, url?: string): boolean {
       const parsed = new URL(url);
       if (parsed.origin === origin) {
         if (origin === CANONICAL_PLINKO_ORIGIN) return true;
-        if (process.env.NODE_ENV !== "production" && (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1")) {
+        if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") {
           return true;
         }
       }
@@ -62,18 +59,29 @@ function isTrustedPlinkoOrigin(origin: string, url?: string): boolean {
       // ignore
     }
   }
+  try {
+    const originUrl = new URL(origin);
+    if (originUrl.hostname === "localhost" || originUrl.hostname === "127.0.0.1") {
+      return true;
+    }
+  } catch {
+    // ignore
+  }
   return false;
 }
 
-interface PlinkoTransaction {
+export type PlinkoTransactionStatus = "PENDING" | "ACCEPTED" | "RESULT_RECEIVED" | "SETTLED" | "REJECTED";
+
+export interface PlinkoTransaction {
   requestId: string;
-  amount: number;
-  status: "accepted" | "settled" | "rejected";
-  createdAt: number;
-  acceptedAt?: number;
-  settledAt?: number;
+  betAmount: number;
+  status: PlinkoTransactionStatus;
+  timestamp: number;
+  game: "plinko";
   multiplier?: number;
   payout?: number;
+  acceptedAt?: number;
+  settledAt?: number;
 }
 
 interface GameLaunchShellProps {
@@ -98,6 +106,18 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
   const { subscribe } = useRealtime();
   const favorited = isFavorite(gameConfig.id);
 
+  const isGameActive = gameConfig.isActive !== false && gameConfig.isEnabled !== false;
+  const latestBalanceRef = useRef(balance);
+  const isGameActiveRef = useRef(isGameActive);
+
+  useEffect(() => {
+    latestBalanceRef.current = balance;
+  }, [balance]);
+
+  useEffect(() => {
+    isGameActiveRef.current = isGameActive;
+  }, [isGameActive]);
+
   // DUPLICATE PROTECTION: Explicit transaction state tracking map (requestId -> PlinkoTransaction)
   const transactionsRef = useRef<Map<string, PlinkoTransaction>>(new Map());
 
@@ -113,10 +133,10 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     if (gameConfig.id.toLowerCase() !== "plinko") return;
     sendToPlinko({
       type: "BETADRiX_PLINKO_INIT",
-      balance: balance,
+      balance: latestBalanceRef.current,
       currency: "USD",
     });
-  }, [gameConfig.id, balance, sendToPlinko]);
+  }, [gameConfig.id, sendToPlinko]);
 
   // Helper to mark iframe game as fully ready and remove loading overlay
   const markGameReady = React.useCallback(() => {
@@ -142,8 +162,13 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
   }, [game]);
 
   // Balance Synchronization: Whenever BETADRiX WalletContext balance changes while Plinko is open, send BETADRiX_BALANCE_UPDATE
+  const isInitialMount = useRef(true);
   useEffect(() => {
     if (gameConfig.id.toLowerCase() !== "plinko") return;
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     sendToPlinko({
       type: "BETADRiX_BALANCE_UPDATE",
       balance: balance,
@@ -229,8 +254,11 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
   // PostMessage listener supporting PLINKO_READY, PLINKO_BET_REQUEST, PLINKO_RESULT
   useEffect(() => {
     const handleWindowMessage = (event: MessageEvent) => {
-      // Origin validation: strictly check against trusted Plinko origin. Never trust "*"
+      // 1. Origin validation: strictly check against trusted Plinko origin. Never trust "*"
       if (!isTrustedPlinkoOrigin(event.origin, resolvedUrl)) return;
+
+      // 2. Source validation: ensure message comes from the embedded Plinko iframe window where applicable
+      if (iframeRef.current?.contentWindow && event.source !== iframeRef.current.contentWindow) return;
 
       const data = event.data;
       if (!data || typeof data !== "object") return;
@@ -248,20 +276,36 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
           return;
         }
 
-        // 2. DUPLICATE PROTECTION: Check if requestId has already been processed
+        // 2. DUPLICATE PROTECTION: Check if requestId has already been received
         if (transactionsRef.current.has(requestId)) {
           console.warn(`[BETADRiX Plinko] Duplicate bet request detected for ${requestId}. Ignored.`);
           return;
         }
 
-        // 3. Validate amount is finite and > 0
-        if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
-          transactionsRef.current.set(requestId, {
+        // 3. Register transaction as PENDING
+        transactionsRef.current.set(requestId, {
+          requestId,
+          betAmount: typeof amount === "number" ? amount : 0,
+          status: "PENDING",
+          timestamp: Date.now(),
+          game: "plinko",
+        });
+        const tx = transactionsRef.current.get(requestId)!;
+
+        // 4. Validate game is active
+        if (!isGameActiveRef.current) {
+          tx.status = "REJECTED";
+          sendToPlinko({
+            type: "BETADRiX_BET_REJECTED",
             requestId,
-            amount: typeof amount === "number" ? amount : 0,
-            status: "rejected",
-            createdAt: Date.now(),
+            reason: "GAME_NOT_ACTIVE",
           });
+          return;
+        }
+
+        // 5. Validate amount is finite and > 0
+        if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
+          tx.status = "REJECTED";
           sendToPlinko({
             type: "BETADRiX_BET_REJECTED",
             requestId,
@@ -270,31 +314,10 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
           return;
         }
 
-        // 4. Validate amount is within configured Plinko virtual bet limits
-        if (amount < PLINKO_MIN_BET || amount > PLINKO_MAX_BET) {
-          transactionsRef.current.set(requestId, {
-            requestId,
-            amount,
-            status: "rejected",
-            createdAt: Date.now(),
-          });
-          sendToPlinko({
-            type: "BETADRiX_BET_REJECTED",
-            requestId,
-            reason: "BET_LIMIT_EXCEEDED",
-          });
-          return;
-        }
-
-        // 5. Validate amount <= current balance and deduct exactly once via existing WalletContext
-        const newBal = deductBalance(amount);
-        if (newBal === null) {
-          transactionsRef.current.set(requestId, {
-            requestId,
-            amount,
-            status: "rejected",
-            createdAt: Date.now(),
-          });
+        // 6. Validate amount <= user's current demo balance
+        const currentBal = latestBalanceRef.current;
+        if (amount > currentBal) {
+          tx.status = "REJECTED";
           sendToPlinko({
             type: "BETADRiX_BET_REJECTED",
             requestId,
@@ -303,14 +326,22 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
           return;
         }
 
-        // 6. Acceptance: record transaction as accepted
-        transactionsRef.current.set(requestId, {
-          requestId,
-          amount,
-          status: "accepted",
-          createdAt: Date.now(),
-          acceptedAt: Date.now(),
-        });
+        // 7. Deduct bet from authoritative BETADRiX balance
+        const newBal = deductBalance(amount);
+        if (newBal === null) {
+          tx.status = "REJECTED";
+          sendToPlinko({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            reason: "INSUFFICIENT_BALANCE",
+          });
+          return;
+        }
+
+        // 8. Acceptance: record transaction as ACCEPTED
+        tx.status = "ACCEPTED";
+        tx.betAmount = amount;
+        tx.acceptedAt = Date.now();
 
         sendToPlinko({
           type: "BETADRiX_BET_ACCEPTED",
@@ -322,7 +353,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
         const requestId = typeof data.requestId === "string" ? data.requestId : data.payload?.requestId;
         const multiplier = typeof data.multiplier === "number" ? data.multiplier : data.payload?.multiplier;
 
-        if (!requestId || typeof requestId !== "string") {
+        if (!requestId || typeof requestId !== "string" || requestId.trim() === "") {
           console.warn("[BETADRiX Plinko] Result rejected: missing requestId");
           return;
         }
@@ -334,43 +365,44 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
           return;
         }
 
-        // DUPLICATE PROTECTION: ensure request has been accepted and not already settled
-        if (tx.status !== "accepted") {
-          if (tx.status === "settled") {
-            console.warn(`[BETADRiX Plinko] Duplicate result event ignored for already settled requestId ${requestId}`);
-          } else {
-            console.warn(`[BETADRiX Plinko] Result rejected for requestId ${requestId} with status ${tx.status}`);
-          }
+        // DUPLICATE PROTECTION: ensure request has not already been settled
+        if (tx.status === "SETTLED") {
+          console.warn(`[BETADRiX Plinko] Duplicate result event ignored for already settled requestId ${requestId}`);
           return;
         }
 
-        // Validate multiplier is finite and a valid configured Plinko multiplier
-        const roundedMult = typeof multiplier === "number" && Number.isFinite(multiplier)
-          ? Number(multiplier.toFixed(2))
-          : null;
+        if (tx.status !== "ACCEPTED") {
+          console.warn(`[BETADRiX Plinko] Result rejected for requestId ${requestId} with status ${tx.status}`);
+          return;
+        }
 
-        if (roundedMult === null || roundedMult < 0 || !VALID_PLINKO_MULTIPLIERS.has(roundedMult)) {
+        // Transition to RESULT_RECEIVED
+        tx.status = "RESULT_RECEIVED";
+
+        // Validate multiplier is numeric, finite, and non-negative
+        if (typeof multiplier !== "number" || !Number.isFinite(multiplier) || multiplier < 0) {
           console.warn(`[BETADRiX Plinko] Invalid multiplier ${multiplier} received for requestId ${requestId}`);
           return;
         }
 
-        // Calculate payout: payout = betAmount * multiplier using demo wallet precision conventions (.toFixed(2))
-        const payout = Number((tx.amount * roundedMult).toFixed(2));
+        // Calculate payout: payout = betAmount * multiplier using demo wallet precision (.toFixed(2))
+        const multiplierNum = Number(multiplier);
+        const payout = Number((tx.betAmount * multiplierNum).toFixed(2));
 
-        // Mark transaction as settled BEFORE or with crediting to guarantee single settlement
-        tx.status = "settled";
+        // Mark transaction as SETTLED before/with crediting to guarantee single settlement
+        tx.status = "SETTLED";
         tx.settledAt = Date.now();
-        tx.multiplier = roundedMult;
+        tx.multiplier = multiplierNum;
         tx.payout = payout;
 
-        // Credit payout through existing WalletContext
+        // Credit payout to the same authoritative BETADRiX wallet
         const newBal = creditBalance(payout);
 
         sendToPlinko({
           type: "BETADRiX_RESULT_SETTLED",
           requestId,
-          betAmount: tx.amount,
-          multiplier: roundedMult,
+          betAmount: tx.betAmount,
+          multiplier: multiplierNum,
           payout,
           balance: newBal,
         });
@@ -405,7 +437,6 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     }
   };
 
-  const isGameActive = gameConfig.isActive !== false && gameConfig.isEnabled !== false;
   const isUrlConfigured = Boolean(resolvedUrl && resolvedUrl.trim().length > 0);
 
   const formattedBalance = new Intl.NumberFormat("en-US", {
@@ -475,7 +506,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {/* Game Area */}
         <div className="flex-1 flex flex-col bg-[#07070B] relative min-h-[580px] lg:min-h-[700px]">
-          {!isAuthLoading && !isAuthenticated ? (
+          {gameConfig.id.toLowerCase() !== "plinko" && !isAuthLoading && !isAuthenticated ? (
             /* AUTHENTICATION GATE */
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#09090F] space-y-4">
               <div className="relative mb-2">
