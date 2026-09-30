@@ -27,7 +27,7 @@ export async function generateMetadata(props: {
   }
 
   const name = dbGame?.name || staticGame?.name || id;
-  const provider = (id.toLowerCase() === "plinko")
+  const provider = (id.toLowerCase() === "plinko" || id.toLowerCase() === "roulette")
     ? "BETADRiX"
     : (dbGame?.provider || staticGame?.provider || "BETADRiX");
 
@@ -75,6 +75,17 @@ export default async function GamePage(props: {
     delete mergedGame.minBet;
     delete mergedGame.maxBet;
     delete mergedGame.maxMultiplier;
+  }
+
+  // Explicitly ensure European Roulette connects to standalone Roulette /embed
+  if (id.toLowerCase() === "roulette") {
+    mergedGame.name = dbGame?.name || "European Roulette";
+    mergedGame.provider = (dbGame?.provider && dbGame.provider !== "Spribe") ? dbGame.provider : "BETADRiX";
+    mergedGame.providerType = "Internal Demo Game";
+    mergedGame.description = "Full European Roulette experience with realistic 3D wheel physics and multi-bet options.";
+    mergedGame.defaultDemoUrl = (dbGame?.launch_url && dbGame.launch_url.trim() !== "" && !dbGame.launch_url.includes("spribe.io") && !dbGame.launch_url.includes("localhost:3001"))
+      ? dbGame.launch_url.trim()
+      : (process.env.NEXT_PUBLIC_ROULETTE_URL || "https://roulette-8k8u.onrender.com/embed");
   }
 
   return <GameLaunchShell game={mergedGame} />;

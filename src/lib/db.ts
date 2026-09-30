@@ -420,6 +420,25 @@ function readLocalStore(): LocalStore {
             updated = true;
           }
         }
+
+        const rouletteEntry = parsed.game_configs.find(g => g.game_id.toLowerCase() === "roulette");
+        if (rouletteEntry) {
+          if (
+            rouletteEntry.provider === "Spribe" ||
+            !rouletteEntry.launch_url ||
+            rouletteEntry.launch_url.trim() === "" ||
+            rouletteEntry.launch_url.includes("spribe.io") ||
+            rouletteEntry.launch_url.includes("localhost:3001")
+          ) {
+            rouletteEntry.provider = "BETADRiX";
+            rouletteEntry.name = "European Roulette";
+            rouletteEntry.launch_url = "https://roulette-8k8u.onrender.com/embed";
+            rouletteEntry.is_active = true;
+            rouletteEntry.is_enabled = true;
+            rouletteEntry.updated_at = new Date().toISOString();
+            updated = true;
+          }
+        }
       }
 
       if (!parsed.balance_audit_logs) {
@@ -818,6 +837,16 @@ export async function initializeDatabase(): Promise<boolean> {
                 launch_url = 'https://plinko-1-b1u5.onrender.com/embed',
                 updated_at = CURRENT_TIMESTAMP
             WHERE LOWER(game_id) = 'plinko' AND (provider = 'Spribe' OR launch_url IS NULL OR launch_url = '')
+          `);
+
+          // Ensure Roulette is migrated to BETADRiX standalone European Roulette embed in existing DB
+          await client.query(`
+            UPDATE game_configs
+            SET provider = 'BETADRiX',
+                name = 'European Roulette',
+                launch_url = 'https://roulette-8k8u.onrender.com/embed',
+                updated_at = CURRENT_TIMESTAMP
+            WHERE LOWER(game_id) = 'roulette' AND (provider = 'Spribe' OR launch_url IS NULL OR launch_url = '' OR launch_url LIKE '%localhost:3001%' OR launch_url LIKE '%spribe.io%')
           `);
         }
 

@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test:security": "node scripts/test-admin-security.js",
-    "test:realtime": "node scripts/test-realtime-admin.js"
+    "test:realtime": "node scripts/test-realtime-admin.js",
+    "test:roulette": "node scripts/test-roulette-integration.js"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4",

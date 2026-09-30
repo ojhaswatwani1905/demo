@@ -73,20 +73,21 @@ export const GAMES: GameConfig[] = [
   },
   {
     id: "roulette",
-    name: "Roulette",
-    provider: "Spribe",
+    name: "European Roulette",
+    provider: "BETADRiX",
+    providerType: "Internal Demo Game",
     image: "/assets/games/game_card_roulette.png",
     uiPreview: "/assets/ui/roulette_game_ui.png",
     category: "Table",
-    demoUrlEnvKey: "NEXT_PUBLIC_SPYKE_ROULETTE_URL",
+    demoUrlEnvKey: "NEXT_PUBLIC_ROULETTE_URL",
     defaultDemoUrl:
-      process.env.NEXT_PUBLIC_SPYKE_ROULETTE_URL ||
-      "https://demo.spribe.io/launch/mini-roulette?currency=EUR&lang=EN",
-    description: "Sleek, European-style roulette wheel engineered for quick rounds, comprehensive history, and multi-bet options.",
-    badges: ["CLASSIC", "TABLE"],
+      process.env.NEXT_PUBLIC_ROULETTE_URL ||
+      "https://roulette-8k8u.onrender.com/embed",
+    description: "Full European Roulette experience with realistic 3D wheel physics and multi-bet options.",
+    badges: ["ORIGINAL", "TABLE"],
     rtp: "97.30%",
-    minBet: "$0.10",
-    maxBet: "$100.00",
+    minBet: "$1.00",
+    maxBet: "$500.00",
     maxMultiplier: "36x"
   }
 ];
@@ -115,6 +116,12 @@ export function getResolvedDemoUrl(gameId: string, initialUrl?: string): string 
   if (gameId.toLowerCase() === "plinko") {
     const game = getGameById("plinko");
     return game?.defaultDemoUrl?.trim() || "https://plinko-1-b1u5.onrender.com/embed";
+  }
+
+  // European Roulette uses authoritative standalone Roulette application directly
+  if (gameId.toLowerCase() === "roulette") {
+    const game = getGameById("roulette");
+    return process.env.NEXT_PUBLIC_ROULETTE_URL || game?.defaultDemoUrl?.trim() || "https://roulette-8k8u.onrender.com/embed";
   }
 
   if (typeof window !== "undefined") {

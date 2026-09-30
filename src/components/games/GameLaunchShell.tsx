@@ -70,6 +70,50 @@ function isTrustedPlinkoOrigin(origin: string, url?: string): boolean {
   return false;
 }
 
+// Canonical Roulette Origin
+const CANONICAL_ROULETTE_ORIGIN = "https://roulette-8k8u.onrender.com";
+
+function getRouletteTargetOrigin(url?: string): string {
+  if (url) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.origin === CANONICAL_ROULETTE_ORIGIN) return CANONICAL_ROULETTE_ORIGIN;
+      if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") {
+        return parsed.origin;
+      }
+    } catch {
+      // fallback
+    }
+  }
+  return CANONICAL_ROULETTE_ORIGIN;
+}
+
+function isTrustedRouletteOrigin(origin: string, url?: string): boolean {
+  if (origin === CANONICAL_ROULETTE_ORIGIN) return true;
+  if (url) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.origin === origin) {
+        if (origin === CANONICAL_ROULETTE_ORIGIN) return true;
+        if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") {
+          return true;
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+  try {
+    const originUrl = new URL(origin);
+    if (originUrl.hostname === "localhost" || originUrl.hostname === "127.0.0.1") {
+      return true;
+    }
+  } catch {
+    // ignore
+  }
+  return false;
+}
+
 export type PlinkoTransactionStatus = "PENDING" | "ACCEPTED" | "RESULT_RECEIVED" | "SETTLED" | "REJECTED";
 
 export interface PlinkoTransaction {
@@ -77,8 +121,9 @@ export interface PlinkoTransaction {
   betAmount: number;
   status: PlinkoTransactionStatus;
   timestamp: number;
-  game: "plinko";
+  game: "plinko" | "roulette";
   multiplier?: number;
+  winningNumber?: number;
   payout?: number;
   acceptedAt?: number;
   settledAt?: number;
@@ -138,6 +183,23 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     });
   }, [gameConfig.id, sendToPlinko]);
 
+  // PostMessage helper to send messages strictly to trusted Roulette origin (Never "*")
+  const sendToRoulette = React.useCallback((message: any) => {
+    if (!iframeRef.current?.contentWindow) return;
+    const targetOrigin = getRouletteTargetOrigin(resolvedUrl);
+    iframeRef.current.contentWindow.postMessage(message, targetOrigin);
+  }, [resolvedUrl]);
+
+  // BETADRiX_ROULETTE_INIT dispatcher
+  const sendRouletteInit = React.useCallback(() => {
+    if (gameConfig.id.toLowerCase() !== "roulette") return;
+    sendToRoulette({
+      type: "BETADRiX_ROULETTE_INIT",
+      balance: latestBalanceRef.current,
+      currency: "USD",
+    });
+  }, [gameConfig.id, sendToRoulette]);
+
   // Helper to mark iframe game as fully ready and remove loading overlay
   const markGameReady = React.useCallback(() => {
     setIsIframeLoading(false);
@@ -161,19 +223,27 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     });
   }, [game]);
 
-  // Balance Synchronization: Whenever BETADRiX WalletContext balance changes while Plinko is open, send BETADRiX_BALANCE_UPDATE
+  // Balance Synchronization: Whenever BETADRiX WalletContext balance changes while Plinko or Roulette is open, send BETADRiX_BALANCE_UPDATE
   const isInitialMount = useRef(true);
   useEffect(() => {
-    if (gameConfig.id.toLowerCase() !== "plinko") return;
+    const gid = gameConfig.id.toLowerCase();
+    if (gid !== "plinko" && gid !== "roulette") return;
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
     }
-    sendToPlinko({
-      type: "BETADRiX_BALANCE_UPDATE",
-      balance: balance,
-    });
-  }, [balance, gameConfig.id, sendToPlinko]);
+    if (gid === "plinko") {
+      sendToPlinko({
+        type: "BETADRiX_BALANCE_UPDATE",
+        balance: balance,
+      });
+    } else if (gid === "roulette") {
+      sendToRoulette({
+        type: "BETADRiX_BALANCE_UPDATE",
+        balance: balance,
+      });
+    }
+  }, [balance, gameConfig.id, sendToPlinko, sendToRoulette]);
 
   // Real-time synchronization when Admin updates game config
   useEffect(() => {
@@ -193,7 +263,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
         setGameConfig(prev => ({
           ...prev,
           name: payload.name || prev.name,
-          provider: (game.id.toLowerCase() === "plinko")
+          provider: (game.id.toLowerCase() === "plinko" || game.id.toLowerCase() === "roulette")
             ? "BETADRiX"
             : (payload.provider || prev.provider),
           defaultDemoUrl: payload.launch_url !== undefined ? payload.launch_url.trim() : prev.defaultDemoUrl,
@@ -231,7 +301,11 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
 
     const handleNativeLoad = () => {
       markGameReady();
-      sendPlinkoInit();
+      if (gameConfig.id.toLowerCase() === "plinko") {
+        sendPlinkoInit();
+      } else if (gameConfig.id.toLowerCase() === "roulette") {
+        sendRouletteInit();
+      }
     };
 
     iframe.addEventListener("load", handleNativeLoad);
@@ -240,7 +314,11 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     try {
       if (iframe.contentDocument && iframe.contentDocument.readyState === "complete") {
         markGameReady();
-        sendPlinkoInit();
+        if (gameConfig.id.toLowerCase() === "plinko") {
+          sendPlinkoInit();
+        } else if (gameConfig.id.toLowerCase() === "roulette") {
+          sendRouletteInit();
+        }
       }
     } catch {
       // Cross-origin access restriction is expected
@@ -254,8 +332,15 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
   // PostMessage listener supporting PLINKO_READY, PLINKO_BET_REQUEST, PLINKO_RESULT
   useEffect(() => {
     const handleWindowMessage = (event: MessageEvent) => {
-      // 1. Origin validation: strictly check against trusted Plinko origin. Never trust "*"
-      if (!isTrustedPlinkoOrigin(event.origin, resolvedUrl)) return;
+      const gid = gameConfig.id.toLowerCase();
+      // 1. Origin validation: strictly check against trusted origin for active game. Never trust "*"
+      if (gid === "plinko") {
+        if (!isTrustedPlinkoOrigin(event.origin, resolvedUrl)) return;
+      } else if (gid === "roulette") {
+        if (!isTrustedRouletteOrigin(event.origin, resolvedUrl)) return;
+      } else {
+        return;
+      }
 
       // 2. Source validation: ensure message comes from the embedded Plinko iframe window where applicable
       if (iframeRef.current?.contentWindow && event.source !== iframeRef.current.contentWindow) return;
@@ -407,13 +492,158 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
           balance: newBal,
         });
       }
+      else if (data.type === "ROULETTE_READY") {
+        markGameReady();
+        sendRouletteInit();
+      } else if (data.type === "ROULETTE_BET_REQUEST") {
+        const requestId = typeof data.requestId === "string" ? data.requestId : data.payload?.requestId;
+        const amount = typeof data.amount === "number" ? data.amount : data.payload?.amount;
+
+        // 1. Validate requestId exists and is non-empty
+        if (!requestId || typeof requestId !== "string" || requestId.trim() === "") {
+          console.warn("[BETADRiX Roulette] Bet request rejected: missing or invalid requestId");
+          return;
+        }
+
+        // 2. DUPLICATE PROTECTION: Check if requestId has already been received
+        if (transactionsRef.current.has(requestId)) {
+          console.warn(`[BETADRiX Roulette] Duplicate bet request detected for ${requestId}. Ignored.`);
+          return;
+        }
+
+        // 3. Register transaction as PENDING
+        transactionsRef.current.set(requestId, {
+          requestId,
+          betAmount: typeof amount === "number" ? amount : 0,
+          status: "PENDING",
+          timestamp: Date.now(),
+          game: "roulette",
+        });
+        const tx = transactionsRef.current.get(requestId)!;
+
+        // 4. Validate game is active
+        if (!isGameActiveRef.current) {
+          tx.status = "REJECTED";
+          sendToRoulette({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            reason: "GAME_NOT_ACTIVE",
+          });
+          return;
+        }
+
+        // 5. Validate amount is finite and > 0
+        if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
+          tx.status = "REJECTED";
+          sendToRoulette({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            reason: "INVALID_AMOUNT",
+          });
+          return;
+        }
+
+        // 6. Validate amount <= user's current demo balance
+        const currentBal = latestBalanceRef.current;
+        if (amount > currentBal) {
+          tx.status = "REJECTED";
+          sendToRoulette({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            reason: "INSUFFICIENT_BALANCE",
+          });
+          return;
+        }
+
+        // 7. Deduct bet from authoritative BETADRiX balance
+        const newBal = deductBalance(amount);
+        if (newBal === null) {
+          tx.status = "REJECTED";
+          sendToRoulette({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            reason: "INSUFFICIENT_BALANCE",
+          });
+          return;
+        }
+
+        // 8. Acceptance: record transaction as ACCEPTED
+        tx.status = "ACCEPTED";
+        tx.betAmount = amount;
+        tx.acceptedAt = Date.now();
+
+        sendToRoulette({
+          type: "BETADRiX_BET_ACCEPTED",
+          requestId,
+          amount,
+          balance: newBal,
+        });
+      } else if (data.type === "ROULETTE_RESULT") {
+        const requestId = typeof data.requestId === "string" ? data.requestId : data.payload?.requestId;
+        const payout = typeof data.payout === "number" ? data.payout : data.payload?.payout;
+        const winningNumber = typeof data.winningNumber === "number" ? data.winningNumber : data.payload?.winningNumber;
+
+        if (!requestId || typeof requestId !== "string" || requestId.trim() === "") {
+          console.warn("[BETADRiX Roulette] Result rejected: missing requestId");
+          return;
+        }
+
+        const tx = transactionsRef.current.get(requestId);
+        if (!tx) {
+          console.warn(`[BETADRiX Roulette] Result rejected: unknown requestId ${requestId}`);
+          return;
+        }
+
+        // DUPLICATE PROTECTION: ensure request has not already been settled
+        if (tx.status === "SETTLED") {
+          console.warn(`[BETADRiX Roulette] Duplicate result event ignored for already settled requestId ${requestId}`);
+          return;
+        }
+
+        if (tx.status !== "ACCEPTED") {
+          console.warn(`[BETADRiX Roulette] Result rejected for requestId ${requestId} with status ${tx.status}`);
+          return;
+        }
+
+        tx.status = "RESULT_RECEIVED";
+
+        if (typeof payout !== "number" || !Number.isFinite(payout) || payout < 0) {
+          console.warn(`[BETADRiX Roulette] Invalid payout ${payout} received for requestId ${requestId}`);
+          return;
+        }
+
+        if (winningNumber !== undefined) {
+          if (typeof winningNumber !== "number" || !Number.isInteger(winningNumber) || winningNumber < 0 || winningNumber > 36) {
+            console.warn(`[BETADRiX Roulette] Invalid winningNumber ${winningNumber} received for requestId ${requestId}`);
+            return;
+          }
+        }
+
+        const payoutNum = Number(payout.toFixed(2));
+        tx.status = "SETTLED";
+        tx.settledAt = Date.now();
+        tx.payout = payoutNum;
+        if (winningNumber !== undefined) {
+          tx.winningNumber = winningNumber;
+        }
+
+        const newBal = creditBalance(payoutNum);
+
+        sendToRoulette({
+          type: "BETADRiX_RESULT_SETTLED",
+          requestId,
+          betAmount: tx.betAmount,
+          payout: payoutNum,
+          balance: newBal,
+        });
+      }
     };
 
     window.addEventListener("message", handleWindowMessage);
     return () => {
       window.removeEventListener("message", handleWindowMessage);
     };
-  }, [resolvedUrl, markGameReady, sendPlinkoInit, deductBalance, creditBalance, sendToPlinko]);
+  }, [resolvedUrl, markGameReady, sendPlinkoInit, sendRouletteInit, deductBalance, creditBalance, sendToPlinko, sendToRoulette]);
 
   // Fullscreen change listener
   useEffect(() => {
@@ -506,7 +736,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {/* Game Area */}
         <div className="flex-1 flex flex-col bg-[#07070B] relative min-h-[580px] lg:min-h-[700px]">
-          {gameConfig.id.toLowerCase() !== "plinko" && !isAuthLoading && !isAuthenticated ? (
+          {gameConfig.id.toLowerCase() !== "plinko" && gameConfig.id.toLowerCase() !== "roulette" && !isAuthLoading && !isAuthenticated ? (
             /* AUTHENTICATION GATE */
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#09090F] space-y-4">
               <div className="relative mb-2">
@@ -651,11 +881,11 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
               <div className="space-y-1.5 max-w-md">
                 <Badge variant="demo" size="md">DEMO GAME</Badge>
                 <h3 className="text-2xl font-black text-white mt-1">
-                  {gameConfig.id.toLowerCase() === "plinko" ? "Unable to load Plinko" : `OPEN ${gameConfig.name.toUpperCase()}`}
+                  {gameConfig.id.toLowerCase() === "plinko" || gameConfig.id.toLowerCase() === "roulette" ? `Unable to load ${gameConfig.name}` : `OPEN ${gameConfig.name.toUpperCase()}`}
                 </h3>
                 <p className="text-xs text-[#8E8E9E] leading-relaxed">
-                  {gameConfig.id.toLowerCase() === "plinko"
-                    ? "The Plinko demo could not be embedded directly or timed out. You can launch it directly in a separate browser tab."
+                  {(gameConfig.id.toLowerCase() === "plinko" || gameConfig.id.toLowerCase() === "roulette")
+                    ? `The ${gameConfig.name} demo could not be embedded directly or timed out. You can launch it directly in a separate browser tab.`
                     : "Due to browser iframe security restrictions, this demo game can be opened directly in a new window."}
                 </p>
               </div>
