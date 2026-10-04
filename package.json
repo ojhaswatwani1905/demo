@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test:security": "node scripts/test-admin-security.js",
     "test:realtime": "node scripts/test-realtime-admin.js",
-    "test:roulette": "node scripts/test-roulette-integration.js"
+    "test:roulette": "node scripts/test-roulette-integration.js",
+    "test:trader": "node scripts/test-trader-integration.js"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4",

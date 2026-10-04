@@ -27,7 +27,7 @@ export async function generateMetadata(props: {
   }
 
   const name = dbGame?.name || staticGame?.name || id;
-  const provider = (id.toLowerCase() === "plinko" || id.toLowerCase() === "roulette")
+  const provider = (id.toLowerCase() === "plinko" || id.toLowerCase() === "roulette" || id.toLowerCase() === "trader")
     ? "BETADRiX"
     : (dbGame?.provider || staticGame?.provider || "BETADRiX");
 
@@ -86,6 +86,17 @@ export default async function GamePage(props: {
     mergedGame.defaultDemoUrl = (dbGame?.launch_url && dbGame.launch_url.trim() !== "" && !dbGame.launch_url.includes("spribe.io") && !dbGame.launch_url.includes("localhost:3001"))
       ? dbGame.launch_url.trim()
       : (process.env.NEXT_PUBLIC_ROULETTE_URL || "https://roulette-8k8u.onrender.com/embed");
+  }
+
+  // Explicitly ensure Trader connects to standalone Trader /embed
+  if (id.toLowerCase() === "trader") {
+    mergedGame.name = dbGame?.name || "Trader";
+    mergedGame.provider = (dbGame?.provider && dbGame.provider !== "Spribe") ? dbGame.provider : "BETADRiX";
+    mergedGame.providerType = "Internal Demo Game";
+    mergedGame.description = "Financial crash market simulation with dual bet positions and real-time multiplier curves.";
+    mergedGame.defaultDemoUrl = (dbGame?.launch_url && dbGame.launch_url.trim() !== "" && !dbGame.launch_url.includes("localhost:3000"))
+      ? dbGame.launch_url.trim()
+      : (process.env.NEXT_PUBLIC_TRADER_URL || "https://trader-ygps.onrender.com/embed");
   }
 
   return <GameLaunchShell game={mergedGame} />;

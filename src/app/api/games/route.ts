@@ -10,11 +10,11 @@ export async function GET() {
 
   const games = GAMES.map(staticGame => {
     const dbGame = dbMap.get(staticGame.id.toLowerCase());
-    const isPlinko = staticGame.id.toLowerCase() === "plinko";
+    const isInternal = staticGame.id.toLowerCase() === "plinko" || staticGame.id.toLowerCase() === "trader";
     const launchUrl = (dbGame?.launch_url !== undefined && dbGame.launch_url.trim() !== "")
       ? dbGame.launch_url.trim()
-      : (isPlinko ? "https://plinko-1-b1u5.onrender.com/embed" : staticGame.defaultDemoUrl);
-    const provider = isPlinko
+      : staticGame.defaultDemoUrl;
+    const provider = (isInternal || staticGame.id.toLowerCase() === "roulette")
       ? "BETADRiX"
       : (dbGame?.provider || staticGame.provider);
 
@@ -22,11 +22,11 @@ export async function GET() {
       id: staticGame.id,
       name: dbGame?.name || staticGame.name,
       provider,
-      providerType: isPlinko ? "Internal Demo Game" : undefined,
+      providerType: isInternal ? "Internal Demo Game" : (staticGame.providerType || undefined),
       category: dbGame?.category || staticGame.category,
       image: staticGame.image,
       badges: staticGame.badges,
-      rtp: isPlinko ? undefined : staticGame.rtp,
+      rtp: staticGame.rtp,
       mode: "demo",
       launchUrl: launchUrl || null,
       demoUrlConfigured: Boolean(launchUrl && launchUrl.trim().length > 0),

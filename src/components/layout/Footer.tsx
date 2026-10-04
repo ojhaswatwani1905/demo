@@ -48,6 +48,11 @@ export function Footer() {
                   Plinko (BETADRiX)
                 </Link>
               </li>
+              <li>
+                <Link href="/games/trader" className="hover:text-white transition-colors">
+                  Trader (BETADRiX)
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -24,7 +24,7 @@ export const DUMMY_USERS = [
 ];
 
 // Active games ONLY: Never Crash
-export const ACTIVE_GAMES = ["Mines", "Dice", "Roulette", "Plinko"] as const;
+export const ACTIVE_GAMES = ["Mines", "Dice", "Roulette", "Plinko", "Trader"] as const;
 
 export interface DummyActivityRecord {
   id?: number;
@@ -439,6 +439,37 @@ function readLocalStore(): LocalStore {
             updated = true;
           }
         }
+
+        const traderEntry = parsed.game_configs.find(g => g.game_id.toLowerCase() === "trader");
+        if (!traderEntry) {
+          parsed.game_configs.push({
+            id: parsed.game_configs.length + 1,
+            game_id: "trader",
+            name: "Trader",
+            provider: "BETADRiX",
+            category: "Originals",
+            image_url: "/assets/games/game_card_trader.png",
+            launch_url: "https://trader-ygps.onrender.com/embed",
+            is_active: true,
+            display_order: parsed.game_configs.length + 1,
+            updated_at: new Date().toISOString(),
+            is_enabled: true
+          });
+          updated = true;
+        } else if (
+          traderEntry.provider !== "BETADRiX" ||
+          !traderEntry.launch_url ||
+          traderEntry.launch_url.trim() === "" ||
+          traderEntry.launch_url.includes("localhost:3000")
+        ) {
+          traderEntry.provider = "BETADRiX";
+          traderEntry.name = "Trader";
+          traderEntry.launch_url = "https://trader-ygps.onrender.com/embed";
+          traderEntry.is_active = true;
+          traderEntry.is_enabled = true;
+          traderEntry.updated_at = new Date().toISOString();
+          updated = true;
+        }
       }
 
       if (!parsed.balance_audit_logs) {
@@ -847,6 +878,18 @@ export async function initializeDatabase(): Promise<boolean> {
                 launch_url = 'https://roulette-8k8u.onrender.com/embed',
                 updated_at = CURRENT_TIMESTAMP
             WHERE LOWER(game_id) = 'roulette' AND (provider = 'Spribe' OR launch_url IS NULL OR launch_url = '' OR launch_url LIKE '%localhost:3001%' OR launch_url LIKE '%spribe.io%')
+          `);
+
+          // Ensure Trader is migrated to BETADRiX standalone Trader embed in existing DB
+          await client.query(`
+            INSERT INTO game_configs (game_id, name, provider, category, image_url, launch_url, is_active, display_order)
+            VALUES ('trader', 'Trader', 'BETADRiX', 'Originals', '/assets/games/game_card_trader.png', 'https://trader-ygps.onrender.com/embed', true, 5)
+            ON CONFLICT (game_id) DO UPDATE
+            SET provider = 'BETADRiX',
+                name = 'Trader',
+                launch_url = 'https://trader-ygps.onrender.com/embed',
+                updated_at = CURRENT_TIMESTAMP
+            WHERE game_configs.launch_url IS NULL OR game_configs.launch_url = '' OR game_configs.launch_url LIKE '%localhost:3000%'
           `);
         }
 

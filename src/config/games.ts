@@ -89,6 +89,25 @@ export const GAMES: GameConfig[] = [
     minBet: "$1.00",
     maxBet: "$500.00",
     maxMultiplier: "36x"
+  },
+  {
+    id: "trader",
+    name: "Trader",
+    provider: "BETADRiX",
+    providerType: "Internal Demo Game",
+    image: "/assets/games/game_card_trader.png",
+    uiPreview: "/assets/ui/trader_game_ui.png",
+    category: "Originals",
+    demoUrlEnvKey: "NEXT_PUBLIC_TRADER_URL",
+    defaultDemoUrl:
+      process.env.NEXT_PUBLIC_TRADER_URL ||
+      "https://trader-ygps.onrender.com/embed",
+    description: "Financial crash market simulation with dual bet positions and real-time multiplier curves.",
+    badges: ["ORIGINAL", "MARKET SIM"],
+    rtp: "97.00%",
+    minBet: "$1.00",
+    maxBet: "$500.00",
+    maxMultiplier: "1,000x"
   }
 ];
 
@@ -122,6 +141,12 @@ export function getResolvedDemoUrl(gameId: string, initialUrl?: string): string 
   if (gameId.toLowerCase() === "roulette") {
     const game = getGameById("roulette");
     return process.env.NEXT_PUBLIC_ROULETTE_URL || game?.defaultDemoUrl?.trim() || "https://roulette-8k8u.onrender.com/embed";
+  }
+
+  // Trader uses authoritative standalone Trader application directly
+  if (gameId.toLowerCase() === "trader") {
+    const game = getGameById("trader");
+    return process.env.NEXT_PUBLIC_TRADER_URL || game?.defaultDemoUrl?.trim() || "https://trader-ygps.onrender.com/embed";
   }
 
   if (typeof window !== "undefined") {

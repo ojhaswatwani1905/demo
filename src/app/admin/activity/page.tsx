@@ -204,6 +204,7 @@ export default function AdminActivityPage() {
                 <option value="mines">Mines</option>
                 <option value="dice">Dice</option>
                 <option value="plinko">Plinko</option>
+                <option value="trader">Trader</option>
               </select>
             </div>
 

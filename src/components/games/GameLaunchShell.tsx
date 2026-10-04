@@ -114,6 +114,50 @@ function isTrustedRouletteOrigin(origin: string, url?: string): boolean {
   return false;
 }
 
+// Canonical Trader Origin
+const CANONICAL_TRADER_ORIGIN = "https://trader-ygps.onrender.com";
+
+function getTraderTargetOrigin(url?: string): string {
+  if (url) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.origin === CANONICAL_TRADER_ORIGIN) return CANONICAL_TRADER_ORIGIN;
+      if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") {
+        return parsed.origin;
+      }
+    } catch {
+      // fallback
+    }
+  }
+  return CANONICAL_TRADER_ORIGIN;
+}
+
+function isTrustedTraderOrigin(origin: string, url?: string): boolean {
+  if (origin === CANONICAL_TRADER_ORIGIN) return true;
+  if (url) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.origin === origin) {
+        if (origin === CANONICAL_TRADER_ORIGIN) return true;
+        if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") {
+          return true;
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+  try {
+    const originUrl = new URL(origin);
+    if (originUrl.hostname === "localhost" || originUrl.hostname === "127.0.0.1") {
+      return true;
+    }
+  } catch {
+    // ignore
+  }
+  return false;
+}
+
 export type PlinkoTransactionStatus = "PENDING" | "ACCEPTED" | "RESULT_RECEIVED" | "SETTLED" | "REJECTED";
 
 export interface PlinkoTransaction {
@@ -121,7 +165,10 @@ export interface PlinkoTransaction {
   betAmount: number;
   status: PlinkoTransactionStatus;
   timestamp: number;
-  game: "plinko" | "roulette";
+  game: "plinko" | "roulette" | "trader";
+  roundId?: string;
+  slotId?: string;
+  outcome?: string;
   multiplier?: number;
   winningNumber?: number;
   payout?: number;
@@ -200,6 +247,23 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     });
   }, [gameConfig.id, sendToRoulette]);
 
+  // PostMessage helper to send messages strictly to trusted Trader origin (Never "*")
+  const sendToTrader = React.useCallback((message: any) => {
+    if (!iframeRef.current?.contentWindow) return;
+    const targetOrigin = getTraderTargetOrigin(resolvedUrl);
+    iframeRef.current.contentWindow.postMessage(message, targetOrigin);
+  }, [resolvedUrl]);
+
+  // BETADRiX_TRADER_INIT dispatcher
+  const sendTraderInit = React.useCallback(() => {
+    if (gameConfig.id.toLowerCase() !== "trader") return;
+    sendToTrader({
+      type: "BETADRiX_TRADER_INIT",
+      balance: latestBalanceRef.current,
+      currency: "USD",
+    });
+  }, [gameConfig.id, sendToTrader]);
+
   // Helper to mark iframe game as fully ready and remove loading overlay
   const markGameReady = React.useCallback(() => {
     setIsIframeLoading(false);
@@ -223,11 +287,11 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     });
   }, [game]);
 
-  // Balance Synchronization: Whenever BETADRiX WalletContext balance changes while Plinko or Roulette is open, send BETADRiX_BALANCE_UPDATE
+  // Balance Synchronization: Whenever BETADRiX WalletContext balance changes while Plinko, Roulette or Trader is open, send BETADRiX_BALANCE_UPDATE
   const isInitialMount = useRef(true);
   useEffect(() => {
     const gid = gameConfig.id.toLowerCase();
-    if (gid !== "plinko" && gid !== "roulette") return;
+    if (gid !== "plinko" && gid !== "roulette" && gid !== "trader") return;
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
@@ -242,8 +306,13 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
         type: "BETADRiX_BALANCE_UPDATE",
         balance: balance,
       });
+    } else if (gid === "trader") {
+      sendToTrader({
+        type: "BETADRiX_BALANCE_UPDATE",
+        balance: balance,
+      });
     }
-  }, [balance, gameConfig.id, sendToPlinko, sendToRoulette]);
+  }, [balance, gameConfig.id, sendToPlinko, sendToRoulette, sendToTrader]);
 
   // Real-time synchronization when Admin updates game config
   useEffect(() => {
@@ -263,7 +332,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
         setGameConfig(prev => ({
           ...prev,
           name: payload.name || prev.name,
-          provider: (game.id.toLowerCase() === "plinko" || game.id.toLowerCase() === "roulette")
+          provider: (game.id.toLowerCase() === "plinko" || game.id.toLowerCase() === "roulette" || game.id.toLowerCase() === "trader")
             ? "BETADRiX"
             : (payload.provider || prev.provider),
           defaultDemoUrl: payload.launch_url !== undefined ? payload.launch_url.trim() : prev.defaultDemoUrl,
@@ -305,6 +374,8 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
         sendPlinkoInit();
       } else if (gameConfig.id.toLowerCase() === "roulette") {
         sendRouletteInit();
+      } else if (gameConfig.id.toLowerCase() === "trader") {
+        sendTraderInit();
       }
     };
 
@@ -318,6 +389,8 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
           sendPlinkoInit();
         } else if (gameConfig.id.toLowerCase() === "roulette") {
           sendRouletteInit();
+        } else if (gameConfig.id.toLowerCase() === "trader") {
+          sendTraderInit();
         }
       }
     } catch {
@@ -327,9 +400,9 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     return () => {
       iframe.removeEventListener("load", handleNativeLoad);
     };
-  }, [resolvedUrl, markGameReady, sendPlinkoInit]);
+  }, [resolvedUrl, markGameReady, sendPlinkoInit, sendRouletteInit, sendTraderInit]);
 
-  // PostMessage listener supporting PLINKO_READY, PLINKO_BET_REQUEST, PLINKO_RESULT
+  // PostMessage listener supporting PLINKO, ROULETTE, and TRADER events
   useEffect(() => {
     const handleWindowMessage = (event: MessageEvent) => {
       const gid = gameConfig.id.toLowerCase();
@@ -338,6 +411,8 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
         if (!isTrustedPlinkoOrigin(event.origin, resolvedUrl)) return;
       } else if (gid === "roulette") {
         if (!isTrustedRouletteOrigin(event.origin, resolvedUrl)) return;
+      } else if (gid === "trader") {
+        if (!isTrustedTraderOrigin(event.origin, resolvedUrl)) return;
       } else {
         return;
       }
@@ -636,6 +711,263 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
           payout: payoutNum,
           balance: newBal,
         });
+      } else if (data.type === "TRADER_READY") {
+        markGameReady();
+        sendTraderInit();
+      } else if (data.type === "TRADER_BET_REQUEST") {
+        const gameId = typeof data.gameId === "string" ? data.gameId : data.payload?.gameId;
+        const requestId = typeof data.requestId === "string" ? data.requestId : data.payload?.requestId;
+        const roundId = data.roundId !== undefined ? String(data.roundId) : (data.payload?.roundId !== undefined ? String(data.payload.roundId) : undefined);
+        const slotId = typeof data.slotId === "string" ? data.slotId : data.payload?.slotId;
+        const amount = typeof data.amount === "number" ? data.amount : data.payload?.amount;
+
+        // 1. Validate gameId === "trader"
+        if (!gameId || gameId.toLowerCase() !== "trader") {
+          console.warn("[BETADRiX Trader] Bet request rejected: invalid or mismatching gameId", gameId);
+          return;
+        }
+
+        // 2. Validate requestId exists and is non-empty
+        if (!requestId || typeof requestId !== "string" || requestId.trim() === "") {
+          console.warn("[BETADRiX Trader] Bet request rejected: missing or invalid requestId");
+          return;
+        }
+
+        // 3. Validate roundId and slotId
+        if (!roundId || roundId.trim() === "" || !slotId || typeof slotId !== "string" || slotId.trim() === "") {
+          console.warn("[BETADRiX Trader] Bet request rejected: missing roundId or slotId");
+          sendToTrader({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            roundId,
+            slotId,
+            reason: "INVALID_ROUND_OR_SLOT",
+          });
+          return;
+        }
+
+        // 4. DUPLICATE PROTECTION: Check if requestId has already been received
+        if (transactionsRef.current.has(requestId)) {
+          console.warn(`[BETADRiX Trader] Duplicate bet request detected for ${requestId}. Ignored.`);
+          return;
+        }
+
+        // 5. Check if an active unsettled wager already exists for this exact roundId and slotId
+        for (const existingTx of transactionsRef.current.values()) {
+          if (
+            existingTx.game === "trader" &&
+            existingTx.roundId === roundId &&
+            existingTx.slotId === slotId &&
+            existingTx.status === "ACCEPTED"
+          ) {
+            console.warn(`[BETADRiX Trader] Bet request rejected: active wager already exists for round ${roundId} slot ${slotId}`);
+            sendToTrader({
+              type: "BETADRiX_BET_REJECTED",
+              requestId,
+              roundId,
+              slotId,
+              reason: "SLOT_ALREADY_ACTIVE",
+            });
+            return;
+          }
+        }
+
+        // 6. Register transaction as PENDING
+        transactionsRef.current.set(requestId, {
+          requestId,
+          roundId,
+          slotId,
+          betAmount: typeof amount === "number" ? amount : 0,
+          status: "PENDING",
+          timestamp: Date.now(),
+          game: "trader",
+        });
+        const tx = transactionsRef.current.get(requestId)!;
+
+        // 7. Validate game is active
+        if (!isGameActiveRef.current) {
+          tx.status = "REJECTED";
+          sendToTrader({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            roundId,
+            slotId,
+            reason: "GAME_NOT_ACTIVE",
+          });
+          return;
+        }
+
+        // 8. Validate amount is finite and > 0
+        if (typeof amount !== "number" || !Number.isFinite(amount) || amount <= 0) {
+          tx.status = "REJECTED";
+          sendToTrader({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            roundId,
+            slotId,
+            reason: "INVALID_AMOUNT",
+          });
+          return;
+        }
+
+        // 9. Validate amount <= user's current demo balance
+        const currentBal = latestBalanceRef.current;
+        if (amount > currentBal) {
+          tx.status = "REJECTED";
+          sendToTrader({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            roundId,
+            slotId,
+            reason: "INSUFFICIENT_BALANCE",
+          });
+          return;
+        }
+
+        // 10. Deduct bet from authoritative BETADRiX balance
+        const newBal = deductBalance(amount);
+        if (newBal === null) {
+          tx.status = "REJECTED";
+          sendToTrader({
+            type: "BETADRiX_BET_REJECTED",
+            requestId,
+            roundId,
+            slotId,
+            reason: "INSUFFICIENT_BALANCE",
+          });
+          return;
+        }
+
+        // 11. Acceptance: record transaction as ACCEPTED
+        tx.status = "ACCEPTED";
+        tx.betAmount = amount;
+        tx.acceptedAt = Date.now();
+
+        sendToTrader({
+          type: "BETADRiX_BET_ACCEPTED",
+          requestId,
+          roundId,
+          slotId,
+          amount,
+          balance: newBal,
+        });
+      } else if (data.type === "TRADER_RESULT") {
+        const gameId = typeof data.gameId === "string" ? data.gameId : data.payload?.gameId;
+        const requestId = typeof data.requestId === "string" ? data.requestId : data.payload?.requestId;
+        const roundId = data.roundId !== undefined ? String(data.roundId) : (data.payload?.roundId !== undefined ? String(data.payload.roundId) : undefined);
+        const slotId = typeof data.slotId === "string" ? data.slotId : data.payload?.slotId;
+        const outcome = typeof data.outcome === "string" ? data.outcome : data.payload?.outcome;
+        const multiplier = typeof data.multiplier === "number" ? data.multiplier : data.payload?.multiplier;
+
+        // 1. Validate gameId
+        if (gameId && gameId.toLowerCase() !== "trader") {
+          console.warn(`[BETADRiX Trader] Result rejected: invalid gameId ${gameId}`);
+          return;
+        }
+
+        // 2. Validate requestId exists
+        if (!requestId || typeof requestId !== "string" || requestId.trim() === "") {
+          console.warn("[BETADRiX Trader] Result rejected: missing requestId");
+          return;
+        }
+
+        // 3. Find authoritative stored wager
+        const tx = transactionsRef.current.get(requestId);
+        if (!tx) {
+          console.warn(`[BETADRiX Trader] Result rejected: unknown requestId ${requestId}`);
+          return;
+        }
+
+        if (tx.game !== "trader") {
+          console.warn(`[BETADRiX Trader] Result rejected: game mismatch for ${requestId}`);
+          return;
+        }
+
+        // 4. Round and Slot Isolation: Validate roundId and slotId match authoritative stored wager
+        if (roundId !== undefined && tx.roundId !== undefined && String(roundId) !== String(tx.roundId)) {
+          console.warn(`[BETADRiX Trader] Result rejected: roundId mismatch for ${requestId} (stored: ${tx.roundId}, received: ${roundId})`);
+          return;
+        }
+
+        if (slotId !== undefined && tx.slotId !== undefined && String(slotId) !== String(tx.slotId)) {
+          console.warn(`[BETADRiX Trader] Result rejected: slotId mismatch for ${requestId} (stored: ${tx.slotId}, received: ${slotId})`);
+          return;
+        }
+
+        // 5. DUPLICATE PROTECTION: ensure request has not already been settled
+        if (tx.status === "SETTLED") {
+          console.warn(`[BETADRiX Trader] Duplicate result event ignored for already settled requestId ${requestId}`);
+          return;
+        }
+
+        if (tx.status !== "ACCEPTED") {
+          console.warn(`[BETADRiX Trader] Result rejected for requestId ${requestId} with status ${tx.status}`);
+          return;
+        }
+
+        const normalizedOutcome = (outcome || "").toUpperCase();
+
+        if (normalizedOutcome === "CASHOUT") {
+          // Validate multiplier
+          if (typeof multiplier !== "number" || !Number.isFinite(multiplier) || multiplier <= 0) {
+            console.warn(`[BETADRiX Trader] Invalid multiplier ${multiplier} received for cashout ${requestId}`);
+            return;
+          }
+
+          // Authoritative Payout: NEVER TRUST CLIENT PAYOUT
+          const multiplierNum = Number(multiplier);
+          const authoritativePayout = Number((tx.betAmount * multiplierNum).toFixed(2));
+
+          // Mark settled
+          tx.status = "SETTLED";
+          tx.settledAt = Date.now();
+          tx.outcome = "CASHOUT";
+          tx.multiplier = multiplierNum;
+          tx.payout = authoritativePayout;
+
+          // Credit authoritative balance
+          const newBal = creditBalance(authoritativePayout);
+
+          sendToTrader({
+            type: "BETADRiX_RESULT_SETTLED",
+            requestId,
+            roundId: tx.roundId,
+            slotId: tx.slotId,
+            payout: authoritativePayout,
+            balance: newBal,
+          });
+
+          sendToTrader({
+            type: "BETADRiX_BALANCE_UPDATE",
+            balance: newBal,
+          });
+        } else if (normalizedOutcome === "CRASH") {
+          // Positions still active at crash settle with payout = 0. Wager becomes LOST.
+          tx.status = "SETTLED";
+          tx.settledAt = Date.now();
+          tx.outcome = "CRASH";
+          tx.multiplier = typeof multiplier === "number" && Number.isFinite(multiplier) ? multiplier : 0;
+          tx.payout = 0;
+
+          // Current authoritative balance remains unchanged (wager was already deducted upon placement)
+          const currentBal = latestBalanceRef.current;
+
+          sendToTrader({
+            type: "BETADRiX_RESULT_SETTLED",
+            requestId,
+            roundId: tx.roundId,
+            slotId: tx.slotId,
+            payout: 0,
+            balance: currentBal,
+          });
+
+          sendToTrader({
+            type: "BETADRiX_BALANCE_UPDATE",
+            balance: currentBal,
+          });
+        } else {
+          console.warn(`[BETADRiX Trader] Unrecognized outcome ${outcome} for requestId ${requestId}`);
+        }
       }
     };
 
@@ -643,7 +975,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
     return () => {
       window.removeEventListener("message", handleWindowMessage);
     };
-  }, [resolvedUrl, markGameReady, sendPlinkoInit, sendRouletteInit, deductBalance, creditBalance, sendToPlinko, sendToRoulette]);
+  }, [resolvedUrl, markGameReady, sendPlinkoInit, sendRouletteInit, sendTraderInit, deductBalance, creditBalance, sendToPlinko, sendToRoulette, sendToTrader]);
 
   // Fullscreen change listener
   useEffect(() => {
@@ -736,7 +1068,7 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {/* Game Area */}
         <div className="flex-1 flex flex-col bg-[#07070B] relative min-h-[580px] lg:min-h-[700px]">
-          {gameConfig.id.toLowerCase() !== "plinko" && gameConfig.id.toLowerCase() !== "roulette" && !isAuthLoading && !isAuthenticated ? (
+          {gameConfig.id.toLowerCase() !== "plinko" && gameConfig.id.toLowerCase() !== "roulette" && gameConfig.id.toLowerCase() !== "trader" && !isAuthLoading && !isAuthenticated ? (
             /* AUTHENTICATION GATE */
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#09090F] space-y-4">
               <div className="relative mb-2">
@@ -881,10 +1213,10 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
               <div className="space-y-1.5 max-w-md">
                 <Badge variant="demo" size="md">DEMO GAME</Badge>
                 <h3 className="text-2xl font-black text-white mt-1">
-                  {gameConfig.id.toLowerCase() === "plinko" || gameConfig.id.toLowerCase() === "roulette" ? `Unable to load ${gameConfig.name}` : `OPEN ${gameConfig.name.toUpperCase()}`}
+                  {gameConfig.id.toLowerCase() === "plinko" || gameConfig.id.toLowerCase() === "roulette" || gameConfig.id.toLowerCase() === "trader" ? `Unable to load ${gameConfig.name}` : `OPEN ${gameConfig.name.toUpperCase()}`}
                 </h3>
                 <p className="text-xs text-[#8E8E9E] leading-relaxed">
-                  {(gameConfig.id.toLowerCase() === "plinko" || gameConfig.id.toLowerCase() === "roulette")
+                  {(gameConfig.id.toLowerCase() === "plinko" || gameConfig.id.toLowerCase() === "roulette" || gameConfig.id.toLowerCase() === "trader")
                     ? `The ${gameConfig.name} demo could not be embedded directly or timed out. You can launch it directly in a separate browser tab.`
                     : "Due to browser iframe security restrictions, this demo game can be opened directly in a new window."}
                 </p>

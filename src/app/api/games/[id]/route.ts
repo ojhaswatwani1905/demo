@@ -19,11 +19,11 @@ export async function GET(
     );
   }
 
-  const isPlinko = id.toLowerCase() === "plinko";
+  const isInternal = id.toLowerCase() === "plinko" || id.toLowerCase() === "trader";
   const launchUrl = (dbGame?.launch_url !== undefined && dbGame.launch_url.trim() !== "")
     ? dbGame.launch_url.trim()
-    : (isPlinko ? "https://plinko-1-b1u5.onrender.com/embed" : (staticGame?.defaultDemoUrl || ""));
-  const provider = isPlinko
+    : (staticGame?.defaultDemoUrl || "");
+  const provider = (isInternal || id.toLowerCase() === "roulette")
     ? "BETADRiX"
     : (dbGame?.provider || staticGame?.provider || "BETADRiX");
   const name = dbGame?.name || staticGame?.name || id;
@@ -34,15 +34,15 @@ export async function GET(
       id: staticGame?.id || id,
       name,
       provider,
-      providerType: isPlinko ? "Internal Demo Game" : undefined,
+      providerType: isInternal ? "Internal Demo Game" : (staticGame?.providerType || undefined),
       category: dbGame?.category || staticGame?.category,
       image: staticGame?.image || dbGame?.image_url,
-      description: isPlinko ? "Physics-based Plinko demo with virtual credits." : staticGame?.description,
+      description: staticGame?.description,
       badges: staticGame?.badges || [],
-      rtp: isPlinko ? undefined : staticGame?.rtp,
-      minBet: isPlinko ? undefined : staticGame?.minBet,
-      maxBet: isPlinko ? undefined : staticGame?.maxBet,
-      maxMultiplier: isPlinko ? undefined : staticGame?.maxMultiplier,
+      rtp: staticGame?.rtp,
+      minBet: staticGame?.minBet,
+      maxBet: staticGame?.maxBet,
+      maxMultiplier: staticGame?.maxMultiplier,
       mode: "demo",
       launchUrl: launchUrl || null,
       demoUrlConfigured: Boolean(launchUrl && launchUrl.trim().length > 0),

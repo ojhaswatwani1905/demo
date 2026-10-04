@@ -231,7 +231,7 @@ export default function AdminDashboardPage() {
           </div>
           <div className="flex items-center justify-between text-[11px] font-mono text-[#71788A]">
             <span>Active games:</span>
-            <span className="text-purple-400 font-bold">Mines, Dice, Roulette, Plinko</span>
+            <span className="text-purple-400 font-bold">Mines, Dice, Roulette, Plinko, Trader</span>
           </div>
         </div>
 

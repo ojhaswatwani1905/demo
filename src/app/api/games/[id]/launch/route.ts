@@ -19,11 +19,11 @@ export async function GET(
     );
   }
 
-  const isPlinko = id.toLowerCase() === "plinko";
+  const isInternal = id.toLowerCase() === "plinko" || id.toLowerCase() === "trader";
   const launchUrl = (dbGame?.launch_url !== undefined && dbGame.launch_url.trim() !== "")
     ? dbGame.launch_url.trim()
-    : (isPlinko ? "https://plinko-1-b1u5.onrender.com/embed" : (staticGame?.defaultDemoUrl || ""));
-  const provider = isPlinko
+    : (staticGame?.defaultDemoUrl || "");
+  const provider = (isInternal || id.toLowerCase() === "roulette")
     ? "BETADRiX"
     : (dbGame?.provider || staticGame?.provider || "BETADRiX");
   const name = dbGame?.name || staticGame?.name || id;
@@ -35,7 +35,7 @@ export async function GET(
       gameId: staticGame?.id || id,
       gameName: name,
       provider,
-      providerType: isPlinko ? "Internal Demo Game" : undefined,
+      providerType: isInternal ? "Internal Demo Game" : (staticGame?.providerType || undefined),
       mode: "demo",
       isConfigured: Boolean(launchUrl && launchUrl.trim().length > 0),
       demoUrl: launchUrl || null,
