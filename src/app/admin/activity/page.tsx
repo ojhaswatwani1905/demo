@@ -54,7 +54,12 @@ export default function AdminActivityPage() {
   useEffect(() => {
     const unsubActivity = subscribe("ACTIVITY_RECORDED", (newBet: BetActivity) => {
       if (newBet) {
-        setActivities(prev => [newBet, ...prev.slice(0, 199)]);
+        setActivities(prev => {
+          if (newBet.id && prev.some(p => p.id === newBet.id)) {
+            return prev;
+          }
+          return [newBet, ...prev.slice(0, 199)];
+        });
       }
     });
 

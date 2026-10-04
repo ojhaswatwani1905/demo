@@ -74,25 +74,33 @@ export default function AdminWalletPage() {
   useEffect(() => {
     const unsub = subscribe("USER_BALANCE_UPDATED", (payload: any) => {
       if (payload) {
-        setUsers(prev =>
-          prev.map(u => (u.id === payload.user_id ? { ...u, balance: Number(payload.new_balance) } : u))
-        );
+        const targetUserId = payload.user_id ?? payload.userId;
+        const nextBalance = payload.new_balance ?? payload.newBalance;
 
-        // Prepend new balance adjustment to the log table
-        const newLog: BalanceAuditLog = {
-          id: `log-${Date.now()}`,
-          user_id: payload.user_id,
-          username: users.find(u => u.id === payload.user_id)?.name || `User #${payload.user_id}`,
-          admin_id: payload.admin_id || "admin",
-          action_type: payload.action,
-          amount: payload.amount,
-          old_balance: payload.old_balance,
-          new_balance: payload.new_balance,
-          reason: payload.reason || "Administrative adjustment",
-          created_at: new Date().toISOString()
-        };
+        if (targetUserId && (typeof nextBalance === "number" || !isNaN(Number(nextBalance)))) {
+          const numBal = Number(nextBalance);
+          setUsers(prev =>
+            prev.map(u => (u.id === targetUserId ? { ...u, balance: numBal } : u))
+          );
 
-        setLogs(prev => [newLog, ...prev.slice(0, 49)]);
+          // Prepend new balance adjustment to the log table if action/amount is present
+          if (payload.action || payload.amount) {
+            const newLog: BalanceAuditLog = {
+              id: `log-${Date.now()}`,
+              user_id: targetUserId,
+              username: users.find(u => u.id === targetUserId)?.name || `User #${targetUserId}`,
+              admin_id: payload.admin_id || "admin",
+              action_type: payload.action || "add",
+              amount: payload.amount || 0,
+              old_balance: payload.old_balance ?? payload.previousBalance ?? 0,
+              new_balance: numBal,
+              reason: payload.reason || "Administrative adjustment",
+              created_at: payload.timestamp || new Date().toISOString()
+            };
+
+            setLogs(prev => [newLog, ...prev.slice(0, 49)]);
+          }
+        }
       }
     });
 

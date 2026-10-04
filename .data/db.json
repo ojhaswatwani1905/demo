@@ -6,9 +6,9 @@
       "email": "alex@example.com",
       "password_hash": "$2b$10$6e5czr7gZouV2lO7OWuQvuXSfxS/YEpOZSkx4sDEQgALDwGaJkfWC",
       "created_at": "2026-09-15T13:11:36.039Z",
-      "balance": 4100,
+      "balance": 2450,
       "is_active": true,
-      "last_activity": "2026-10-04T14:04:39.576Z"
+      "last_activity": "2026-10-04T19:19:19.499Z"
     },
     {
       "id": 2,
@@ -18,25 +18,25 @@
       "balance": 1250,
       "is_active": true,
       "created_at": "2026-09-23T18:28:54.811Z",
-      "last_activity": "2026-09-23T18:28:54.813Z"
+      "last_activity": "2026-10-04T17:45:39.636Z"
     },
     {
       "id": 3,
       "name": "ojhas",
       "email": "ojhas@gmail.com",
       "password_hash": "$2b$10$hFzYvOhM41/gNepx04Pwku0VVjIabApaidVJmLr.wpxV3mDLhw2zq",
-      "balance": 1250,
+      "balance": 1750,
       "is_active": true,
       "created_at": "2026-09-23T18:46:49.532Z",
-      "last_activity": "2026-09-23T18:46:49.532Z"
+      "last_activity": "2026-10-04T19:10:54.066Z"
     }
   ],
   "site_config": {
     "id": 1,
-    "telegram_url": "https://t.me/betadrix_official",
-    "whatsapp_url": "https://wa.me/15551234567",
+    "telegram_url": "https://t.me/betadrix_vip_desk",
+    "whatsapp_url": "https://wa.me/15559876543",
     "site_name": "BETADRiX DEMO",
-    "updated_at": "2026-09-15T13:14:43.204Z"
+    "updated_at": "2026-10-04T19:19:19.592Z"
   },
   "dummy_activity": [
     {
@@ -45,7 +45,7 @@
       "game": "Mines",
       "payout_amount": 674,
       "multiplier": 8.42,
-      "created_at": "2026-09-15T13:11:35.961Z"
+      "created_at": "2026-10-04T19:19:19.630Z"
     },
     {
       "id": 2,
@@ -53,7 +53,7 @@
       "game": "Dice",
       "payout_amount": 1078.8,
       "multiplier": 12.4,
-      "created_at": "2026-09-15T13:10:35.961Z"
+      "created_at": "2026-10-04T19:18:19.630Z"
     },
     {
       "id": 3,
@@ -61,7 +61,7 @@
       "game": "Roulette",
       "payout_amount": 98.7,
       "multiplier": 2.1,
-      "created_at": "2026-09-15T13:09:35.961Z"
+      "created_at": "2026-10-04T19:17:19.630Z"
     },
     {
       "id": 4,
@@ -69,135 +69,135 @@
       "game": "Plinko",
       "payout_amount": 292.9,
       "multiplier": 5.8,
-      "created_at": "2026-09-15T13:08:35.961Z"
+      "created_at": "2026-10-04T19:16:19.630Z"
     },
     {
       "id": 5,
       "username": "Liam",
-      "game": "Mines",
+      "game": "Trader",
       "payout_amount": 99.9,
       "multiplier": 1.85,
-      "created_at": "2026-09-15T13:07:35.961Z"
+      "created_at": "2026-10-04T19:15:19.630Z"
     },
     {
       "id": 6,
       "username": "Sophia",
-      "game": "Dice",
+      "game": "Mines",
       "payout_amount": 833.75,
       "multiplier": 14.5,
-      "created_at": "2026-09-15T13:06:35.961Z"
+      "created_at": "2026-10-04T19:14:19.630Z"
     },
     {
       "id": 7,
       "username": "David",
-      "game": "Roulette",
+      "game": "Dice",
       "payout_amount": 195.2,
       "multiplier": 3.2,
-      "created_at": "2026-09-15T13:05:35.961Z"
+      "created_at": "2026-10-04T19:13:19.630Z"
     },
     {
       "id": 8,
       "username": "Emma",
-      "game": "Plinko",
+      "game": "Roulette",
       "payout_amount": 510.84,
       "multiplier": 7.92,
-      "created_at": "2026-09-15T13:04:35.961Z"
+      "created_at": "2026-10-04T19:12:19.630Z"
     },
     {
       "id": 9,
       "username": "Lucas",
-      "game": "Mines",
+      "game": "Plinko",
       "payout_amount": 1032,
       "multiplier": 24,
-      "created_at": "2026-09-15T13:03:35.961Z"
+      "created_at": "2026-10-04T19:11:19.630Z"
     },
     {
       "id": 10,
       "username": "Olivia",
-      "game": "Dice",
+      "game": "Trader",
       "payout_amount": 69.75,
       "multiplier": 1.5,
-      "created_at": "2026-09-15T13:02:35.961Z"
+      "created_at": "2026-10-04T19:10:19.630Z"
     },
     {
       "id": 11,
       "username": "Ethan",
-      "game": "Roulette",
+      "game": "Mines",
       "payout_amount": 480,
       "multiplier": 9.6,
-      "created_at": "2026-09-15T13:01:35.961Z"
+      "created_at": "2026-10-04T19:09:19.630Z"
     },
     {
       "id": 12,
       "username": "Mia",
-      "game": "Plinko",
+      "game": "Dice",
       "payout_amount": 973.7,
       "multiplier": 18.2,
-      "created_at": "2026-09-15T13:00:35.961Z"
+      "created_at": "2026-10-04T19:08:19.630Z"
     },
     {
       "id": 13,
       "username": "James",
-      "game": "Mines",
+      "game": "Roulette",
       "payout_amount": 245.1,
       "multiplier": 4.3,
-      "created_at": "2026-09-15T12:59:35.961Z"
+      "created_at": "2026-10-04T19:07:19.630Z"
     },
     {
       "id": 14,
       "username": "Isabella",
-      "game": "Dice",
+      "game": "Plinko",
       "payout_amount": 408.38,
       "multiplier": 6.75,
-      "created_at": "2026-09-15T12:58:35.961Z"
+      "created_at": "2026-10-04T19:06:19.630Z"
     },
     {
       "id": 15,
       "username": "Benjamin",
-      "game": "Roulette",
+      "game": "Trader",
       "payout_amount": 2048,
       "multiplier": 32,
-      "created_at": "2026-09-15T12:57:35.961Z"
+      "created_at": "2026-10-04T19:05:19.630Z"
     },
     {
       "id": 16,
       "username": "Charlotte",
-      "game": "Plinko",
+      "game": "Mines",
       "payout_amount": 716.13,
       "multiplier": 8.42,
-      "created_at": "2026-09-15T12:56:35.961Z"
+      "created_at": "2026-10-04T19:04:19.630Z"
     },
     {
       "id": 17,
       "username": "Noah",
-      "game": "Mines",
+      "game": "Dice",
       "payout_amount": 1140.8,
       "multiplier": 12.4,
-      "created_at": "2026-09-15T12:55:35.961Z"
+      "created_at": "2026-10-04T19:03:19.630Z"
     },
     {
       "id": 18,
       "username": "Ava",
-      "game": "Dice",
+      "game": "Roulette",
       "payout_amount": 103.95,
       "multiplier": 2.1,
-      "created_at": "2026-09-15T12:54:35.961Z"
+      "created_at": "2026-10-04T19:02:19.630Z"
     },
     {
       "id": 19,
       "username": "William",
-      "game": "Roulette",
+      "game": "Plinko",
       "payout_amount": 307.4,
       "multiplier": 5.8,
-      "created_at": "2026-09-15T12:53:35.961Z"
+      "created_at": "2026-10-04T19:01:19.630Z"
     },
     {
       "id": 20,
       "username": "Amelia",
-      "game": "Plinko",
+      "game": "Trader",
       "payout_amount": 104.53,
       "multiplier": 1.85,
-      "created_at": "2026-09-15T12:52:35.961Z"
+      "created_at": "2026-10-04T19:00:19.630Z"
     },
     {
       "id": 21,
@@ -205,7 +205,7 @@
       "game": "Mines",
       "payout_amount": 870,
       "multiplier": 14.5,
-      "created_at": "2026-09-15T12:51:35.961Z"
+      "created_at": "2026-10-04T18:59:19.630Z"
     },
     {
       "id": 22,
@@ -213,7 +213,7 @@
       "game": "Dice",
       "payout_amount": 203.2,
       "multiplier": 3.2,
-      "created_at": "2026-09-15T12:50:35.961Z"
+      "created_at": "2026-10-04T18:58:19.630Z"
     },
     {
       "id": 23,
@@ -221,7 +221,7 @@
       "game": "Roulette",
       "payout_amount": 332.64,
       "multiplier": 7.92,
-      "created_at": "2026-09-15T12:49:35.961Z"
+      "created_at": "2026-10-04T18:57:19.630Z"
     },
     {
       "id": 24,
@@ -229,135 +229,135 @@
       "game": "Plinko",
       "payout_amount": 1092,
       "multiplier": 24,
-      "created_at": "2026-09-15T12:48:35.961Z"
+      "created_at": "2026-10-04T18:56:19.630Z"
     },
     {
       "id": 25,
       "username": "Henry",
-      "game": "Mines",
+      "game": "Trader",
       "payout_amount": 73.5,
       "multiplier": 1.5,
-      "created_at": "2026-09-15T12:47:35.961Z"
+      "created_at": "2026-10-04T18:55:19.630Z"
     },
     {
       "id": 26,
       "username": "Abigail",
-      "game": "Dice",
+      "game": "Mines",
       "payout_amount": 504,
       "multiplier": 9.6,
-      "created_at": "2026-09-15T12:46:35.961Z"
+      "created_at": "2026-10-04T18:54:19.630Z"
     },
     {
       "id": 27,
       "username": "Joseph",
-      "game": "Roulette",
+      "game": "Dice",
       "payout_amount": 1019.2,
       "multiplier": 18.2,
-      "created_at": "2026-09-15T12:45:35.961Z"
+      "created_at": "2026-10-04T18:53:19.630Z"
     },
     {
       "id": 28,
       "username": "Emily",
-      "game": "Plinko",
+      "game": "Roulette",
       "payout_amount": 255.85,
       "multiplier": 4.3,
-      "created_at": "2026-09-15T12:44:35.961Z"
+      "created_at": "2026-10-04T18:52:19.630Z"
     },
     {
       "id": 29,
       "username": "Samuel",
-      "game": "Mines",
+      "game": "Plinko",
       "payout_amount": 425.25,
       "multiplier": 6.75,
-      "created_at": "2026-09-15T12:43:35.961Z"
+      "created_at": "2026-10-04T18:51:19.630Z"
     },
     {
       "id": 30,
       "username": "Elizabeth",
-      "game": "Dice",
+      "game": "Trader",
       "payout_amount": 1328,
       "multiplier": 32,
-      "created_at": "2026-09-15T12:42:35.961Z"
+      "created_at": "2026-10-04T18:50:19.630Z"
     },
     {
       "id": 31,
       "username": "Jackson",
-      "game": "Roulette",
+      "game": "Mines",
       "payout_amount": 758.25,
       "multiplier": 8.42,
-      "created_at": "2026-09-15T12:41:35.961Z"
+      "created_at": "2026-10-04T18:49:19.630Z"
     },
     {
       "id": 32,
       "username": "Sofia",
-      "game": "Plinko",
+      "game": "Dice",
       "payout_amount": 1202.8,
       "multiplier": 12.4,
-      "created_at": "2026-09-15T12:40:35.961Z"
+      "created_at": "2026-10-04T18:48:19.630Z"
     },
     {
       "id": 33,
       "username": "Sebastian",
-      "game": "Mines",
+      "game": "Roulette",
       "payout_amount": 109.2,
       "multiplier": 2.1,
-      "created_at": "2026-09-15T12:39:35.961Z"
+      "created_at": "2026-10-04T18:47:19.630Z"
     },
     {
       "id": 34,
       "username": "Avery",
-      "game": "Dice",
+      "game": "Plinko",
       "payout_amount": 321.9,
       "multiplier": 5.8,
-      "created_at": "2026-09-15T12:38:35.961Z"
+      "created_at": "2026-10-04T18:46:19.630Z"
     },
     {
       "id": 35,
       "username": "Aiden",
-      "game": "Roulette",
+      "game": "Trader",
       "payout_amount": 109.15,
       "multiplier": 1.85,
-      "created_at": "2026-09-15T12:37:35.961Z"
+      "created_at": "2026-10-04T18:45:19.630Z"
     },
     {
       "id": 36,
       "username": "Ella",
-      "game": "Plinko",
+      "game": "Mines",
       "payout_amount": 906.25,
       "multiplier": 14.5,
-      "created_at": "2026-09-15T12:36:35.961Z"
+      "created_at": "2026-10-04T18:44:19.630Z"
     },
     {
       "id": 37,
       "username": "Gabriel",
-      "game": "Mines",
+      "game": "Dice",
       "payout_amount": 131.2,
       "multiplier": 3.2,
-      "created_at": "2026-09-15T12:35:35.961Z"
+      "created_at": "2026-10-04T18:43:19.630Z"
     },
     {
       "id": 38,
       "username": "Scarlett",
-      "game": "Dice",
+      "game": "Roulette",
       "payout_amount": 352.44,
       "multiplier": 7.92,
-      "created_at": "2026-09-15T12:34:35.961Z"
+      "created_at": "2026-10-04T18:42:19.630Z"
     },
     {
       "id": 39,
       "username": "Carter",
-      "game": "Roulette",
+      "game": "Plinko",
       "payout_amount": 1152,
       "multiplier": 24,
-      "created_at": "2026-09-15T12:33:35.961Z"
+      "created_at": "2026-10-04T18:41:19.630Z"
     },
     {
       "id": 40,
       "username": "Grace",
-      "game": "Plinko",
+      "game": "Trader",
       "payout_amount": 77.25,
       "multiplier": 1.5,
-      "created_at": "2026-09-15T12:32:35.961Z"
+      "created_at": "2026-10-04T18:40:19.630Z"
     },
     {
       "id": 41,
@@ -365,7 +365,7 @@
       "game": "Mines",
       "payout_amount": 528,
       "multiplier": 9.6,
-      "created_at": "2026-09-15T12:31:35.961Z"
+      "created_at": "2026-10-04T18:39:19.630Z"
     },
     {
       "id": 42,
@@ -373,7 +373,7 @@
       "game": "Dice",
       "payout_amount": 1064.7,
       "multiplier": 18.2,
-      "created_at": "2026-09-15T12:30:35.961Z"
+      "created_at": "2026-10-04T18:38:19.630Z"
     },
     {
       "id": 43,
@@ -381,7 +381,7 @@
       "game": "Roulette",
       "payout_amount": 266.6,
       "multiplier": 4.3,
-      "created_at": "2026-09-15T12:29:35.961Z"
+      "created_at": "2026-10-04T18:37:19.630Z"
     },
     {
       "id": 44,
@@ -389,135 +389,135 @@
       "game": "Plinko",
       "payout_amount": 273.38,
       "multiplier": 6.75,
-      "created_at": "2026-09-15T12:28:35.961Z"
+      "created_at": "2026-10-04T18:36:19.630Z"
     },
     {
       "id": 45,
       "username": "Luke",
-      "game": "Mines",
+      "game": "Trader",
       "payout_amount": 1408,
       "multiplier": 32,
-      "created_at": "2026-09-15T12:27:35.962Z"
+      "created_at": "2026-10-04T18:35:19.630Z"
     },
     {
       "id": 46,
       "username": "Riley",
-      "game": "Dice",
+      "game": "Mines",
       "payout_amount": 800.38,
       "multiplier": 8.42,
-      "created_at": "2026-09-15T12:26:35.962Z"
+      "created_at": "2026-10-04T18:34:19.630Z"
     },
     {
       "id": 47,
       "username": "Anthony",
-      "game": "Roulette",
+      "game": "Dice",
       "payout_amount": 1264.8,
       "multiplier": 12.4,
-      "created_at": "2026-09-15T12:25:35.962Z"
+      "created_at": "2026-10-04T18:33:19.630Z"
     },
     {
       "id": 48,
       "username": "Aria",
-      "game": "Plinko",
+      "game": "Roulette",
       "payout_amount": 114.45,
       "multiplier": 2.1,
-      "created_at": "2026-09-15T12:24:35.962Z"
+      "created_at": "2026-10-04T18:32:19.630Z"
     },
     {
       "id": 49,
       "username": "Isaac",
-      "game": "Mines",
+      "game": "Plinko",
       "payout_amount": 336.4,
       "multiplier": 5.8,
-      "created_at": "2026-09-15T12:23:35.962Z"
+      "created_at": "2026-10-04T18:31:19.630Z"
     },
     {
       "id": 50,
       "username": "Lily",
-      "game": "Dice",
+      "game": "Trader",
       "payout_amount": 113.77,
       "multiplier": 1.85,
-      "created_at": "2026-09-15T12:22:35.962Z"
+      "created_at": "2026-10-04T18:30:19.630Z"
     },
     {
       "id": 51,
       "username": "Dylan",
-      "game": "Roulette",
+      "game": "Mines",
       "payout_amount": 580,
       "multiplier": 14.5,
-      "created_at": "2026-09-15T12:21:35.962Z"
+      "created_at": "2026-10-04T18:29:19.630Z"
     },
     {
       "id": 52,
       "username": "Aubrey",
-      "game": "Plinko",
+      "game": "Dice",
       "payout_amount": 139.2,
       "multiplier": 3.2,
-      "created_at": "2026-09-15T12:20:35.962Z"
+      "created_at": "2026-10-04T18:28:19.630Z"
     },
     {
       "id": 53,
       "username": "Wyatt",
-      "game": "Mines",
+      "game": "Roulette",
       "payout_amount": 372.24,
       "multiplier": 7.92,
-      "created_at": "2026-09-15T12:19:35.962Z"
+      "created_at": "2026-10-04T18:27:19.630Z"
     },
     {
       "id": 54,
       "username": "Zoey",
-      "game": "Dice",
+      "game": "Plinko",
       "payout_amount": 1212,
       "multiplier": 24,
-      "created_at": "2026-09-15T12:18:35.962Z"
+      "created_at": "2026-10-04T18:26:19.630Z"
     },
     {
       "id": 55,
       "username": "Andrew",
-      "game": "Roulette",
+      "game": "Trader",
       "payout_amount": 81,
       "multiplier": 1.5,
-      "created_at": "2026-09-15T12:17:35.962Z"
+      "created_at": "2026-10-04T18:25:19.630Z"
     },
     {
       "id": 56,
       "username": "Hannah",
-      "game": "Plinko",
+      "game": "Mines",
       "payout_amount": 552,
       "multiplier": 9.6,
-      "created_at": "2026-09-15T12:16:35.962Z"
+      "created_at": "2026-10-04T18:24:19.630Z"
     },
     {
       "id": 57,
       "username": "Joshua",
-      "game": "Mines",
+      "game": "Dice",
       "payout_amount": 1110.2,
       "multiplier": 18.2,
-      "created_at": "2026-09-15T12:15:35.962Z"
+      "created_at": "2026-10-04T18:23:19.630Z"
     },
     {
       "id": 58,
       "username": "Layla",
-      "game": "Dice",
+      "game": "Roulette",
       "payout_amount": 277.35,
       "multiplier": 4.3,
-      "created_at": "2026-09-15T12:14:35.962Z"
+      "created_at": "2026-10-04T18:22:19.630Z"
     },
     {
       "id": 59,
       "username": "Christopher",
-      "game": "Roulette",
+      "game": "Plinko",
       "payout_amount": 290.25,
       "multiplier": 6.75,
-      "created_at": "2026-09-15T12:13:35.962Z"
+      "created_at": "2026-10-04T18:21:19.630Z"
     },
     {
       "id": 60,
       "username": "Nora",
-      "game": "Plinko",
+      "game": "Trader",
       "payout_amount": 1488,
       "multiplier": 32,
-      "created_at": "2026-09-15T12:12:35.962Z"
+      "created_at": "2026-10-04T18:20:19.630Z"
     },
     {
       "id": 61,
@@ -525,7 +525,7 @@
       "game": "Mines",
       "payout_amount": 842.5,
       "multiplier": 8.42,
-      "created_at": "2026-09-15T12:11:35.962Z"
+      "created_at": "2026-10-04T18:19:19.630Z"
     },
     {
       "id": 62,
@@ -533,7 +533,7 @@
       "game": "Dice",
       "payout_amount": 1326.8,
       "multiplier": 12.4,
-      "created_at": "2026-09-15T12:10:35.962Z"
+      "created_at": "2026-10-04T18:18:19.630Z"
     },
     {
       "id": 63,
@@ -541,7 +541,7 @@
       "game": "Roulette",
       "payout_amount": 119.7,
       "multiplier": 2.1,
-      "created_at": "2026-09-15T12:09:35.962Z"
+      "created_at": "2026-10-04T18:17:19.630Z"
     },
     {
       "id": 64,
@@ -549,135 +549,135 @@
       "game": "Plinko",
       "payout_amount": 350.9,
       "multiplier": 5.8,
-      "created_at": "2026-09-15T12:08:35.962Z"
+      "created_at": "2026-10-04T18:16:19.630Z"
     },
     {
       "id": 65,
       "username": "Ryan",
-      "game": "Mines",
+      "game": "Trader",
       "payout_amount": 118.4,
       "multiplier": 1.85,
-      "created_at": "2026-09-15T12:07:35.962Z"
+      "created_at": "2026-10-04T18:15:19.630Z"
     },
     {
       "id": 66,
       "username": "Jaxon",
-      "game": "Dice",
+      "game": "Mines",
       "payout_amount": 616.25,
       "multiplier": 14.5,
-      "created_at": "2026-09-15T12:06:35.962Z"
+      "created_at": "2026-10-04T18:14:19.630Z"
     },
     {
       "id": 67,
       "username": "Levi",
-      "game": "Roulette",
+      "game": "Dice",
       "payout_amount": 147.2,
       "multiplier": 3.2,
-      "created_at": "2026-09-15T12:05:35.962Z"
+      "created_at": "2026-10-04T18:13:19.630Z"
     },
     {
       "id": 68,
       "username": "Nathan",
-      "game": "Plinko",
+      "game": "Roulette",
       "payout_amount": 392.04,
       "multiplier": 7.92,
-      "created_at": "2026-09-15T12:04:35.962Z"
+      "created_at": "2026-10-04T18:12:19.630Z"
     },
     {
       "id": 69,
       "username": "Caleb",
-      "game": "Mines",
+      "game": "Plinko",
       "payout_amount": 1272,
       "multiplier": 24,
-      "created_at": "2026-09-15T12:03:35.962Z"
+      "created_at": "2026-10-04T18:11:19.630Z"
     },
     {
       "id": 70,
       "username": "Hunter",
-      "game": "Dice",
+      "game": "Trader",
       "payout_amount": 84.75,
       "multiplier": 1.5,
-      "created_at": "2026-09-15T12:02:35.962Z"
+      "created_at": "2026-10-04T18:10:19.630Z"
     },
     {
       "id": 71,
       "username": "Christian",
-      "game": "Roulette",
+      "game": "Mines",
       "payout_amount": 576,
       "multiplier": 9.6,
-      "created_at": "2026-09-15T12:01:35.962Z"
+      "created_at": "2026-10-04T18:09:19.630Z"
     },
     {
       "id": 72,
       "username": "Isaiah",
-      "game": "Plinko",
+      "game": "Dice",
       "payout_amount": 1155.7,
       "multiplier": 18.2,
-      "created_at": "2026-09-15T12:00:35.962Z"
+      "created_at": "2026-10-04T18:08:19.630Z"
     },
     {
       "id": 73,
       "username": "Thomas",
-      "game": "Mines",
+      "game": "Roulette",
       "payout_amount": 180.6,
       "multiplier": 4.3,
-      "created_at": "2026-09-15T11:59:35.962Z"
+      "created_at": "2026-10-04T18:07:19.630Z"
     },
     {
       "id": 74,
       "username": "Aaron",
-      "game": "Dice",
+      "game": "Plinko",
       "payout_amount": 307.13,
       "multiplier": 6.75,
-      "created_at": "2026-09-15T11:58:35.962Z"
+      "created_at": "2026-10-04T18:06:19.630Z"
     },
     {
       "id": 75,
       "username": "Lincoln",
-      "game": "Roulette",
+      "game": "Trader",
       "payout_amount": 1568,
       "multiplier": 32,
-      "created_at": "2026-09-15T11:57:35.962Z"
+      "created_at": "2026-10-04T18:05:19.630Z"
     },
     {
       "id": 76,
       "username": "Eli",
-      "game": "Plinko",
+      "game": "Mines",
       "payout_amount": 884.63,
       "multiplier": 8.42,
-      "created_at": "2026-09-15T11:56:35.962Z"
+      "created_at": "2026-10-04T18:04:19.630Z"
     },
     {
       "id": 77,
       "username": "Landon",
-      "game": "Mines",
+      "game": "Dice",
       "payout_amount": 1388.8,
       "multiplier": 12.4,
-      "created_at": "2026-09-15T11:55:35.962Z"
+      "created_at": "2026-10-04T18:03:19.630Z"
     },
     {
       "id": 78,
       "username": "Connor",
-      "game": "Dice",
+      "game": "Roulette",
       "payout_amount": 124.95,
       "multiplier": 2.1,
-      "created_at": "2026-09-15T11:54:35.962Z"
+      "created_at": "2026-10-04T18:02:19.630Z"
     },
     {
       "id": 79,
       "username": "Josiah",
-      "game": "Roulette",
+      "game": "Plinko",
       "payout_amount": 365.4,
       "multiplier": 5.8,
-      "created_at": "2026-09-15T11:53:35.962Z"
+      "created_at": "2026-10-04T18:01:19.630Z"
     },
     {
       "id": 80,
       "username": "Jonathan",
-      "game": "Plinko",
+      "game": "Trader",
       "payout_amount": 76.78,
       "multiplier": 1.85,
-      "created_at": "2026-09-15T11:52:35.962Z"
+      "created_at": "2026-10-04T18:00:19.630Z"
     },
     {
       "id": 81,
@@ -685,7 +685,7 @@
       "game": "Mines",
       "payout_amount": 652.5,
       "multiplier": 14.5,
-      "created_at": "2026-09-15T11:51:35.962Z"
+      "created_at": "2026-10-04T17:59:19.630Z"
     },
     {
       "id": 82,
@@ -693,7 +693,7 @@
       "game": "Dice",
       "payout_amount": 155.2,
       "multiplier": 3.2,
-      "created_at": "2026-09-15T11:50:35.962Z"
+      "created_at": "2026-10-04T17:58:19.630Z"
     },
     {
       "id": 83,
@@ -701,7 +701,7 @@
       "game": "Roulette",
       "payout_amount": 411.84,
       "multiplier": 7.92,
-      "created_at": "2026-09-15T11:49:35.962Z"
+      "created_at": "2026-10-04T17:57:19.630Z"
     },
     {
       "id": 84,
@@ -709,135 +709,135 @@
       "game": "Plinko",
       "payout_amount": 1332,
       "multiplier": 24,
-      "created_at": "2026-09-15T11:48:35.962Z"
+      "created_at": "2026-10-04T17:56:19.630Z"
     },
     {
       "id": 85,
       "username": "Nolan",
-      "game": "Mines",
+      "game": "Trader",
       "payout_amount": 88.5,
       "multiplier": 1.5,
-      "created_at": "2026-09-15T11:47:35.962Z"
+      "created_at": "2026-10-04T17:55:19.630Z"
     },
     {
       "id": 86,
       "username": "Nicholas",
-      "game": "Dice",
+      "game": "Mines",
       "payout_amount": 600,
       "multiplier": 9.6,
-      "created_at": "2026-09-15T11:46:35.962Z"
+      "created_at": "2026-10-04T17:54:19.630Z"
     },
     {
       "id": 87,
       "username": "Easton",
-      "game": "Roulette",
+      "game": "Dice",
       "payout_amount": 746.2,
       "multiplier": 18.2,
-      "created_at": "2026-09-15T11:45:35.962Z"
+      "created_at": "2026-10-04T17:53:19.630Z"
     },
     {
       "id": 88,
       "username": "Colton",
-      "game": "Plinko",
+      "game": "Roulette",
       "payout_amount": 191.35,
       "multiplier": 4.3,
-      "created_at": "2026-09-15T11:44:35.962Z"
+      "created_at": "2026-10-04T17:52:19.630Z"
     },
     {
       "id": 89,
       "username": "Carson",
-      "game": "Mines",
+      "game": "Plinko",
       "payout_amount": 324,
       "multiplier": 6.75,
-      "created_at": "2026-09-15T11:43:35.962Z"
+      "created_at": "2026-10-04T17:51:19.630Z"
     },
     {
       "id": 90,
       "username": "Robert",
-      "game": "Dice",
+      "game": "Trader",
       "payout_amount": 1648,
       "multiplier": 32,
-      "created_at": "2026-09-15T11:42:35.962Z"
+      "created_at": "2026-10-04T17:50:19.630Z"
     },
     {
       "id": 91,
       "username": "Angel",
-      "game": "Roulette",
+      "game": "Mines",
       "payout_amount": 926.75,
       "multiplier": 8.42,
-      "created_at": "2026-09-15T11:41:35.962Z"
+      "created_at": "2026-10-04T17:49:19.630Z"
     },
     {
       "id": 92,
       "username": "Brayden",
-      "game": "Plinko",
+      "game": "Dice",
       "payout_amount": 1450.8,
       "multiplier": 12.4,
-      "created_at": "2026-09-15T11:40:35.962Z"
+      "created_at": "2026-10-04T17:48:19.630Z"
     },
     {
       "id": 93,
       "username": "Jordan",
-      "game": "Mines",
+      "game": "Roulette",
       "payout_amount": 130.2,
       "multiplier": 2.1,
-      "created_at": "2026-09-15T11:39:35.962Z"
+      "created_at": "2026-10-04T17:47:19.630Z"
     },
     {
       "id": 94,
       "username": "Dominic",
-      "game": "Dice",
+      "game": "Plinko",
       "payout_amount": 234.9,
       "multiplier": 5.8,
-      "created_at": "2026-09-15T11:38:35.962Z"
+      "created_at": "2026-10-04T17:46:19.630Z"
     },
     {
       "id": 95,
       "username": "Austin",
-      "game": "Roulette",
+      "game": "Trader",
       "payout_amount": 81.4,
       "multiplier": 1.85,
-      "created_at": "2026-09-15T11:37:35.962Z"
+      "created_at": "2026-10-04T17:45:19.630Z"
     },
     {
       "id": 96,
       "username": "Ian",
-      "game": "Plinko",
+      "game": "Mines",
       "payout_amount": 688.75,
       "multiplier": 14.5,
-      "created_at": "2026-09-15T11:36:35.962Z"
+      "created_at": "2026-10-04T17:44:19.630Z"
     },
     {
       "id": 97,
       "username": "Adam",
-      "game": "Mines",
+      "game": "Dice",
       "payout_amount": 163.2,
       "multiplier": 3.2,
-      "created_at": "2026-09-15T11:35:35.962Z"
+      "created_at": "2026-10-04T17:43:19.630Z"
     },
     {
       "id": 98,
       "username": "Elias",
-      "game": "Dice",
+      "game": "Roulette",
       "payout_amount": 431.64,
       "multiplier": 7.92,
-      "created_at": "2026-09-15T11:34:35.962Z"
+      "created_at": "2026-10-04T17:42:19.630Z"
     },
     {
       "id": 99,
       "username": "Jaxson",
-      "game": "Roulette",
+      "game": "Plinko",
       "payout_amount": 1392,
       "multiplier": 24,
-      "created_at": "2026-09-15T11:33:35.962Z"
+      "created_at": "2026-10-04T17:41:19.630Z"
     },
     {
       "id": 100,
       "username": "Greyson",
-      "game": "Plinko",
+      "game": "Trader",
       "payout_amount": 92.25,
       "multiplier": 1.5,
-      "created_at": "2026-09-15T11:32:35.962Z"
+      "created_at": "2026-10-04T17:40:19.630Z"
     }
   ],
   "admin_users": [
@@ -846,25 +846,25 @@
       "admin_id": "admin",
       "password_hash": "$2b$10$AvyKAHMycyss8BTqb/6WTOTxsUDlmdwQszNsv6FsCky35JC6/lun.",
       "created_at": "2026-09-16T11:17:57.978Z",
-      "updated_at": "2026-10-04T14:04:31.000Z",
+      "updated_at": "2026-10-04T19:19:18.839Z",
       "is_active": true,
-      "session_version": 25
+      "session_version": 30
     }
   ],
   "general_config": {
     "id": 1,
-    "platform_name": "BETADRiX DEMO",
+    "platform_name": "BETADRiX PRO",
     "demo_mode": true,
-    "default_demo_balance": 1250,
+    "default_demo_balance": 1500,
     "currency_symbol": "$",
     "maintenance_mode": false,
     "registration_enabled": true,
     "signin_enabled": true,
     "topup_enabled": true,
-    "max_demo_balance": 100000,
-    "default_language": "English",
+    "max_demo_balance": 10000,
+    "default_language": "en",
     "timezone": "UTC",
-    "updated_at": "2026-09-16T12:48:15.525Z"
+    "updated_at": "2026-10-04T19:19:19.613Z"
   },
   "promotions": [
     {
@@ -902,6 +902,42 @@
       "is_active": true,
       "created_at": "2026-09-16T12:48:15.525Z",
       "updated_at": "2026-09-16T12:48:15.525Z"
+    },
+    {
+      "id": 4,
+      "title": "Live Realtime Demo Sprint",
+      "short_desc": "Simulated tournament with zero refresh required",
+      "long_desc": "Real-time promotion test",
+      "banner_image": "/assets/promos/sprint.png",
+      "cta_text": "Join Sprint",
+      "display_order": 1,
+      "is_active": true,
+      "created_at": "2026-10-04T18:20:30.700Z",
+      "updated_at": "2026-10-04T18:20:30.700Z"
+    },
+    {
+      "id": 5,
+      "title": "Live Realtime Demo Sprint",
+      "short_desc": "Simulated tournament with zero refresh required",
+      "long_desc": "Real-time promotion test",
+      "banner_image": "/assets/promos/sprint.png",
+      "cta_text": "Join Sprint",
+      "display_order": 1,
+      "is_active": true,
+      "created_at": "2026-10-04T18:22:06.894Z",
+      "updated_at": "2026-10-04T18:22:06.894Z"
+    },
+    {
+      "id": 6,
+      "title": "Live Realtime Demo Sprint",
+      "short_desc": "Simulated tournament with zero refresh required",
+      "long_desc": "Real-time promotion test",
+      "banner_image": "/assets/promos/sprint.png",
+      "cta_text": "Join Sprint",
+      "display_order": 1,
+      "is_active": true,
+      "created_at": "2026-10-04T19:19:19.542Z",
+      "updated_at": "2026-10-04T19:19:19.542Z"
     }
   ],
   "vip_tiers": [
@@ -964,22 +1000,65 @@
       "display_order": 4,
       "is_active": true,
       "updated_at": "2026-09-16T12:48:15.525Z"
+    },
+    {
+      "id": 5,
+      "name": "Diamond Test",
+      "badge": "Diamond",
+      "min_activity": 500000,
+      "demo_bonus": 20,
+      "benefits": [
+        "Personal Demo VIP Concierge",
+        "20% Virtual Cashback"
+      ],
+      "display_order": 5,
+      "is_active": true,
+      "updated_at": "2026-10-04T18:20:30.724Z"
+    },
+    {
+      "id": 6,
+      "name": "Diamond Test",
+      "badge": "Diamond",
+      "min_activity": 500000,
+      "demo_bonus": 20,
+      "benefits": [
+        "Personal Demo VIP Concierge",
+        "20% Virtual Cashback"
+      ],
+      "display_order": 5,
+      "is_active": true,
+      "updated_at": "2026-10-04T18:22:06.909Z"
+    },
+    {
+      "id": 7,
+      "name": "Diamond Test",
+      "badge": "Diamond",
+      "min_activity": 500000,
+      "demo_bonus": 20,
+      "benefits": [
+        "Personal Demo VIP Concierge",
+        "20% Virtual Cashback"
+      ],
+      "display_order": 5,
+      "is_active": true,
+      "updated_at": "2026-10-04T19:19:19.556Z"
     }
   ],
   "bonus_settings": {
     "id": 1,
-    "daily_faucet_amount": 1200,
+    "daily_faucet_amount": 1350,
     "faucet_cooldown_hours": 24,
     "topup_options": [
+      100,
+      250,
       500,
-      1000,
-      5000
+      1000
     ],
-    "max_balance": 100000,
+    "max_balance": 5000,
     "bonus_multiplier": 1,
     "is_active": true,
-    "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
-    "updated_at": "2026-10-04T14:04:39.682Z"
+    "reset_rules": "Daily reset",
+    "updated_at": "2026-10-04T19:19:19.574Z"
   },
   "game_configs": [
     {
@@ -992,7 +1071,7 @@
       "launch_url": "https://mines.turbogames.io/",
       "is_active": true,
       "display_order": 1,
-      "updated_at": "2026-10-04T14:04:39.627Z",
+      "updated_at": "2026-10-04T19:19:19.167Z",
       "is_enabled": true
     },
     {
@@ -1043,8 +1122,9 @@
       "launch_url": "https://trader-ygps.onrender.com/embed",
       "is_active": true,
       "display_order": 5,
-      "updated_at": "2026-10-04T10:00:00.000Z",
-      "is_enabled": true
+      "updated_at": "2026-10-04T19:19:19.529Z",
+      "is_enabled": true,
+      "maintenance_message": "Trader running normally"
     }
   ],
   "balance_audit_logs": [
@@ -1256,6 +1336,171 @@
       "action_type": "add",
       "reason": "Automated real-time test transaction",
       "created_at": "2026-10-04T14:04:39.576Z"
+    },
+    {
+      "id": 20,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 4100,
+      "adjustment_amount": 150,
+      "new_balance": 4250,
+      "action_type": "add",
+      "reason": "Automated real-time test transaction",
+      "created_at": "2026-10-04T17:33:46.494Z"
+    },
+    {
+      "id": 21,
+      "user_id": 3,
+      "admin_id": "admin",
+      "previous_balance": 1250,
+      "adjustment_amount": 500,
+      "new_balance": 1750,
+      "action_type": "add",
+      "reason": "Admin manual add virtual balance operation",
+      "created_at": "2026-10-04T17:45:15.794Z"
+    },
+    {
+      "id": 22,
+      "user_id": 2,
+      "admin_id": "admin",
+      "previous_balance": 1250,
+      "adjustment_amount": 500,
+      "new_balance": 1750,
+      "action_type": "add",
+      "reason": "Admin manual add virtual balance operation",
+      "created_at": "2026-10-04T17:45:31.975Z"
+    },
+    {
+      "id": 23,
+      "user_id": 2,
+      "admin_id": "admin",
+      "previous_balance": 1750,
+      "adjustment_amount": -500,
+      "new_balance": 1250,
+      "action_type": "reset",
+      "reason": "Admin manual reset virtual balance operation",
+      "created_at": "2026-10-04T17:45:36.838Z"
+    },
+    {
+      "id": 24,
+      "user_id": 2,
+      "admin_id": "admin",
+      "previous_balance": 1250,
+      "adjustment_amount": 0,
+      "new_balance": 1250,
+      "action_type": "reset",
+      "reason": "Admin manual reset virtual balance operation",
+      "created_at": "2026-10-04T17:45:39.636Z"
+    },
+    {
+      "id": 25,
+      "user_id": 3,
+      "admin_id": "admin",
+      "previous_balance": 1750,
+      "adjustment_amount": -500,
+      "new_balance": 1250,
+      "action_type": "reset",
+      "reason": "Admin manual reset virtual balance operation",
+      "created_at": "2026-10-04T17:45:42.539Z"
+    },
+    {
+      "id": 26,
+      "user_id": 3,
+      "admin_id": "admin",
+      "previous_balance": 1250,
+      "adjustment_amount": 0,
+      "new_balance": 1250,
+      "action_type": "reset",
+      "reason": "Admin manual reset virtual balance operation",
+      "created_at": "2026-10-04T17:45:43.570Z"
+    },
+    {
+      "id": 27,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 4250,
+      "adjustment_amount": -3000,
+      "new_balance": 1250,
+      "action_type": "reset",
+      "reason": "Admin manual reset virtual balance operation",
+      "created_at": "2026-10-04T17:45:49.006Z"
+    },
+    {
+      "id": 28,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 1250,
+      "adjustment_amount": 150,
+      "new_balance": 1400,
+      "action_type": "add",
+      "reason": "Automated real-time test transaction",
+      "created_at": "2026-10-04T17:57:28.095Z"
+    },
+    {
+      "id": 29,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 1400,
+      "adjustment_amount": 150,
+      "new_balance": 1550,
+      "action_type": "add",
+      "reason": "Automated real-time test transaction",
+      "created_at": "2026-10-04T18:15:40.752Z"
+    },
+    {
+      "id": 30,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 1550,
+      "adjustment_amount": 250,
+      "new_balance": 1800,
+      "action_type": "add",
+      "reason": "Test realtime admin balance credit",
+      "created_at": "2026-10-04T18:20:30.610Z"
+    },
+    {
+      "id": 31,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 1800,
+      "adjustment_amount": 250,
+      "new_balance": 2050,
+      "action_type": "add",
+      "reason": "Test realtime admin balance credit",
+      "created_at": "2026-10-04T18:22:06.837Z"
+    },
+    {
+      "id": 32,
+      "user_id": 3,
+      "admin_id": "admin",
+      "previous_balance": 1250,
+      "adjustment_amount": 500,
+      "new_balance": 1750,
+      "action_type": "add",
+      "reason": "Realtime browser sync test",
+      "created_at": "2026-10-04T19:10:54.067Z"
+    },
+    {
+      "id": 33,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 2050,
+      "adjustment_amount": 150,
+      "new_balance": 2200,
+      "action_type": "add",
+      "reason": "Automated real-time test transaction",
+      "created_at": "2026-10-04T19:19:19.115Z"
+    },
+    {
+      "id": 34,
+      "user_id": 1,
+      "admin_id": "admin",
+      "previous_balance": 2200,
+      "adjustment_amount": 250,
+      "new_balance": 2450,
+      "action_type": "add",
+      "reason": "Test realtime admin balance credit",
+      "created_at": "2026-10-04T19:19:19.499Z"
     }
   ],
   "admin_audit_logs": [
@@ -2754,6 +2999,4166 @@
       "reason": "Admin updated bonus & faucet settings",
       "ip_address": "127.0.0.1",
       "created_at": "2026-10-04T14:04:39.685Z"
+    },
+    {
+      "id": 57,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "2",
+      "old_value": {
+        "version": 1,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:18:46.095Z",
+        "updatedBy": "system"
+      },
+      "new_value": {
+        "version": 2,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:24:17.618Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Persistence test verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:24:17.619Z"
+    },
+    {
+      "id": 58,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "3",
+      "old_value": {
+        "version": 2,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:24:17.618Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 3,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:24:18.379Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Version increment verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:24:18.380Z"
+    },
+    {
+      "id": 59,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "4",
+      "old_value": {
+        "version": 3,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:24:18.379Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 4,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T17:24:20.336Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Authorized admin API update verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:24:20.340Z"
+    },
+    {
+      "id": 60,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "5",
+      "old_value": {
+        "version": 4,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T17:24:20.336Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 5,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:24:20.561Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Real-time event trigger",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:24:20.566Z"
+    },
+    {
+      "id": 61,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "6",
+      "old_value": {
+        "version": 5,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:24:20.561Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 6,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:33:15.774Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Persistence test verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:33:15.775Z"
+    },
+    {
+      "id": 62,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "7",
+      "old_value": {
+        "version": 6,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:33:15.774Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 7,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:33:16.532Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Version increment verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:33:16.533Z"
+    },
+    {
+      "id": 63,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "8",
+      "old_value": {
+        "version": 7,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:33:16.532Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 8,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T17:33:18.159Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Authorized admin API update verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:33:18.163Z"
+    },
+    {
+      "id": 64,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "9",
+      "old_value": {
+        "version": 8,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T17:33:18.159Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 9,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:33:18.383Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Real-time event trigger",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:33:18.389Z"
+    },
+    {
+      "id": 65,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 4100
+      },
+      "new_value": {
+        "balance": 4250
+      },
+      "reason": "Automated real-time test transaction",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:33:46.498Z"
+    },
+    {
+      "id": 66,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "mines",
+      "old_value": null,
+      "new_value": {
+        "id": 1,
+        "game_id": "mines",
+        "name": "Mines",
+        "provider": "Turbo Games",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_mines.png",
+        "launch_url": "https://mines.turbogames.io/",
+        "is_active": true,
+        "display_order": 1,
+        "updated_at": "2026-10-04T17:33:46.596Z",
+        "is_enabled": true
+      },
+      "reason": "Admin updated game configuration for mines",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:33:46.600Z"
+    },
+    {
+      "id": 67,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-10-04T14:04:39.682Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-10-04T17:33:46.649Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:33:46.653Z"
+    },
+    {
+      "id": 68,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "10",
+      "old_value": {
+        "version": 9,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:33:18.383Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 10,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:35:02.274Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Persistence test verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:35:02.276Z"
+    },
+    {
+      "id": 69,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "11",
+      "old_value": {
+        "version": 10,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:35:02.274Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 11,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:35:02.941Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Version increment verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:35:02.942Z"
+    },
+    {
+      "id": 70,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "12",
+      "old_value": {
+        "version": 11,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:35:02.941Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 12,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T17:35:04.443Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Authorized admin API update verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:35:04.447Z"
+    },
+    {
+      "id": 71,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "13",
+      "old_value": {
+        "version": 12,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T17:35:04.443Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 13,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:35:04.671Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Real-time event trigger",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:35:04.675Z"
+    },
+    {
+      "id": 72,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "14",
+      "old_value": {
+        "version": 13,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:35:04.671Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 14,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:42:13.584Z",
+        "updatedBy": "admin"
+      },
+      "reason": "UI integration suite verification apply",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:42:13.588Z"
+    },
+    {
+      "id": 73,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "3",
+      "old_value": {
+        "balance": 1250
+      },
+      "new_value": {
+        "balance": 1750
+      },
+      "reason": "Admin manual add virtual balance operation",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:45:15.802Z"
+    },
+    {
+      "id": 74,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "2",
+      "old_value": {
+        "balance": 1250
+      },
+      "new_value": {
+        "balance": 1750
+      },
+      "reason": "Admin manual add virtual balance operation",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:45:31.981Z"
+    },
+    {
+      "id": 75,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_RESET",
+      "target_type": "users",
+      "target_id": "2",
+      "old_value": {
+        "balance": 1750
+      },
+      "new_value": {
+        "balance": 1250
+      },
+      "reason": "Admin manual reset virtual balance operation",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:45:36.844Z"
+    },
+    {
+      "id": 76,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_RESET",
+      "target_type": "users",
+      "target_id": "2",
+      "old_value": {
+        "balance": 1250
+      },
+      "new_value": {
+        "balance": 1250
+      },
+      "reason": "Admin manual reset virtual balance operation",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:45:39.642Z"
+    },
+    {
+      "id": 77,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_RESET",
+      "target_type": "users",
+      "target_id": "3",
+      "old_value": {
+        "balance": 1750
+      },
+      "new_value": {
+        "balance": 1250
+      },
+      "reason": "Admin manual reset virtual balance operation",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:45:42.544Z"
+    },
+    {
+      "id": 78,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_RESET",
+      "target_type": "users",
+      "target_id": "3",
+      "old_value": {
+        "balance": 1250
+      },
+      "new_value": {
+        "balance": 1250
+      },
+      "reason": "Admin manual reset virtual balance operation",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:45:43.575Z"
+    },
+    {
+      "id": 79,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_RESET",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 4250
+      },
+      "new_value": {
+        "balance": 1250
+      },
+      "reason": "Admin manual reset virtual balance operation",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:45:49.015Z"
+    },
+    {
+      "id": 80,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "15",
+      "old_value": {
+        "version": 14,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:42:13.584Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 15,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:48:08.357Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Admin updated economics configuration via console",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:48:08.365Z"
+    },
+    {
+      "id": 81,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "16",
+      "old_value": {
+        "version": 15,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:48:08.357Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 16,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 4
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:48:16.743Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Admin updated economics configuration via console",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:48:16.750Z"
+    },
+    {
+      "id": 82,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "17",
+      "old_value": {
+        "version": 16,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 4
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:48:16.743Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 17,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:57:09.781Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Persistence test verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:57:09.783Z"
+    },
+    {
+      "id": 83,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "18",
+      "old_value": {
+        "version": 17,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:57:09.781Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 18,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:57:10.441Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Version increment verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:57:10.442Z"
+    },
+    {
+      "id": 84,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "19",
+      "old_value": {
+        "version": 18,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:57:10.441Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 19,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T17:57:12.321Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Authorized admin API update verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:57:12.326Z"
+    },
+    {
+      "id": 85,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "20",
+      "old_value": {
+        "version": 19,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T17:57:12.321Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 20,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:57:12.552Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Real-time event trigger",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:57:12.560Z"
+    },
+    {
+      "id": 86,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 1250
+      },
+      "new_value": {
+        "balance": 1400
+      },
+      "reason": "Automated real-time test transaction",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:57:28.099Z"
+    },
+    {
+      "id": 87,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "mines",
+      "old_value": null,
+      "new_value": {
+        "id": 1,
+        "game_id": "mines",
+        "name": "Mines",
+        "provider": "Turbo Games",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_mines.png",
+        "launch_url": "https://mines.turbogames.io/",
+        "is_active": true,
+        "display_order": 1,
+        "updated_at": "2026-10-04T17:57:28.147Z",
+        "is_enabled": true
+      },
+      "reason": "Admin updated game configuration for mines",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:57:28.152Z"
+    },
+    {
+      "id": 88,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-10-04T17:33:46.649Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-10-04T17:57:28.208Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:57:28.213Z"
+    },
+    {
+      "id": 89,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "21",
+      "old_value": {
+        "version": 20,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:57:12.552Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 21,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:58:21.814Z",
+        "updatedBy": "admin"
+      },
+      "reason": "UI integration suite verification apply",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T17:58:21.818Z"
+    },
+    {
+      "id": 90,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 1400
+      },
+      "new_value": {
+        "balance": 1550
+      },
+      "reason": "Automated real-time test transaction",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:15:40.757Z"
+    },
+    {
+      "id": 91,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "mines",
+      "old_value": null,
+      "new_value": {
+        "id": 1,
+        "game_id": "mines",
+        "name": "Mines",
+        "provider": "Turbo Games",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_mines.png",
+        "launch_url": "https://mines.turbogames.io/",
+        "is_active": true,
+        "display_order": 1,
+        "updated_at": "2026-10-04T18:15:40.804Z",
+        "is_enabled": true
+      },
+      "reason": "Admin updated game configuration for mines",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:15:40.810Z"
+    },
+    {
+      "id": 92,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-10-04T17:57:28.208Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-10-04T18:15:40.855Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:15:40.859Z"
+    },
+    {
+      "id": 93,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "22",
+      "old_value": {
+        "version": 21,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T17:58:21.814Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 22,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T18:15:59.976Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Persistence test verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:15:59.979Z"
+    },
+    {
+      "id": 94,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "23",
+      "old_value": {
+        "version": 22,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T18:15:59.976Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 23,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T18:16:00.696Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Version increment verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:16:00.698Z"
+    },
+    {
+      "id": 95,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "24",
+      "old_value": {
+        "version": 23,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T18:16:00.696Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 24,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T18:16:02.485Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Authorized admin API update verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:16:02.490Z"
+    },
+    {
+      "id": 96,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "25",
+      "old_value": {
+        "version": 24,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T18:16:02.485Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 25,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T18:16:02.716Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Real-time event trigger",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:16:02.724Z"
+    },
+    {
+      "id": 97,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 1550
+      },
+      "new_value": {
+        "balance": 1800
+      },
+      "reason": "Test realtime admin balance credit",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:20:30.614Z"
+    },
+    {
+      "id": 98,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "trader",
+      "old_value": null,
+      "new_value": {
+        "id": 5,
+        "game_id": "trader",
+        "name": "Trader",
+        "provider": "BETADRiX",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_trader.png",
+        "launch_url": "https://trader-ygps.onrender.com/embed",
+        "is_active": true,
+        "display_order": 5,
+        "updated_at": "2026-10-04T18:20:30.679Z",
+        "is_enabled": true,
+        "maintenance_message": "Trader running normally"
+      },
+      "reason": "Admin updated game configuration for trader",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:20:30.684Z"
+    },
+    {
+      "id": 99,
+      "admin_id": "admin",
+      "action": "ADMIN_PROMOTION_CREATE",
+      "target_type": "promotions",
+      "target_id": "4",
+      "old_value": null,
+      "new_value": {
+        "id": 4,
+        "title": "Live Realtime Demo Sprint",
+        "short_desc": "Simulated tournament with zero refresh required",
+        "long_desc": "Real-time promotion test",
+        "banner_image": "/assets/promos/sprint.png",
+        "cta_text": "Join Sprint",
+        "display_order": 1,
+        "is_active": true,
+        "created_at": "2026-10-04T18:20:30.700Z",
+        "updated_at": "2026-10-04T18:20:30.700Z"
+      },
+      "reason": "Admin created promotion: Live Realtime Demo Sprint",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:20:30.704Z"
+    },
+    {
+      "id": 100,
+      "admin_id": "admin",
+      "action": "ADMIN_VIP_CREATE",
+      "target_type": "vip_tiers",
+      "target_id": "5",
+      "old_value": null,
+      "new_value": {
+        "id": 5,
+        "name": "Diamond Test",
+        "badge": "Diamond",
+        "min_activity": 500000,
+        "demo_bonus": 20,
+        "benefits": [
+          "Personal Demo VIP Concierge",
+          "20% Virtual Cashback"
+        ],
+        "display_order": 5,
+        "is_active": true,
+        "updated_at": "2026-10-04T18:20:30.724Z"
+      },
+      "reason": "Admin created VIP tier: Diamond Test",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:20:30.729Z"
+    },
+    {
+      "id": 101,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Balances can be reset once every 6 hours if virtual balance drops below $100.00",
+        "updated_at": "2026-10-04T18:15:40.855Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1350,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          100,
+          250,
+          500,
+          1000
+        ],
+        "max_balance": 5000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Daily reset",
+        "updated_at": "2026-10-04T18:20:30.746Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:20:30.750Z"
+    },
+    {
+      "id": 102,
+      "admin_id": "admin",
+      "action": "ADMIN_SUPPORT_UPDATE",
+      "target_type": "site_config",
+      "target_id": "1",
+      "old_value": {
+        "telegram": "https://t.me/betadrix_official",
+        "whatsapp": "https://wa.me/15551234567"
+      },
+      "new_value": {
+        "telegram": "https://t.me/betadrix_vip_desk",
+        "whatsapp": "https://wa.me/15559876543"
+      },
+      "reason": "Admin updated support channel URLs",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:20:30.770Z"
+    },
+    {
+      "id": 103,
+      "admin_id": "admin",
+      "action": "ADMIN_ACTIVITY_RESET",
+      "target_type": "dummy_activity",
+      "target_id": "all",
+      "old_value": null,
+      "new_value": null,
+      "reason": "Admin reset simulated activity ledger",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:20:38.803Z"
+    },
+    {
+      "id": 104,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 1800
+      },
+      "new_value": {
+        "balance": 2050
+      },
+      "reason": "Test realtime admin balance credit",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:22:06.842Z"
+    },
+    {
+      "id": 105,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "trader",
+      "old_value": null,
+      "new_value": {
+        "id": 5,
+        "game_id": "trader",
+        "name": "Trader",
+        "provider": "BETADRiX",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_trader.png",
+        "launch_url": "https://trader-ygps.onrender.com/embed",
+        "is_active": true,
+        "display_order": 5,
+        "updated_at": "2026-10-04T18:22:06.875Z",
+        "is_enabled": true,
+        "maintenance_message": "Trader running normally"
+      },
+      "reason": "Admin updated game configuration for trader",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:22:06.882Z"
+    },
+    {
+      "id": 106,
+      "admin_id": "admin",
+      "action": "ADMIN_PROMOTION_CREATE",
+      "target_type": "promotions",
+      "target_id": "5",
+      "old_value": null,
+      "new_value": {
+        "id": 5,
+        "title": "Live Realtime Demo Sprint",
+        "short_desc": "Simulated tournament with zero refresh required",
+        "long_desc": "Real-time promotion test",
+        "banner_image": "/assets/promos/sprint.png",
+        "cta_text": "Join Sprint",
+        "display_order": 1,
+        "is_active": true,
+        "created_at": "2026-10-04T18:22:06.894Z",
+        "updated_at": "2026-10-04T18:22:06.894Z"
+      },
+      "reason": "Admin created promotion: Live Realtime Demo Sprint",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:22:06.898Z"
+    },
+    {
+      "id": 107,
+      "admin_id": "admin",
+      "action": "ADMIN_VIP_CREATE",
+      "target_type": "vip_tiers",
+      "target_id": "6",
+      "old_value": null,
+      "new_value": {
+        "id": 6,
+        "name": "Diamond Test",
+        "badge": "Diamond",
+        "min_activity": 500000,
+        "demo_bonus": 20,
+        "benefits": [
+          "Personal Demo VIP Concierge",
+          "20% Virtual Cashback"
+        ],
+        "display_order": 5,
+        "is_active": true,
+        "updated_at": "2026-10-04T18:22:06.909Z"
+      },
+      "reason": "Admin created VIP tier: Diamond Test",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:22:06.914Z"
+    },
+    {
+      "id": 108,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1350,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          100,
+          250,
+          500,
+          1000
+        ],
+        "max_balance": 5000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Daily reset",
+        "updated_at": "2026-10-04T18:20:30.746Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1350,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          100,
+          250,
+          500,
+          1000
+        ],
+        "max_balance": 5000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Daily reset",
+        "updated_at": "2026-10-04T18:22:06.928Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:22:06.932Z"
+    },
+    {
+      "id": 109,
+      "admin_id": "admin",
+      "action": "ADMIN_SUPPORT_UPDATE",
+      "target_type": "site_config",
+      "target_id": "1",
+      "old_value": {
+        "telegram": "https://t.me/betadrix_vip_desk",
+        "whatsapp": "https://wa.me/15559876543"
+      },
+      "new_value": {
+        "telegram": "https://t.me/betadrix_vip_desk",
+        "whatsapp": "https://wa.me/15559876543"
+      },
+      "reason": "Admin updated support channel URLs",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:22:06.952Z"
+    },
+    {
+      "id": 110,
+      "admin_id": "admin",
+      "action": "ADMIN_GENERAL_UPDATE",
+      "target_type": "general_config",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "platform_name": "BETADRiX DEMO",
+        "demo_mode": true,
+        "default_demo_balance": 1250,
+        "currency_symbol": "$",
+        "maintenance_mode": false,
+        "registration_enabled": true,
+        "signin_enabled": true,
+        "topup_enabled": true,
+        "max_demo_balance": 100000,
+        "default_language": "English",
+        "timezone": "UTC",
+        "updated_at": "2026-09-16T12:48:15.525Z"
+      },
+      "new_value": {
+        "id": 1,
+        "platform_name": "BETADRiX PRO",
+        "demo_mode": true,
+        "default_demo_balance": 1500,
+        "currency_symbol": "$",
+        "maintenance_mode": false,
+        "registration_enabled": true,
+        "signin_enabled": true,
+        "topup_enabled": true,
+        "max_demo_balance": 10000,
+        "default_language": "en",
+        "timezone": "UTC",
+        "updated_at": "2026-10-04T18:22:06.969Z"
+      },
+      "reason": "Admin updated general platform settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:22:06.973Z"
+    },
+    {
+      "id": 111,
+      "admin_id": "admin",
+      "action": "ADMIN_ACTIVITY_RESET",
+      "target_type": "dummy_activity",
+      "target_id": "all",
+      "old_value": null,
+      "new_value": null,
+      "reason": "Admin reset simulated activity ledger",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T18:22:06.990Z"
+    },
+    {
+      "id": 112,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "3",
+      "old_value": {
+        "balance": 1250
+      },
+      "new_value": {
+        "balance": 1750
+      },
+      "reason": "Realtime browser sync test",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:10:54.074Z"
+    },
+    {
+      "id": 113,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 2050
+      },
+      "new_value": {
+        "balance": 2200
+      },
+      "reason": "Automated real-time test transaction",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.119Z"
+    },
+    {
+      "id": 114,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "mines",
+      "old_value": null,
+      "new_value": {
+        "id": 1,
+        "game_id": "mines",
+        "name": "Mines",
+        "provider": "Turbo Games",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_mines.png",
+        "launch_url": "https://mines.turbogames.io/",
+        "is_active": true,
+        "display_order": 1,
+        "updated_at": "2026-10-04T19:19:19.167Z",
+        "is_enabled": true
+      },
+      "reason": "Admin updated game configuration for mines",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.171Z"
+    },
+    {
+      "id": 115,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1350,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          100,
+          250,
+          500,
+          1000
+        ],
+        "max_balance": 5000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Daily reset",
+        "updated_at": "2026-10-04T18:22:06.928Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Daily reset",
+        "updated_at": "2026-10-04T19:19:19.221Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.224Z"
+    },
+    {
+      "id": 116,
+      "admin_id": "admin",
+      "action": "ADMIN_BALANCE_ADD",
+      "target_type": "users",
+      "target_id": "1",
+      "old_value": {
+        "balance": 2200
+      },
+      "new_value": {
+        "balance": 2450
+      },
+      "reason": "Test realtime admin balance credit",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.503Z"
+    },
+    {
+      "id": 117,
+      "admin_id": "admin",
+      "action": "ADMIN_GAME_UPDATE",
+      "target_type": "game_configs",
+      "target_id": "trader",
+      "old_value": null,
+      "new_value": {
+        "id": 5,
+        "game_id": "trader",
+        "name": "Trader",
+        "provider": "BETADRiX",
+        "category": "Originals",
+        "image_url": "/assets/games/game_card_trader.png",
+        "launch_url": "https://trader-ygps.onrender.com/embed",
+        "is_active": true,
+        "display_order": 5,
+        "updated_at": "2026-10-04T19:19:19.529Z",
+        "is_enabled": true,
+        "maintenance_message": "Trader running normally"
+      },
+      "reason": "Admin updated game configuration for trader",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.533Z"
+    },
+    {
+      "id": 118,
+      "admin_id": "admin",
+      "action": "ADMIN_PROMOTION_CREATE",
+      "target_type": "promotions",
+      "target_id": "6",
+      "old_value": null,
+      "new_value": {
+        "id": 6,
+        "title": "Live Realtime Demo Sprint",
+        "short_desc": "Simulated tournament with zero refresh required",
+        "long_desc": "Real-time promotion test",
+        "banner_image": "/assets/promos/sprint.png",
+        "cta_text": "Join Sprint",
+        "display_order": 1,
+        "is_active": true,
+        "created_at": "2026-10-04T19:19:19.542Z",
+        "updated_at": "2026-10-04T19:19:19.542Z"
+      },
+      "reason": "Admin created promotion: Live Realtime Demo Sprint",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.546Z"
+    },
+    {
+      "id": 119,
+      "admin_id": "admin",
+      "action": "ADMIN_VIP_CREATE",
+      "target_type": "vip_tiers",
+      "target_id": "7",
+      "old_value": null,
+      "new_value": {
+        "id": 7,
+        "name": "Diamond Test",
+        "badge": "Diamond",
+        "min_activity": 500000,
+        "demo_bonus": 20,
+        "benefits": [
+          "Personal Demo VIP Concierge",
+          "20% Virtual Cashback"
+        ],
+        "display_order": 5,
+        "is_active": true,
+        "updated_at": "2026-10-04T19:19:19.556Z"
+      },
+      "reason": "Admin created VIP tier: Diamond Test",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.560Z"
+    },
+    {
+      "id": 120,
+      "admin_id": "admin",
+      "action": "ADMIN_BONUS_UPDATE",
+      "target_type": "bonus_settings",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "daily_faucet_amount": 1200,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          500,
+          1000,
+          5000
+        ],
+        "max_balance": 100000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Daily reset",
+        "updated_at": "2026-10-04T19:19:19.221Z"
+      },
+      "new_value": {
+        "id": 1,
+        "daily_faucet_amount": 1350,
+        "faucet_cooldown_hours": 24,
+        "topup_options": [
+          100,
+          250,
+          500,
+          1000
+        ],
+        "max_balance": 5000,
+        "bonus_multiplier": 1,
+        "is_active": true,
+        "reset_rules": "Daily reset",
+        "updated_at": "2026-10-04T19:19:19.574Z"
+      },
+      "reason": "Admin updated bonus & faucet settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.578Z"
+    },
+    {
+      "id": 121,
+      "admin_id": "admin",
+      "action": "ADMIN_SUPPORT_UPDATE",
+      "target_type": "site_config",
+      "target_id": "1",
+      "old_value": {
+        "telegram": "https://t.me/betadrix_vip_desk",
+        "whatsapp": "https://wa.me/15559876543"
+      },
+      "new_value": {
+        "telegram": "https://t.me/betadrix_vip_desk",
+        "whatsapp": "https://wa.me/15559876543"
+      },
+      "reason": "Admin updated support channel URLs",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.596Z"
+    },
+    {
+      "id": 122,
+      "admin_id": "admin",
+      "action": "ADMIN_GENERAL_UPDATE",
+      "target_type": "general_config",
+      "target_id": "1",
+      "old_value": {
+        "id": 1,
+        "platform_name": "BETADRiX PRO",
+        "demo_mode": true,
+        "default_demo_balance": 1500,
+        "currency_symbol": "$",
+        "maintenance_mode": false,
+        "registration_enabled": true,
+        "signin_enabled": true,
+        "topup_enabled": true,
+        "max_demo_balance": 10000,
+        "default_language": "en",
+        "timezone": "UTC",
+        "updated_at": "2026-10-04T18:22:06.969Z"
+      },
+      "new_value": {
+        "id": 1,
+        "platform_name": "BETADRiX PRO",
+        "demo_mode": true,
+        "default_demo_balance": 1500,
+        "currency_symbol": "$",
+        "maintenance_mode": false,
+        "registration_enabled": true,
+        "signin_enabled": true,
+        "topup_enabled": true,
+        "max_demo_balance": 10000,
+        "default_language": "en",
+        "timezone": "UTC",
+        "updated_at": "2026-10-04T19:19:19.613Z"
+      },
+      "reason": "Admin updated general platform settings",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.616Z"
+    },
+    {
+      "id": 123,
+      "admin_id": "admin",
+      "action": "ADMIN_ACTIVITY_RESET",
+      "target_type": "dummy_activity",
+      "target_id": "all",
+      "old_value": null,
+      "new_value": null,
+      "reason": "Admin reset simulated activity ledger",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:19.633Z"
+    },
+    {
+      "id": 124,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "26",
+      "old_value": {
+        "version": 25,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T18:16:02.716Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 26,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T19:19:27.038Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Persistence test verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:27.039Z"
+    },
+    {
+      "id": 125,
+      "admin_id": "test-admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "27",
+      "old_value": {
+        "version": 26,
+        "globalHouseEdge": 4.85,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T19:19:27.038Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 27,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T19:19:28.533Z",
+        "updatedBy": "test-admin"
+      },
+      "reason": "Version increment verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:28.534Z"
+    },
+    {
+      "id": 126,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "28",
+      "old_value": {
+        "version": 27,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T19:19:28.533Z",
+        "updatedBy": "test-admin"
+      },
+      "new_value": {
+        "version": 28,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T19:19:30.036Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Authorized admin API update verification",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:30.041Z"
+    },
+    {
+      "id": 127,
+      "admin_id": "admin",
+      "action": "ECONOMICS_CONFIG_UPDATED",
+      "target_type": "economics_config",
+      "target_id": "29",
+      "old_value": {
+        "version": 28,
+        "globalHouseEdge": 5,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3.75
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 2.85
+          }
+        },
+        "updatedAt": "2026-10-04T19:19:30.036Z",
+        "updatedBy": "admin"
+      },
+      "new_value": {
+        "version": 29,
+        "globalHouseEdge": 5.1,
+        "games": {
+          "trader": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 4.1
+          },
+          "roulette": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 5.26
+          },
+          "plinko": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 6
+          },
+          "mines": {
+            "enabled": true,
+            "useGlobal": true,
+            "houseEdge": 5.1
+          },
+          "dice": {
+            "enabled": true,
+            "useGlobal": false,
+            "houseEdge": 3
+          }
+        },
+        "updatedAt": "2026-10-04T19:19:30.266Z",
+        "updatedBy": "admin"
+      },
+      "reason": "Real-time event trigger",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-10-04T19:19:30.273Z"
+    }
+  ],
+  "economics_config": {
+    "id": 1,
+    "version": 29,
+    "global_house_edge": 5.1,
+    "games": {
+      "trader": {
+        "enabled": true,
+        "useGlobal": false,
+        "houseEdge": 4.1
+      },
+      "roulette": {
+        "enabled": true,
+        "useGlobal": false,
+        "houseEdge": 5.26
+      },
+      "plinko": {
+        "enabled": true,
+        "useGlobal": false,
+        "houseEdge": 6
+      },
+      "mines": {
+        "enabled": true,
+        "useGlobal": true,
+        "houseEdge": 5.1
+      },
+      "dice": {
+        "enabled": true,
+        "useGlobal": false,
+        "houseEdge": 3
+      }
+    },
+    "updated_at": "2026-10-04T19:19:30.266Z",
+    "updated_by": "admin"
+  },
+  "economics_config_history": [
+    {
+      "id": 1,
+      "version": 1,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:18:46.095Z",
+      "updated_by": "system"
+    },
+    {
+      "id": 2,
+      "version": 2,
+      "global_house_edge": 4.85,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:24:17.618Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 3,
+      "version": 3,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:24:18.379Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 4,
+      "version": 4,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 2.85
+        }
+      },
+      "updated_at": "2026-10-04T17:24:20.336Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 5,
+      "version": 5,
+      "global_house_edge": 5.1,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4.1
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:24:20.561Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 6,
+      "version": 6,
+      "global_house_edge": 4.85,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:33:15.774Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 7,
+      "version": 7,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:33:16.532Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 8,
+      "version": 8,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 2.85
+        }
+      },
+      "updated_at": "2026-10-04T17:33:18.159Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 9,
+      "version": 9,
+      "global_house_edge": 5.1,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4.1
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:33:18.383Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 10,
+      "version": 10,
+      "global_house_edge": 4.85,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:35:02.274Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 11,
+      "version": 11,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:35:02.941Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 12,
+      "version": 12,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 2.85
+        }
+      },
+      "updated_at": "2026-10-04T17:35:04.443Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 13,
+      "version": 13,
+      "global_house_edge": 5.1,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4.1
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:35:04.671Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 14,
+      "version": 14,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:42:13.584Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 15,
+      "version": 15,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:48:08.357Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 16,
+      "version": 16,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 4
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:48:16.743Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 17,
+      "version": 17,
+      "global_house_edge": 4.85,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:57:09.781Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 18,
+      "version": 18,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:57:10.441Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 19,
+      "version": 19,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 2.85
+        }
+      },
+      "updated_at": "2026-10-04T17:57:12.321Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 20,
+      "version": 20,
+      "global_house_edge": 5.1,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4.1
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:57:12.552Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 21,
+      "version": 21,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T17:58:21.814Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 22,
+      "version": 22,
+      "global_house_edge": 4.85,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T18:15:59.976Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 23,
+      "version": 23,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T18:16:00.696Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 24,
+      "version": 24,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 2.85
+        }
+      },
+      "updated_at": "2026-10-04T18:16:02.485Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 25,
+      "version": 25,
+      "global_house_edge": 5.1,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4.1
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T18:16:02.716Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 26,
+      "version": 26,
+      "global_house_edge": 4.85,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T19:19:27.038Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 27,
+      "version": 27,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T19:19:28.533Z",
+      "updated_by": "test-admin"
+    },
+    {
+      "id": 28,
+      "version": 28,
+      "global_house_edge": 5,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3.75
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 2.85
+        }
+      },
+      "updated_at": "2026-10-04T19:19:30.036Z",
+      "updated_by": "admin"
+    },
+    {
+      "id": 29,
+      "version": 29,
+      "global_house_edge": 5.1,
+      "games": {
+        "trader": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 4.1
+        },
+        "roulette": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 5.26
+        },
+        "plinko": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 6
+        },
+        "mines": {
+          "enabled": true,
+          "useGlobal": true,
+          "houseEdge": 5.1
+        },
+        "dice": {
+          "enabled": true,
+          "useGlobal": false,
+          "houseEdge": 3
+        }
+      },
+      "updated_at": "2026-10-04T19:19:30.266Z",
+      "updated_by": "admin"
     }
   ]
 }

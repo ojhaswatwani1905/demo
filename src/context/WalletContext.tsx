@@ -30,10 +30,25 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     balanceRef.current = balance;
   }, [balance]);
 
-  const { subscribe } = useRealtime();
+  const { subscribe, reconnectCount } = useRealtime();
+  const lastVersionRef = React.useRef<number>(0);
+  const lastTimestampRef = React.useRef<number>(0);
+
+  // Authoritative sync from localStorage / server fallback
+  const syncAuthoritativeBalance = React.useCallback(() => {
+    if (typeof window === "undefined") return;
+    const saved = localStorage.getItem("betadrix_demo_balance") || localStorage.getItem("yourbrand_demo_balance");
+    if (saved) {
+      const parsed = parseFloat(saved);
+      if (!isNaN(parsed) && parsed !== balanceRef.current) {
+        balanceRef.current = parsed;
+        setBalance(parsed);
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    // Read betadrix_demo_balance with fallback to legacy yourbrand_demo_balance
+    // Initial load
     const saved = localStorage.getItem("betadrix_demo_balance") || localStorage.getItem("yourbrand_demo_balance");
     if (saved) {
       const parsed = parseFloat(saved);
@@ -45,6 +60,31 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setIsInitialized(true);
   }, []);
 
+  // Multi-tab synchronization via window storage event (No Refresh Required across tabs)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleStorage = (e: StorageEvent) => {
+      if ((e.key === "betadrix_demo_balance" || e.key === "yourbrand_demo_balance") && e.newValue !== null) {
+        const parsed = parseFloat(e.newValue);
+        if (!isNaN(parsed) && parsed !== balanceRef.current) {
+          balanceRef.current = parsed;
+          setBalance(parsed);
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
+  // Reconnect handling: re-verify balance after SSE reconnection
+  useEffect(() => {
+    if (reconnectCount > 0) {
+      syncAuthoritativeBalance();
+    }
+  }, [reconnectCount, syncAuthoritativeBalance]);
+
   useEffect(() => {
     if (isInitialized) {
       localStorage.setItem("betadrix_demo_balance", balance.toFixed(2));
@@ -54,10 +94,36 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   // Real-time server-to-client balance sync without page reload!
   useEffect(() => {
     const unsubscribe = subscribe("USER_BALANCE_UPDATED", (payload: any) => {
-      if (payload && typeof payload.newBalance === "number") {
-        const val = Number(payload.newBalance.toFixed(2));
-        balanceRef.current = val;
-        setBalance(val);
+      if (!payload) return;
+
+      const rawBalance = payload.newBalance ?? payload.new_balance;
+      if (typeof rawBalance !== "number" || isNaN(rawBalance)) return;
+
+      // Duplicate & out-of-order race condition protection:
+      // If payload has a version or timestamp, ensure it is not older than what was already processed
+      if (typeof payload.version === "number") {
+        if (payload.version < lastVersionRef.current) {
+          console.warn("[WalletContext] Ignoring stale balance event by version:", payload.version, "<", lastVersionRef.current);
+          return;
+        }
+        lastVersionRef.current = payload.version;
+      }
+
+      if (payload.timestamp) {
+        const eventTs = new Date(payload.timestamp).getTime();
+        if (!isNaN(eventTs)) {
+          if (eventTs < lastTimestampRef.current) {
+            console.warn("[WalletContext] Ignoring stale balance event by timestamp:", payload.timestamp);
+            return;
+          }
+          lastTimestampRef.current = eventTs;
+        }
+      }
+
+      const val = Number(rawBalance.toFixed(2));
+      balanceRef.current = val;
+      setBalance(val);
+      if (typeof window !== "undefined") {
         localStorage.setItem("betadrix_demo_balance", val.toFixed(2));
       }
     });

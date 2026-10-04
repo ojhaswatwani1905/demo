@@ -9,6 +9,7 @@
     "lint": "eslint",
     "test:security": "node scripts/test-admin-security.js",
     "test:realtime": "node scripts/test-realtime-admin.js",
+    "test:realtime-sync": "node scripts/test-full-realtime-sync.js",
     "test:roulette": "node scripts/test-roulette-integration.js",
     "test:trader": "node scripts/test-trader-integration.js"
   },

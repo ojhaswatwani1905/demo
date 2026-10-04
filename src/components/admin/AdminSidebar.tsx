@@ -19,6 +19,7 @@ import {
   LogOut,
   UserCheck,
   Radio,
+  Percent,
   X
 } from "lucide-react";
 import { useRealtime } from "@/context/RealtimeContext";
@@ -49,6 +50,7 @@ export function AdminSidebar({
     { href: "/admin/vip", label: "VIP", icon: Crown },
     { href: "/admin/bonus", label: "Bonus", icon: Sparkles },
     { href: "/admin/games", label: "Games", icon: Gamepad2 },
+    { href: "/admin/economics", label: "Economics", icon: Percent },
     { href: "/admin/activity", label: "Activity", icon: Activity },
     { href: "/admin/users", label: "Users", icon: Users },
     { href: "/admin/wallet", label: "Wallet / Balances", icon: Wallet },

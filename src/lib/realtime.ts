@@ -13,7 +13,8 @@ export type RealtimeEventType =
   | "GAME_CONFIG_UPDATED"
   | "ACTIVITY_UPDATED"
   | "ACTIVITY_RECORDED"
-  | "ACTIVITY_RESET";
+  | "ACTIVITY_RESET"
+  | "ECONOMICS_CONFIG_UPDATED";
 
 export interface RealtimeMessage {
   type: RealtimeEventType;

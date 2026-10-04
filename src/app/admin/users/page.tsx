@@ -84,12 +84,15 @@ export default function AdminUsersPage() {
     });
 
     const unsubBalance = subscribe("USER_BALANCE_UPDATED", (payload: any) => {
-      if (payload && payload.user_id) {
+      const targetUserId = payload?.user_id ?? payload?.userId;
+      const nextBalance = payload?.new_balance ?? payload?.newBalance;
+      if (targetUserId && (typeof nextBalance === "number" || !isNaN(Number(nextBalance)))) {
+        const numVal = Number(nextBalance);
         setUsers(prev =>
-          prev.map(u => (u.id === payload.user_id ? { ...u, balance: Number(payload.new_balance) } : u))
+          prev.map(u => (u.id === targetUserId ? { ...u, balance: numVal } : u))
         );
-        if (selectedUser && selectedUser.id === payload.user_id) {
-          setSelectedUser(prev => prev ? { ...prev, balance: Number(payload.new_balance) } : null);
+        if (selectedUser && selectedUser.id === targetUserId) {
+          setSelectedUser(prev => prev ? { ...prev, balance: numVal } : null);
         }
       }
     });

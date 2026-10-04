@@ -180,6 +180,32 @@ interface GameLaunchShellProps {
   game: GameConfig;
 }
 
+function reportGameplayActivity(data: {
+  game: string;
+  bet_amount: number;
+  payout_amount: number;
+  multiplier: number;
+  balance?: number;
+}) {
+  try {
+    fetch("/api/activity", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: "Demo Player",
+        game: data.game,
+        bet_amount: data.bet_amount,
+        payout_amount: data.payout_amount,
+        multiplier: data.multiplier,
+        user_id: 1,
+        balance: data.balance
+      })
+    }).catch(() => {});
+  } catch {
+    // Non-blocking background sync
+  }
+}
+
 export function GameLaunchShell({ game }: GameLaunchShellProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -558,6 +584,14 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
         // Credit payout to the same authoritative BETADRiX wallet
         const newBal = creditBalance(payout);
 
+        reportGameplayActivity({
+          game: "Plinko",
+          bet_amount: tx.betAmount,
+          payout_amount: payout,
+          multiplier: multiplierNum,
+          balance: newBal
+        });
+
         sendToPlinko({
           type: "BETADRiX_RESULT_SETTLED",
           requestId,
@@ -703,6 +737,14 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
         }
 
         const newBal = creditBalance(payoutNum);
+
+        reportGameplayActivity({
+          game: "Roulette",
+          bet_amount: tx.betAmount,
+          payout_amount: payoutNum,
+          multiplier: tx.betAmount > 0 ? Number((payoutNum / tx.betAmount).toFixed(2)) : 0,
+          balance: newBal
+        });
 
         sendToRoulette({
           type: "BETADRiX_RESULT_SETTLED",
@@ -928,6 +970,14 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
           // Credit authoritative balance
           const newBal = creditBalance(authoritativePayout);
 
+          reportGameplayActivity({
+            game: "Trader",
+            bet_amount: tx.betAmount,
+            payout_amount: authoritativePayout,
+            multiplier: multiplierNum,
+            balance: newBal
+          });
+
           sendToTrader({
             type: "BETADRiX_RESULT_SETTLED",
             requestId,
@@ -951,6 +1001,14 @@ export function GameLaunchShell({ game }: GameLaunchShellProps) {
 
           // Current authoritative balance remains unchanged (wager was already deducted upon placement)
           const currentBal = latestBalanceRef.current;
+
+          reportGameplayActivity({
+            game: "Trader",
+            bet_amount: tx.betAmount,
+            payout_amount: 0,
+            multiplier: 0,
+            balance: currentBal
+          });
 
           sendToTrader({
             type: "BETADRiX_RESULT_SETTLED",

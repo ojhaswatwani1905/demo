@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { useUI } from "@/context/UIContext";
+import { useRealtime } from "@/context/RealtimeContext";
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -32,6 +33,7 @@ interface SidebarProps {
 export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarProps = {}) {
   const pathname = usePathname();
   const { isSidebarOpen, closeSidebar } = useUI();
+  const { subscribe } = useRealtime();
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : isSidebarOpen;
   const handleClose = propOnClose !== undefined ? propOnClose : closeSidebar;
@@ -52,7 +54,7 @@ export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarPro
   const [telegramUrl, setTelegramUrl] = useState<string | null>(null);
   const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
 
-  useEffect(() => {
+  const loadSupportConfig = React.useCallback(() => {
     fetch("/api/config")
       .then(res => res.json())
       .then(data => {
@@ -65,6 +67,22 @@ export function Sidebar({ isOpen: propIsOpen, onClose: propOnClose }: SidebarPro
         console.error("Failed to load support config:", err);
       });
   }, []);
+
+  useEffect(() => {
+    loadSupportConfig();
+  }, [loadSupportConfig]);
+
+  useEffect(() => {
+    const unsub = subscribe("SUPPORT_UPDATED", (payload: any) => {
+      if (payload) {
+        if (payload.telegramUrl !== undefined) setTelegramUrl(payload.telegramUrl || null);
+        if (payload.whatsappUrl !== undefined) setWhatsappUrl(payload.whatsappUrl || null);
+      } else {
+        loadSupportConfig();
+      }
+    });
+    return unsub;
+  }, [subscribe, loadSupportConfig]);
 
   const mainNav = [
     { name: "Games", href: "/games", icon: Gamepad2 },

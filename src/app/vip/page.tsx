@@ -99,64 +99,23 @@ export default function VipPage() {
       const res = await fetch("/api/vip");
       if (res.ok) {
         const data = await res.json();
-        if (data.tiers && data.tiers.length > 0) {
-          const mapped: VipTier[] = [
-            {
-              id: "bronze",
-              name: "BRONZE",
-              level: "Tier 1 (Levels 1–10)",
-              wagerRequired: "$0 – $10,000",
-              cashback: "5% Demo Cashback",
-              description: "Your starting milestone in the BETADRiX demo loyalty program.",
-              perks: [
-                "Standard daily demo reload",
-                "Access to weekly leaderboard sprint",
-                "Community support channel access",
-              ],
-            },
-            {
-              id: "silver",
-              name: "SILVER",
-              level: "Tier 2 (Levels 11–25)",
-              wagerRequired: "$10,000 – $50,000",
-              cashback: "8% Demo Cashback",
-              description: "Enhanced demonstration limits and accelerated demo reward rates.",
-              perks: [
-                "Daily simulated spin boost",
-                "8% weekly demo rakeback",
-                "Priority demo server throughput",
-              ],
-            },
-            {
-              id: "gold",
-              name: "GOLD",
-              level: "Tier 3 (Levels 26–50)",
-              wagerRequired: "$50,000 – $200,000",
-              cashback: "12% Demo Cashback",
-              description: "The distinguished Gold circle with premium demo privileges and direct concierge.",
-              isGold: true,
-              perks: [
-                "Exclusive Gold-only demo tournaments",
-                "Instant 12% virtual loss compensation",
-                "Priority VIP desk & concierge chat",
-                "Special demonstration multiplier events",
-              ],
-            },
-            {
-              id: "platinum",
-              name: "PLATINUM",
-              level: "Tier 4 (Levels 51+)",
-              wagerRequired: "$200,000+",
-              cashback: "16% Demo Cashback",
-              description: "The peak demonstration status reserved for high-activity test simulators.",
-              perks: [
-                "Custom multiplier simulator challenges",
-                "Complimentary high-roller playground reloads",
-                "Early preview access to new game titles",
-                "Direct communication channel to engineers",
-              ],
-            },
-          ];
+        if (Array.isArray(data.tiers) && data.tiers.length > 0) {
+          const mapped: VipTier[] = data.tiers.map((t: any) => ({
+            id: (t.name || String(t.id)).toLowerCase(),
+            name: t.name ? t.name.toUpperCase() : `TIER ${t.id}`,
+            level: t.badge || `Tier ${t.display_order || t.id}`,
+            wagerRequired: `$${Number(t.min_activity || 0).toLocaleString()} virtual turnover`,
+            cashback: `${t.demo_bonus || 5}% Demo Cashback`,
+            description: `Tier ${t.display_order || t.id} in the BETADRiX demo VIP loyalty program.`,
+            isGold: (t.name || "").toLowerCase().includes("gold"),
+            perks: Array.isArray(t.benefits) && t.benefits.length > 0
+              ? t.benefits
+              : [
+                  "Standard daily demo reload",
+                  "Access to weekly leaderboard sprint",
+                  "Community support channel access"
+                ]
+          }));
           setTiers(mapped);
         }
       }
@@ -169,11 +128,18 @@ export default function VipPage() {
     loadTiers();
   }, []);
 
+  // Real-time synchronization: when Admin creates, edits, or removes VIP tiers, page updates live!
   useEffect(() => {
-    const unsub = subscribe("VIP_TIER_UPDATED", () => {
+    const unsub1 = subscribe("VIP_UPDATED", () => {
       loadTiers();
     });
-    return unsub;
+    const unsub2 = subscribe("VIP_TIER_UPDATED", () => {
+      loadTiers();
+    });
+    return () => {
+      unsub1();
+      unsub2();
+    };
   }, [subscribe]);
 
   // Player progress simulation

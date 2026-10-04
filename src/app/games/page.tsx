@@ -1,23 +1,89 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 import { GameCard } from "@/components/games/GameCard";
 import { ProviderMarquee } from "@/components/landing/ProviderMarquee";
-import { GAMES } from "@/config/games";
+import { GAMES, GameConfig } from "@/config/games";
 import { useFavorites } from "@/context/FavoritesContext";
+import { useRealtime } from "@/context/RealtimeContext";
 import { Search, Heart, Gamepad2, Layers, Dice5, Flame } from "lucide-react";
 
 export default function GamesLobbyPage() {
+  const [gamesList, setGamesList] = useState<GameConfig[]>(GAMES);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [filterFavoritesOnly, setFilterFavoritesOnly] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { favorites } = useFavorites();
+  const { subscribe } = useRealtime();
+
+  const loadServerGames = useCallback(async () => {
+    try {
+      const res = await fetch("/api/games");
+      if (res.ok) {
+        const json = await res.json();
+        if (Array.isArray(json.data) && json.data.length > 0) {
+          const serverMap = new Map(json.data.map((item: any) => [item.id.toLowerCase(), item]));
+          setGamesList(prev =>
+            prev.map(g => {
+              const serverGame: any = serverMap.get(g.id.toLowerCase());
+              if (serverGame) {
+                return {
+                  ...g,
+                  isActive: serverGame.isActive !== undefined ? serverGame.isActive : g.isActive,
+                  isEnabled: serverGame.isEnabled !== undefined ? serverGame.isEnabled : g.isEnabled,
+                  defaultDemoUrl: serverGame.launchUrl !== undefined ? serverGame.launchUrl : g.defaultDemoUrl,
+                  name: serverGame.name || g.name
+                };
+              }
+              return g;
+            })
+          );
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load server games configuration:", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadServerGames();
+  }, [loadServerGames]);
+
+  // Real-time synchronization: when Admin changes game availability, cards reflect live without reload!
+  useEffect(() => {
+    const unsub = subscribe("GAME_CONFIG_UPDATED", (payload: any) => {
+      if (!payload) return;
+      const targetId = (payload.game_id || payload.id || "").toLowerCase();
+      setGamesList(prev =>
+        prev.map(g => {
+          if (g.id.toLowerCase() === targetId) {
+            const activeVal = payload.is_active !== undefined
+              ? payload.is_active
+              : (payload.is_enabled !== undefined ? payload.is_enabled : g.isActive);
+            const enabledVal = payload.is_enabled !== undefined
+              ? payload.is_enabled
+              : (payload.is_active !== undefined ? payload.is_active : g.isEnabled);
+            return {
+              ...g,
+              name: payload.name || g.name,
+              isActive: activeVal,
+              isEnabled: enabledVal,
+              defaultDemoUrl: payload.launch_url !== undefined ? payload.launch_url : g.defaultDemoUrl
+            };
+          }
+          return g;
+        })
+      );
+    });
+
+    return unsub;
+  }, [subscribe]);
 
   const filteredGames = useMemo(() => {
-    return GAMES.filter(game => {
+    return gamesList.filter(game => {
       if (selectedCategory !== "All") {
         if (selectedCategory === "Originals" && game.category !== "Originals") return false;
         if (selectedCategory === "Table" && game.category !== "Table") return false;
@@ -34,10 +100,10 @@ export default function GamesLobbyPage() {
       }
       return true;
     });
-  }, [selectedCategory, filterFavoritesOnly, searchQuery, favorites]);
+  }, [gamesList, selectedCategory, filterFavoritesOnly, searchQuery, favorites]);
 
-  const originalsGames = useMemo(() => GAMES.filter(g => g.category === "Originals"), []);
-  const tableGames = useMemo(() => GAMES.filter(g => g.category === "Table"), []);
+  const originalsGames = useMemo(() => gamesList.filter(g => g.category === "Originals"), [gamesList]);
+  const tableGames = useMemo(() => gamesList.filter(g => g.category === "Table"), [gamesList]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0B0C10] text-[#EDEDF0]">

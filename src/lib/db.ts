@@ -4,6 +4,7 @@ import path from "path";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { GAMES } from "@/config/games";
+import { publishRealtimeEvent } from "./realtime";
 
 // Server-side default initial admin credentials (configured strictly via server-only env vars)
 const DEFAULT_ADMIN_ID = process.env.ADMIN_ID || "admin";
@@ -160,6 +161,30 @@ export interface AdminAuditRecord {
   reason?: string;
   ip_address?: string;
   created_at: string;
+}
+
+export interface GameEconomicsConfig {
+  enabled: boolean;
+  useGlobal: boolean;
+  houseEdge: number;
+}
+
+export interface EconomicsConfigRecord {
+  id: number;
+  version: number;
+  global_house_edge: number;
+  games: Record<string, GameEconomicsConfig>;
+  updated_at: string;
+  updated_by: string;
+}
+
+export interface EconomicsConfigHistoryRecord {
+  id: number;
+  version: number;
+  global_house_edge: number;
+  games: Record<string, GameEconomicsConfig>;
+  updated_at: string;
+  updated_by: string;
 }
 
 // Generate the 100 realistic dummy activity records
@@ -320,6 +345,23 @@ function getDefaultGameConfigs(): GameConfigRecord[] {
   }));
 }
 
+export function getDefaultEconomicsConfigRecord(): EconomicsConfigRecord {
+  return {
+    id: 1,
+    version: 1,
+    global_house_edge: 5.00,
+    games: {
+      trader: { enabled: true, useGlobal: false, houseEdge: 4.00 },
+      roulette: { enabled: true, useGlobal: false, houseEdge: 5.26 },
+      plinko: { enabled: true, useGlobal: false, houseEdge: 6.00 },
+      mines: { enabled: true, useGlobal: true, houseEdge: 5.00 },
+      dice: { enabled: true, useGlobal: false, houseEdge: 3.00 },
+    },
+    updated_at: new Date().toISOString(),
+    updated_by: "system"
+  };
+}
+
 // --------------------------------------------------------------------------
 // PostgreSQL Connection Pool & Local Fallback Management
 // --------------------------------------------------------------------------
@@ -344,6 +386,8 @@ interface LocalStore {
   balance_audit_logs: BalanceAuditRecord[];
   admin_audit_logs: AdminAuditRecord[];
   dummy_activity: DummyActivityRecord[];
+  economics_config?: EconomicsConfigRecord;
+  economics_config_history?: EconomicsConfigHistoryRecord[];
 }
 
 function readLocalStore(): LocalStore {
@@ -482,6 +526,23 @@ function readLocalStore(): LocalStore {
         updated = true;
       }
 
+      if (!parsed.economics_config) {
+        parsed.economics_config = getDefaultEconomicsConfigRecord();
+        updated = true;
+      }
+
+      if (!parsed.economics_config_history || parsed.economics_config_history.length === 0) {
+        parsed.economics_config_history = [{
+          id: 1,
+          version: parsed.economics_config.version,
+          global_house_edge: parsed.economics_config.global_house_edge,
+          games: parsed.economics_config.games,
+          updated_at: parsed.economics_config.updated_at,
+          updated_by: parsed.economics_config.updated_by
+        }];
+        updated = true;
+      }
+
       // Ensure user balances exist
       if (parsed.users) {
         parsed.users.forEach((u) => {
@@ -504,6 +565,7 @@ function readLocalStore(): LocalStore {
   }
 
   const initialAdminHash = bcrypt.hashSync(DEFAULT_ADMIN_PASSWORD, 10);
+  const defaultEcon = getDefaultEconomicsConfigRecord();
   const initialStore: LocalStore = {
     users: [],
     admin_users: [{
@@ -543,7 +605,16 @@ function readLocalStore(): LocalStore {
     game_configs: getDefaultGameConfigs(),
     balance_audit_logs: [],
     admin_audit_logs: [],
-    dummy_activity: generateInitialDummyActivity()
+    dummy_activity: generateInitialDummyActivity(),
+    economics_config: defaultEcon,
+    economics_config_history: [{
+      id: 1,
+      version: defaultEcon.version,
+      global_house_edge: defaultEcon.global_house_edge,
+      games: defaultEcon.games,
+      updated_at: defaultEcon.updated_at,
+      updated_by: defaultEcon.updated_by
+    }]
   };
 
   writeLocalStore(initialStore);
@@ -784,6 +855,30 @@ export async function initializeDatabase(): Promise<boolean> {
           );
         `);
 
+        // 12. Economics config table
+        await client.query(`
+          CREATE TABLE IF NOT EXISTS economics_config (
+            id INT PRIMARY KEY DEFAULT 1,
+            version INT NOT NULL DEFAULT 1,
+            global_house_edge NUMERIC(5,2) NOT NULL DEFAULT 5.00,
+            games JSONB NOT NULL,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_by VARCHAR(100) DEFAULT 'system'
+          );
+        `);
+
+        // 13. Economics config history table
+        await client.query(`
+          CREATE TABLE IF NOT EXISTS economics_config_history (
+            id SERIAL PRIMARY KEY,
+            version INT NOT NULL,
+            global_house_edge NUMERIC(5,2) NOT NULL,
+            games JSONB NOT NULL,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_by VARCHAR(100) NOT NULL
+          );
+        `);
+
         // Seed initial admin user if empty
         const adminCheck = await client.query(`SELECT id FROM admin_users WHERE admin_id = $1`, [DEFAULT_ADMIN_ID]);
         if (adminCheck.rows.length === 0) {
@@ -904,6 +999,24 @@ export async function initializeDatabase(): Promise<boolean> {
               [act.username, act.game, act.payout_amount, act.multiplier, act.created_at]
             );
           }
+        }
+
+        // Seed Economics config if empty
+        const econCheck = await client.query(`SELECT id FROM economics_config WHERE id = 1`);
+        if (econCheck.rows.length === 0) {
+          const def = getDefaultEconomicsConfigRecord();
+          await client.query(
+            `INSERT INTO economics_config (id, version, global_house_edge, games, updated_at, updated_by)
+             VALUES (1, $1, $2, $3, CURRENT_TIMESTAMP, $4)
+             ON CONFLICT (id) DO NOTHING`,
+            [def.version, def.global_house_edge, JSON.stringify(def.games), def.updated_by]
+          );
+
+          await client.query(
+            `INSERT INTO economics_config_history (version, global_house_edge, games, updated_at, updated_by)
+             VALUES ($1, $2, $3, CURRENT_TIMESTAMP, $4)`,
+            [def.version, def.global_house_edge, JSON.stringify(def.games), def.updated_by]
+          );
         }
 
         isPgConnected = true;
@@ -2272,3 +2385,221 @@ export async function getDetailedSystemStats(): Promise<{
     systemVersion: "v2.5.0-PROD"
   };
 }
+
+// --------------------------------------------------------------------------
+// Central Economics Configuration Persistence Methods
+// --------------------------------------------------------------------------
+
+export async function getEconomicsConfigFromDb(): Promise<{
+  version: number;
+  globalHouseEdge: number;
+  games: any;
+  updatedAt: string;
+  updatedBy: string;
+}> {
+  await initializeDatabase();
+
+  if (isPgConnected && pgPool) {
+    try {
+      const res = await pgPool.query(
+        `SELECT version, global_house_edge, games, updated_at, updated_by
+         FROM economics_config WHERE id = 1`
+      );
+      if (res.rows.length > 0) {
+        lastSuccessfulDbOp = new Date().toISOString();
+        const r = res.rows[0];
+        const games = typeof r.games === "string" ? JSON.parse(r.games) : r.games;
+        return {
+          version: Number(r.version),
+          globalHouseEdge: Number(r.global_house_edge),
+          games,
+          updatedAt: new Date(r.updated_at).toISOString(),
+          updatedBy: r.updated_by || "system"
+        };
+      }
+    } catch (err) {
+      console.error("Error reading economics config from Postgres:", err);
+    }
+  }
+
+  const store = readLocalStore();
+  const c = store.economics_config || getDefaultEconomicsConfigRecord();
+  return {
+    version: c.version,
+    globalHouseEdge: Number(c.global_house_edge),
+    games: c.games,
+    updatedAt: c.updated_at,
+    updatedBy: c.updated_by || "system"
+  };
+}
+
+export async function updateEconomicsConfigInDb(params: {
+  expectedVersion?: number;
+  globalHouseEdge: number;
+  games: Record<string, GameEconomicsConfig>;
+  adminId?: string;
+  reason?: string;
+}): Promise<{
+  version: number;
+  globalHouseEdge: number;
+  games: any;
+  updatedAt: string;
+  updatedBy: string;
+}> {
+  await initializeDatabase();
+
+  const current = await getEconomicsConfigFromDb();
+
+  // Concurrency check
+  if (params.expectedVersion !== undefined && params.expectedVersion !== null) {
+    if (Number(params.expectedVersion) !== current.version) {
+      const err = new Error("CONFIGURATION_VERSION_CONFLICT");
+      (err as any).code = "CONFIGURATION_VERSION_CONFLICT";
+      (err as any).currentVersion = current.version;
+      throw err;
+    }
+  }
+
+  const newVersion = current.version + 1;
+  const now = new Date().toISOString();
+  const adminId = params.adminId || "admin";
+
+  const updatedConfig = {
+    version: newVersion,
+    globalHouseEdge: Number(params.globalHouseEdge),
+    games: params.games,
+    updatedAt: now,
+    updatedBy: adminId
+  };
+
+  if (isPgConnected && pgPool) {
+    try {
+      await pgPool.query(
+        `UPDATE economics_config
+         SET version = $1, global_house_edge = $2, games = $3, updated_at = CURRENT_TIMESTAMP, updated_by = $4
+         WHERE id = 1`,
+        [newVersion, updatedConfig.globalHouseEdge, JSON.stringify(updatedConfig.games), adminId]
+      );
+
+      await pgPool.query(
+        `INSERT INTO economics_config_history (version, global_house_edge, games, updated_at, updated_by)
+         VALUES ($1, $2, $3, CURRENT_TIMESTAMP, $4)`,
+        [newVersion, updatedConfig.globalHouseEdge, JSON.stringify(updatedConfig.games), adminId]
+      );
+
+      lastSuccessfulDbOp = new Date().toISOString();
+    } catch (err) {
+      console.error("Error updating economics config in Postgres, writing to local fallback:", err);
+      const store = readLocalStore();
+      store.economics_config = {
+        id: 1,
+        version: newVersion,
+        global_house_edge: updatedConfig.globalHouseEdge,
+        games: updatedConfig.games,
+        updated_at: now,
+        updated_by: adminId
+      };
+      if (!store.economics_config_history) store.economics_config_history = [];
+      store.economics_config_history.push({
+        id: store.economics_config_history.length + 1,
+        version: newVersion,
+        global_house_edge: updatedConfig.globalHouseEdge,
+        games: updatedConfig.games,
+        updated_at: now,
+        updated_by: adminId
+      });
+      writeLocalStore(store);
+    }
+  } else {
+    const store = readLocalStore();
+    store.economics_config = {
+      id: 1,
+      version: newVersion,
+      global_house_edge: updatedConfig.globalHouseEdge,
+      games: updatedConfig.games,
+      updated_at: now,
+      updated_by: adminId
+    };
+    if (!store.economics_config_history) store.economics_config_history = [];
+    store.economics_config_history.push({
+      id: store.economics_config_history.length + 1,
+      version: newVersion,
+      global_house_edge: updatedConfig.globalHouseEdge,
+      games: updatedConfig.games,
+      updated_at: now,
+      updated_by: adminId
+    });
+    writeLocalStore(store);
+  }
+
+  // Record audit log
+  await recordAdminAuditLog(
+    adminId,
+    "ECONOMICS_CONFIG_UPDATED",
+    "economics_config",
+    String(newVersion),
+    current,
+    updatedConfig,
+    params.reason || "Admin updated economics configuration"
+  );
+
+  // Emit realtime event
+  publishRealtimeEvent("ECONOMICS_CONFIG_UPDATED", {
+    type: "ECONOMICS_CONFIG_UPDATED",
+    version: updatedConfig.version,
+    globalHouseEdge: updatedConfig.globalHouseEdge,
+    games: updatedConfig.games,
+    updatedAt: updatedConfig.updatedAt
+  });
+
+  return updatedConfig;
+}
+
+export async function getEconomicsConfigHistoryFromDb(limit = 50): Promise<Array<{
+  id: number;
+  version: number;
+  globalHouseEdge: number;
+  games: any;
+  updatedAt: string;
+  updatedBy: string;
+}>> {
+  await initializeDatabase();
+
+  if (isPgConnected && pgPool) {
+    try {
+      const res = await pgPool.query(
+        `SELECT id, version, global_house_edge, games, updated_at, updated_by
+         FROM economics_config_history
+         ORDER BY version DESC LIMIT $1`,
+        [limit]
+      );
+      lastSuccessfulDbOp = new Date().toISOString();
+      return res.rows.map(r => ({
+        id: Number(r.id),
+        version: Number(r.version),
+        globalHouseEdge: Number(r.global_house_edge),
+        games: typeof r.games === "string" ? JSON.parse(r.games) : r.games,
+        updatedAt: new Date(r.updated_at).toISOString(),
+        updatedBy: r.updated_by || "system"
+      }));
+    } catch (err) {
+      console.error("Error reading economics history from Postgres:", err);
+    }
+  }
+
+  const store = readLocalStore();
+  const history = store.economics_config_history || [];
+  return history
+    .slice(-limit)
+    .reverse()
+    .map(h => ({
+      id: h.id,
+      version: h.version,
+      globalHouseEdge: Number(h.global_house_edge),
+      games: h.games,
+      updatedAt: h.updated_at,
+      updatedBy: h.updated_by || "system"
+    }));
+}
+
+export { getEconomicsConfig, getEffectiveHouseEdge } from "./economics";

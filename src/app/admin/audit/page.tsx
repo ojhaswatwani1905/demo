@@ -51,19 +51,23 @@ export default function AdminAuditPage() {
     const unsubConfig = subscribe("CONFIG_UPDATED", () => loadLogs());
     const unsubPromo = subscribe("PROMOTION_UPDATED", () => loadLogs());
     const unsubVip = subscribe("VIP_TIER_UPDATED", () => loadLogs());
+    const unsubVip2 = subscribe("VIP_UPDATED", () => loadLogs());
     const unsubBonus = subscribe("BONUS_UPDATED", () => loadLogs());
     const unsubGame = subscribe("GAME_CONFIG_UPDATED", () => loadLogs());
     const unsubStatus = subscribe("USER_STATUS_UPDATED", () => loadLogs());
     const unsubBalance = subscribe("USER_BALANCE_UPDATED", () => loadLogs());
+    const unsubEcon = subscribe("ECONOMICS_CONFIG_UPDATED", () => loadLogs());
 
     return () => {
       unsubConfig();
       unsubPromo();
       unsubVip();
+      unsubVip2();
       unsubBonus();
       unsubGame();
       unsubStatus();
       unsubBalance();
+      unsubEcon();
     };
   }, [subscribe]);
 

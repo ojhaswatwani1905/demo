@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Activity } from "lucide-react";
+import { useRealtime } from "@/context/RealtimeContext";
 
 interface ActivityRecord {
   id?: number;
@@ -37,6 +38,7 @@ const INITIAL_FALLBACK_ACTIVITY: ActivityRecord[] = [
 export function RecentWinsSection() {
   const [activities, setActivities] = useState<ActivityRecord[]>(INITIAL_FALLBACK_ACTIVITY);
   const isMountedRef = useRef<boolean>(true);
+  const { subscribe } = useRealtime();
 
   const fetchActivity = async () => {
     try {
@@ -50,6 +52,15 @@ export function RecentWinsSection() {
       // Silently fail network error; ticker keeps running uninterrupted
     }
   };
+
+  useEffect(() => {
+    const unsub = subscribe("ACTIVITY_RECORDED", (newBet: any) => {
+      if (newBet && typeof newBet.payout_amount === "number" && isMountedRef.current) {
+        setActivities(prev => [newBet, ...prev.slice(0, 49)]);
+      }
+    });
+    return unsub;
+  }, [subscribe]);
 
   useEffect(() => {
     isMountedRef.current = true;

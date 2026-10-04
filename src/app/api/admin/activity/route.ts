@@ -20,7 +20,14 @@ export async function GET(req: NextRequest) {
     const userFilter = searchParams.get("user");
     const minPayout = searchParams.get("minPayout") ? parseFloat(searchParams.get("minPayout")!) : null;
 
-    let activity = await getAllDummyActivity(200);
+    let rawActivity = await getAllDummyActivity(200);
+
+    let activity = rawActivity.map(a => ({
+      ...a,
+      bet_amount: (a as any).bet_amount !== undefined
+        ? Number((a as any).bet_amount)
+        : (a.multiplier > 0 ? Number((a.payout_amount / a.multiplier).toFixed(2)) : a.payout_amount)
+    }));
 
     if (gameFilter && gameFilter !== "all") {
       activity = activity.filter(a => a.game.toLowerCase() === gameFilter.toLowerCase());
@@ -71,6 +78,7 @@ export async function DELETE(req: NextRequest) {
     );
 
     publishRealtimeEvent("ACTIVITY_UPDATED", { action: "reset" });
+    publishRealtimeEvent("ACTIVITY_RESET", { timestamp: new Date().toISOString() });
 
     return NextResponse.json({
       success: true,

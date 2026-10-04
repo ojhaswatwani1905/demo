@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
+import { useRealtime } from "@/context/RealtimeContext";
 import {
   HelpCircle,
   MessageSquare,
@@ -58,19 +59,38 @@ export default function SupportPage() {
   const [ticketMessage, setTicketMessage] = useState("");
   const [ticketSubmitted, setTicketSubmitted] = useState(false);
 
-  useEffect(() => {
+  const { subscribe } = useRealtime();
+
+  const loadSupportConfig = React.useCallback(() => {
     fetch("/api/config")
       .then(res => res.json())
       .then(data => {
         if (data.success && data.config) {
-          if (data.config.telegramUrl) setTelegramUrl(data.config.telegramUrl);
-          if (data.config.whatsappUrl) setWhatsappUrl(data.config.whatsappUrl);
+          if (data.config.telegramUrl !== undefined) setTelegramUrl(data.config.telegramUrl);
+          if (data.config.whatsappUrl !== undefined) setWhatsappUrl(data.config.whatsappUrl);
         }
       })
       .catch(err => {
         console.error("Failed to load config for support channels:", err);
       });
   }, []);
+
+  useEffect(() => {
+    loadSupportConfig();
+  }, [loadSupportConfig]);
+
+  // Real-time synchronization: when Admin updates support channels, links update live!
+  useEffect(() => {
+    const unsub = subscribe("SUPPORT_UPDATED", (payload: any) => {
+      if (payload) {
+        if (payload.telegramUrl !== undefined) setTelegramUrl(payload.telegramUrl);
+        if (payload.whatsappUrl !== undefined) setWhatsappUrl(payload.whatsappUrl);
+      } else {
+        loadSupportConfig();
+      }
+    });
+    return unsub;
+  }, [subscribe, loadSupportConfig]);
 
   const handleTicketSubmit = (e: React.FormEvent) => {
     e.preventDefault();

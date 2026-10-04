@@ -102,17 +102,41 @@ export default function AdminDashboardPage() {
     loadData();
   }, [loadData]);
 
-  // Real-time listener: auto-update dashboard without reload
+  // Real-time listener: auto-update dashboard without reload across all admin/user events
   useEffect(() => {
-    const unsub1 = subscribe("USER_BALANCE_UPDATED", () => loadData());
-    const unsub2 = subscribe("ACTIVITY_UPDATED", () => loadData());
-    const unsub3 = subscribe("SUPPORT_UPDATED", () => loadData());
-    const unsub4 = subscribe("GENERAL_CONFIG_UPDATED", () => loadData());
+    let debounceTimer: NodeJS.Timeout | null = null;
+    const triggerReload = () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        loadData();
+      }, 150);
+    };
+
+    const unsub1 = subscribe("USER_BALANCE_UPDATED", triggerReload);
+    const unsub2 = subscribe("ACTIVITY_UPDATED", triggerReload);
+    const unsub3 = subscribe("ACTIVITY_RECORDED", triggerReload);
+    const unsub4 = subscribe("SUPPORT_UPDATED", triggerReload);
+    const unsub5 = subscribe("GENERAL_CONFIG_UPDATED", triggerReload);
+    const unsub6 = subscribe("GAME_CONFIG_UPDATED", triggerReload);
+    const unsub7 = subscribe("USER_STATUS_UPDATED", triggerReload);
+    const unsub8 = subscribe("ECONOMICS_CONFIG_UPDATED", triggerReload);
+    const unsub9 = subscribe("PROMOTION_UPDATED", triggerReload);
+    const unsub10 = subscribe("BONUS_UPDATED", triggerReload);
+    const unsub11 = subscribe("VIP_UPDATED", triggerReload);
+
     return () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
       unsub1();
       unsub2();
       unsub3();
       unsub4();
+      unsub5();
+      unsub6();
+      unsub7();
+      unsub8();
+      unsub9();
+      unsub10();
+      unsub11();
     };
   }, [subscribe, loadData]);
 

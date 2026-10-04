@@ -15,7 +15,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const BASE_URL = process.env.TEST_BASE_URL || "http://localhost:3000";
+const BASE_URL = process.env.TEST_BASE_URL || (process.env.PORT ? `http://localhost:${process.env.PORT}` : "http://localhost:3000");
 
 // Load .env.local for admin credentials
 function loadEnv() {
